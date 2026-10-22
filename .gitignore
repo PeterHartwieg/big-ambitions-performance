@@ -1,0 +1,10 @@
+build/
+bin/
+obj/
+tests/bin/
+tests/obj/
+tools/**/bin/
+tools/**/obj/
+*.dll
+*.pdb
+.DS_Store

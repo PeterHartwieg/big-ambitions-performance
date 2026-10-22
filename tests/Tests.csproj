@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><TargetFramework>net8.0</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+<ItemGroup><Compile Include="../src/CinematicCore.cs" Link="CinematicCore.cs" /><Compile Include="../src/Core.cs" Link="Core.cs" /><Compile Include="../src/SchedulingCore.cs" Link="SchedulingCore.cs" /><Compile Include="../src/TraceCore.cs" Link="TraceCore.cs" /><Compile Include="../src/DetailCore.cs" Link="DetailCore.cs" /><Compile Include="../src/CleanupCore.cs" Link="CleanupCore.cs" /><Compile Include="../src/TreeLodCore.cs" Link="TreeLodCore.cs" /><Compile Include="../src/TreeMeshCatalog.cs" Link="TreeMeshCatalog.cs" /></ItemGroup>
+<ItemGroup><Compile Include="../src/SaveSnapshotCore.cs" Link="SaveSnapshotCore.cs" /><Compile Include="../src/SaveFileCommit.cs" Link="SaveFileCommit.cs" /></ItemGroup>
+</Project>

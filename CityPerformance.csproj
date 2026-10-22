@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+    <AssemblyName>CityPerformance</AssemblyName>
+    <Version>0.4.4</Version>
+    <LangVersion>9</LangVersion>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GameManaged Condition="'$(GameManaged)' == ''">$(MSBuildProjectDirectory)/build/refs</GameManaged>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="src/*.cs" />
+    <Reference Include="$(GameManaged)/*.dll" Exclude="$(GameManaged)/mscorlib.dll;$(GameManaged)/netstandard.dll;$(GameManaged)/System*.dll;$(GameManaged)/Mono*.dll;$(GameManaged)/Microsoft*.dll"><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>build/deps/0Harmony.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+</Project>

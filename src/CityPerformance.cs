@@ -1,0 +1,420 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using BAModAPI;
+using BigAmbitions.Mods;
+using HarmonyLib;
+using UnityEngine;
+using UI.Load;
+using Object = UnityEngine.Object;
+
+[assembly: RegisterModClass(typeof(CityPerformance.PerformanceMod))]
+[assembly: RegisterModClass(typeof(CityPerformance.CityEntry))]
+namespace CityPerformance
+{
+    [ModEntryOnInitializationLoad]
+    public sealed class PerformanceMod : IModBigAmbitions
+    {
+        internal const string Id = "cityperformance.mod";
+        internal static readonly Harmony Harmony = new Harmony(Id);
+        internal static IModLogger Logger;
+        internal static volatile bool Diagnostics = true, Smoothing, Verified, Faulted, Loaded;
+        private string modId;
+        public string[] RelativeAssetBundlePaths => Array.Empty<string>();
+        public Task OnLoadAsync(ModContext context)
+        {
+            Logger = context.Logger; modId = context.ModId;
+            Loaded = true; Faulted = false; Verified = false;
+            Diagnostics = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":diagnostics", 1) != 0;
+            ZoneScheduling.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":zones", 0) != 0;
+            ZoneScheduling.Faulted = false;
+            FrameTrace.Recording = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":trace", 0) != 0;
+            FrameTrace.AutoExport = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":autoexport", 0) != 0;
+            DetailedTrace.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":details", 0) != 0;
+            Smoothing = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":refill", 0) != 0;
+            CinematicWorld.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cinematic", 1) != 0;
+            CinematicWorld.AudioEnabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cameraaudio", 1) != 0;
+            CinematicWorld.DistancePercent = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cinematicdistance", 150);
+            TreeLods.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":trees", 0) != 0;
+            HyperrealDiscovery.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":hyperrealdiscovery", 1) != 0;
+            BakeryHelp.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":bakeryhelp", 1) != 0;
+            MidnightCleanup.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cleanup", 0) != 0;
+            MidnightCleanup.SetDelayMinutes(UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cleanupminutes", 5));
+            BackgroundSaves.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":backgroundsaves", 0) != 0;
+            Application.quitting -= BackgroundSaves.OnApplicationQuit;
+            Application.quitting += BackgroundSaves.OnApplicationQuit;
+            Application.quitting -= FrameTrace.OnApplicationQuit;
+            Application.quitting += FrameTrace.OnApplicationQuit;
+            try
+            {
+                OptionsService.Register(modId, new ModOptions()
+                    .AddHeader("cityperformance:header")
+                    .AddToggle("diagnostics", "cityperformance:diagnostics", true, x => Diagnostics = x)
+                    .AddToggle("refill", "cityperformance:refill", false, x => { Smoothing = x; Log("Pedestrian-refill smoothing requested="+x+"; verified="+Verified+"; faulted="+Faulted); })
+                    .AddToggle("zones", "cityperformance:zones", false, x => ZoneScheduling.Enabled = x)
+                    .AddToggle("trees", "cityperformance:trees", false, TreeLods.SetEnabled)
+                    .AddToggle("hyperrealdiscovery", "cityperformance:hyperrealdiscovery", true, HyperrealDiscovery.SetEnabled)
+                    .AddToggle("bakeryhelp", "cityperformance:bakeryhelp", true, BakeryHelp.SetEnabled)
+                    .AddToggle("cinematic", "cityperformance:cinematic", true, CinematicWorld.SetEnabled)
+                    .AddSlider("cinematicdistance", "cityperformance:cinematicdistance", 100, 200, 150, x => CinematicWorld.DistancePercent = x, "cityperformance:percent")
+                    .AddToggle("cameraaudio", "cityperformance:cameraaudio", true, x => CinematicWorld.AudioEnabled = x)
+                    .AddToggle("cleanup", "cityperformance:cleanup", false, MidnightCleanup.SetEnabled)
+                    .AddSlider("cleanupminutes", "cityperformance:cleanupminutes", 1, 10, 5, MidnightCleanup.SetDelayMinutes, "cityperformance:minutes")
+                    .AddToggle("backgroundsaves", "cityperformance:backgroundsaves", false, BackgroundSaves.SetEnabled)
+                    .AddToggle("trace", "cityperformance:trace", false, x => FrameTrace.Recording = x)
+                    .AddToggle("autoexport", "cityperformance:autoexport", false, x => FrameTrace.AutoExport = x)
+                    .AddToggle("details", "cityperformance:details", false, DetailedTrace.SetEnabled)
+                    .AddButton("cityperformance:export", FrameTrace.RequestExport));
+                using (var hash = SHA256.Create())
+                using (var file = File.OpenRead(typeof(PedestrianSpawner).Assembly.Location))
+                {
+                    var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
+                    Verified = actual == "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
+                    Log("Version 0.4.4; BigAmbitions SHA256=" + actual + "; verified=" + Verified);
+                }
+                Refill.Install();
+                ZoneScheduling.Install();
+                MidnightCleanup.Install();
+                BackgroundSaves.Install();
+                TreeLods.Install();
+                HyperrealDiscovery.Initialize();
+                BakeryHelp.Initialize();
+                CinematicWorld.Install();
+                CinematicAudioZones.Install();
+                CinematicPopulation.Install();
+                CinematicDecals.Install();
+                FrameTrace.Install();
+                DetailedTrace.Initialize();
+                Timings.Install(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) });
+                Timings.Install(typeof(GameManager), "RunMainGameTick", new[] { typeof(float) });
+                Timings.Install(typeof(SaveGameManager), "SerializeSaveGame", new[] { typeof(object) });
+                Timings.Install(typeof(Culling.CullingGroupController), "Update", Type.EmptyTypes);
+                Timings.Install(typeof(GleyTrafficSystem.TrafficManager), "FixedUpdate", Type.EmptyTypes);
+            }
+            catch (Exception e) { Faulted = true; Log("Initialization failed; refill disabled: " + e); }
+            return Task.CompletedTask;
+        }
+        public Task OnUnloadAsync()
+        {
+            // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
+            HyperrealDiscovery.Shutdown();
+            BakeryHelp.Shutdown();
+            BackgroundSaves.Stop();
+            Loaded = false;
+            try { Refill.Flush(); CityEntry.Stop(false); }
+            finally
+            {
+                try { MidnightCleanup.Shutdown(); }
+                finally
+                {
+                    DetailedTrace.Shutdown();
+                    Application.quitting -= FrameTrace.OnApplicationQuit;
+                    Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                    try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
+                    try { if (modId != null) OptionsService.RemoveModOptions(modId); }
+                    catch (Exception e) { Log("Options removal failed: " + e.Message); }
+                }
+            }
+            return Task.CompletedTask;
+        }
+        internal static void Log(string text) { try { Logger?.Info(text); } catch { /* Diagnostics cannot break gameplay. */ } }
+    }
+
+    [ModEntryOnCityLoad]
+    public sealed class CityEntry : IModBigAmbitions
+    {
+        private static GameObject host;
+        private static PerformanceHost runtime;
+        private static readonly SessionLifetime lifetime = new SessionLifetime();
+        private static int startedTicket;
+        private int ticket;
+        private Action unloadCallback;
+        internal static bool Ready => runtime != null && runtime.isActiveAndEnabled && PerformanceMod.Loaded;
+        internal static bool IsCurrent(PerformanceHost candidate) => Ready && runtime == candidate;
+        public string[] RelativeAssetBundlePaths => Array.Empty<string>();
+        public Task OnLoadAsync(ModContext context)
+        {
+            Stop();
+            ticket = lifetime.Begin();
+            int capturedTicket = ticket;
+            unloadCallback = () => { if (lifetime.IsCurrent(capturedTicket)) Stop(); };
+            GlobalEvents.onGameUnloaded += unloadCallback;
+            GlobalEvents.onNewHour += FrameTrace.Hour;
+            GlobalEvents.onSaveGame += FrameTrace.Save;
+            // This API may invoke synchronously, or retain the callback until later. It has no unregister API.
+            GlobalEvents.RegisterOnGameLoadedLateCallback(() => Start(capturedTicket));
+            return Task.CompletedTask;
+        }
+        private static void Start(int expectedTicket)
+        {
+            if (!PerformanceMod.Loaded || !lifetime.IsCurrent(expectedTicket) || startedTicket == expectedTicket ||
+                LoadScene.isLoading || SaveGameManager.Current == null) return;
+            try
+            {
+                host = new GameObject("CityPerformance.Runtime");
+                Object.DontDestroyOnLoad(host); runtime = host.AddComponent<PerformanceHost>();
+                startedTicket = expectedTicket;
+                MidnightCleanup.StartCity();
+                BackgroundSaves.StartCity();
+                DetailedTrace.StartCity();
+                TreeLods.StartCity();
+                HyperrealDiscovery.StartCity();
+                BakeryHelp.StartCity();
+                PerformanceMod.Log("City ready; diagnostics=" + PerformanceMod.Diagnostics + "; trace=" + FrameTrace.Recording + "; autoexport=" + FrameTrace.AutoExport + "; zones requested=" + ZoneScheduling.Enabled + "; refill requested=" + PerformanceMod.Smoothing + "; trace directory=" + System.IO.Path.Combine(Application.persistentDataPath,"CityPerformanceTraces"));
+            }
+            catch (Exception e) { Stop(); PerformanceMod.Log("City host failed: " + e); }
+        }
+        internal static void Stop(bool cancelZones = true)
+        {
+            HyperrealDiscovery.EndCity();
+            BakeryHelp.EndCity();
+            try { MidnightCleanup.EndCity(); }
+            finally { StopAfterCleanup(cancelZones); }
+        }
+        private static void StopAfterCleanup(bool cancelZones)
+        {
+            BackgroundSaves.Drain();
+            FrameTrace.FinishSession("city-or-mod-unload");
+            TreeLods.EndCity();
+            CinematicWorld.EndCity(cancelZones == false);
+            lifetime.End();
+            Refill.Cancel();
+            if(cancelZones) ZoneScheduling.CancelAll();
+            FrameTrace.Reset();
+            // Unity Destroy is deferred: disable and detach first so an old host cannot tick a new city's work.
+            var oldHost = host; var oldRuntime = runtime;
+            host = null; runtime = null;
+            if (oldRuntime != null) oldRuntime.enabled = false;
+            if (oldHost != null) Object.Destroy(oldHost);
+            Timings.Reset();
+        }
+        public Task OnUnloadAsync()
+        {
+            if (unloadCallback != null) GlobalEvents.onGameUnloaded -= unloadCallback;
+            GlobalEvents.onNewHour -= FrameTrace.Hour;
+            GlobalEvents.onSaveGame -= FrameTrace.Save;
+            if (lifetime.IsCurrent(ticket))
+            {
+                // Entry-unload order is unspecified. Flush here too when a mod is removed in an active city.
+                // Actual city teardown uses the game-unloaded callback above and cancels instead.
+                Refill.Flush();
+                Stop(false);
+            }
+            return Task.CompletedTask;
+        }
+    }
+
+    internal static class Refill
+    {
+        private static readonly RefillPlan plan = new RefillPlan();
+        private static PedestrianSpawner owner;
+        private static bool bypass;
+        private static long revision;
+        private struct RequestState { public int Target; public bool Restore; public long Revision; }
+        private static MethodInfo method;
+        private static AccessTools.FieldRef<PedestrianSpawner, int> lastTarget;
+        private static readonly FrameQuota quota = new FrameQuota(2);
+        internal static void Install()
+        {
+            method = AccessTools.Method(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) });
+            if (!PerformanceMod.Verified || method == null || method.IsStatic || method.ReturnType != typeof(void) || method.DeclaringType != typeof(PedestrianSpawner) || ForeignPatch())
+            { PerformanceMod.Log("Not active: pedestrian refill (unverified build or conflicting patch)."); return; }
+            lastTarget = AccessTools.FieldRefAccess<PedestrianSpawner, int>("_lastSetAmount");
+            PerformanceMod.Harmony.Patch(method,
+                prefix: new HarmonyMethod(typeof(Refill), nameof(Prefix)),
+                finalizer: new HarmonyMethod(typeof(Refill), nameof(Finalizer)));
+            PerformanceMod.Log("Active: PedestrianSpawner.SetActivePedestrians refill hook; optimization defaults off.");
+        }
+        private static bool ForeignPatch()
+        {
+            var info = Harmony.GetPatchInfo(method);
+            return info != null && info.Owners.Any(x => x != PerformanceMod.Id);
+        }
+        private static void Prefix(PedestrianSpawner __instance, ref int amount, out RequestState __state)
+        {
+            __state = default;
+            if (bypass) { bypass = false; return; }
+            __state.Target = amount; __state.Revision = ++revision;
+            try
+            {
+                // Any newer request replaces the old target, including decreases and indoor calls.
+                if (owner == __instance) Cancel();
+                if (!CityEntry.Ready || !PerformanceMod.Smoothing || PerformanceMod.Faulted ||
+                    BuildingManager.IsInsideBuilding || LoadScene.isLoading || !__instance.isActiveAndEnabled || __instance.activePedestrians == null) return;
+                if (InstanceBehavior<CityManager>.Instance == null || InstanceBehavior<CityManager>.Instance.pedestrianSpawner != __instance) return;
+                if (ForeignPatch()) { PerformanceMod.Faulted = true; PerformanceMod.Log("Refill disabled: foreign patch detected."); return; }
+                if (owner != null && owner != __instance) return; // Never maintain an unbounded set of scene objects.
+                int count = __instance.activePedestrians.Count;
+                if (amount <= count) return;
+                owner = __instance;
+                int allowed = quota.Take(Time.frameCount, Math.Min(2, amount - count));
+                int next = plan.Request(amount, count, 2);
+                amount = count + Math.Min(allowed, next - count);
+                plan.Consume(amount - count);
+                __state.Restore = amount != __state.Target;
+            }
+            catch (Exception e) { PerformanceMod.Faulted = true; Cancel(); amount = __state.Target; __state.Restore = false; PerformanceMod.Log("Refill prefix disabled: " + e.Message); }
+        }
+        private static Exception Finalizer(PedestrianSpawner __instance, RequestState __state, Exception __exception)
+        {
+            // Restore the full requested target even if the vanilla call throws. Never swallow its exception.
+            try
+            {
+                if (__state.Restore && __state.Revision == revision && lastTarget != null) lastTarget(__instance) = __state.Target;
+            }
+            catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill target restore failed: " + e); }
+            if (__exception != null) { Cancel(); PerformanceMod.Faulted = true; }
+            return __exception;
+        }
+        internal static void Tick()
+        {
+            if (!OwnerIsCurrent()) { Cancel(); return; }
+            if (BuildingManager.IsInsideBuilding || LoadScene.isLoading) { Cancel(); return; }
+            if (ForeignPatch()) { DisableForConflict(); return; }
+            if (!PerformanceMod.Smoothing || PerformanceMod.Faulted) { Flush(); return; }
+            int next = plan.Next(owner.activePedestrians.Count, 2);
+            if (!plan.Pending) { Cancel(); return; }
+            int allowed = quota.Take(Time.frameCount, next - owner.activePedestrians.Count);
+            if (allowed > 0) { plan.Consume(allowed); Apply(owner.activePedestrians.Count + allowed); }
+        }
+        private static void Apply(int amount)
+        {
+            var spawner = owner; int target = plan.Target; long requestRevision = revision;
+            try { bypass = true; spawner.SetActivePedestrians(amount); }
+            catch (Exception e) { PerformanceMod.Faulted = true; Cancel(); PerformanceMod.Log("Refill continuation failed; future requests use vanilla: " + e); }
+            finally
+            {
+                bypass = false;
+                try { if (spawner != null && revision == requestRevision) lastTarget(spawner) = target; }
+                catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Deferred target restore failed: " + e); }
+            }
+        }
+        internal static void Flush()
+        {
+            try
+            {
+                if (OwnerIsCurrent() && plan.Pending && !BuildingManager.IsInsideBuilding && !LoadScene.isLoading)
+                {
+                    if (ForeignPatch()) { DisableForConflict(); return; }
+                    int count = owner.activePedestrians.Count;
+                    int next = plan.Next(count, int.MaxValue);
+                    if (next > count) Apply(next);
+                }
+            }
+            catch (Exception e) { PerformanceMod.Faulted = true; PerformanceMod.Log("Refill flush failed: " + e); }
+            finally { Cancel(); }
+        }
+        private static bool OwnerIsCurrent()
+        {
+            var city=InstanceBehavior<CityManager>.Instance;
+            return owner!=null && city!=null && city.pedestrianSpawner==owner && owner.isActiveAndEnabled;
+        }
+        private static void DisableForConflict()
+        {
+            PerformanceMod.Faulted = true;
+            Cancel();
+            PerformanceMod.Log("Refill disabled: foreign patch detected; pending work cancelled without invoking the conflicting chain.");
+        }
+        internal static void Cancel() { owner = null; plan.Cancel(); }
+        internal static void Describe(ref TraceRow row)
+        {
+            row.RefillFaulted=PerformanceMod.Faulted?1:0;
+            row.RefillPending=plan.Pending?1:0;row.RefillRemaining=plan.Remaining;
+            if(owner!=null){row.RefillTarget=plan.Target;row.RefillActive=owner.activePedestrians==null?-1:owner.activePedestrians.Count;}
+        }
+    }
+
+    [DefaultExecutionOrder(20000)]
+    internal sealed class PerformanceHost : MonoBehaviour
+    {
+        private readonly FrameWindow window = new FrameWindow(30);
+        private System.Collections.IEnumerator Start()
+        {
+            var endOfFrame=new WaitForEndOfFrame();
+            while(true)
+            {
+                yield return endOfFrame;
+                if(!CityEntry.IsCurrent(this))continue;
+                try{FrameTrace.FrameEnd();}
+                catch(Exception e){FrameTrace.Recording=false;PerformanceMod.Log("Trace capture disabled: "+e);}
+            }
+        }
+        private void LateUpdate(){if(CityEntry.IsCurrent(this)){TreeLods.Tick();CinematicWorld.Tick();}}
+        private void FixedUpdate(){if(CityEntry.IsCurrent(this))FrameTrace.FixedStep();}
+        private void Update()
+        {
+            if (!CityEntry.IsCurrent(this)) return;
+            BackgroundSaves.Tick();
+            HyperrealDiscovery.Tick();
+            BakeryHelp.Tick();
+            double now = Time.realtimeSinceStartupAsDouble;
+            try{FrameTrace.Tick();}catch(Exception e){FrameTrace.Recording=false;PerformanceMod.Log("Trace update disabled: "+e);}
+            try{ZoneScheduling.Tick();}catch(Exception e){ZoneScheduling.Faulted=true;PerformanceMod.Log("Zone scheduler disabled: "+e);}
+            MidnightCleanup.Tick();
+            try { Refill.Tick(); }
+            catch (Exception e) { Refill.Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill disabled: " + e); }
+            bool recording = PerformanceMod.Diagnostics && Application.isFocused && !LoadScene.isLoading;
+            if (!window.Observe(now, recording)) return;
+            var frames = window.Frames;
+            PerformanceMod.Log(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "PERF frames n={0} mean_ms={1:F2} p50_le_ms={2} p95_le_ms={3} p99_le_ms={4} max_ms={5:F2} over50={6} bin250plus={7} refill={8}",
+                frames.Count, frames.Count == 0 ? 0 : frames.Sum / frames.Count, frames.Percentile(.5), frames.Percentile(.95), frames.Percentile(.99), frames.Max, frames.Over50, frames.Overflow, PerformanceMod.Smoothing && PerformanceMod.Verified && !PerformanceMod.Faulted));
+            frames.Clear(); Timings.Report();DetailedTrace.Report();TreeLods.Report();CinematicWorld.Report();CinematicPopulation.Report();
+            // The next frame includes summary formatting/logging overhead in measured cadence.
+        }
+    }
+
+    internal static class Timings
+    {
+        private sealed class Counter { public string Name; public long Calls, Ticks, Max, Errors; }
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<MethodBase, Counter> counters = new System.Collections.Concurrent.ConcurrentDictionary<MethodBase, Counter>();
+        internal static void Install(Type type, string name, Type[] args)
+        {
+            try
+            {
+                var method = AccessTools.Method(type, name, args);
+                if (method == null || method.DeclaringType != type || method.ReturnType != typeof(void)) { PerformanceMod.Log("Not active: timing " + type.Name + "." + name); return; }
+                counters[method] = new Counter { Name = type.Name + "." + name };
+                PerformanceMod.Harmony.Patch(method, prefix: new HarmonyMethod(typeof(Timings), nameof(Begin)), finalizer: new HarmonyMethod(typeof(Timings), nameof(End)));
+                PerformanceMod.Log("Active: timing " + type.Name + "." + name);
+            }
+            catch (Exception e) { PerformanceMod.Log("Not active: timing " + type.Name + "." + name + ": " + e.Message); }
+        }
+        private static void Begin(out long __state) => __state = PerformanceMod.Loaded && PerformanceMod.Diagnostics ? Stopwatch.GetTimestamp() : 0;
+        private static Exception End(MethodBase __originalMethod, long __state, Exception __exception)
+        {
+            if (__state == 0) return __exception;
+            if (counters.TryGetValue(__originalMethod, out var c))
+            {
+                long ticks = Stopwatch.GetTimestamp() - __state;
+                Interlocked.Increment(ref c.Calls); Interlocked.Add(ref c.Ticks, ticks);
+                if (__exception != null) Interlocked.Increment(ref c.Errors);
+                long old;
+                do { old = Interlocked.Read(ref c.Max); if (old >= ticks) break; } while (Interlocked.CompareExchange(ref c.Max, ticks, old) != old);
+            }
+            return __exception;
+        }
+        internal static void Reset()
+        {
+            foreach (var c in counters.Values)
+            {
+                Interlocked.Exchange(ref c.Calls, 0); Interlocked.Exchange(ref c.Ticks, 0);
+                Interlocked.Exchange(ref c.Max, 0); Interlocked.Exchange(ref c.Errors, 0);
+            }
+        }
+        internal static void Report()
+        {
+            foreach (var c in counters.Values)
+            {
+                long calls = Interlocked.Exchange(ref c.Calls, 0), ticks = Interlocked.Exchange(ref c.Ticks, 0), max = Interlocked.Exchange(ref c.Max, 0), errors = Interlocked.Exchange(ref c.Errors, 0);
+                PerformanceMod.Log(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                    "PERF scope={0} calls={1} total_ms={2:F3} max_ms={3:F3} exceptions={4}", c.Name, calls, ticks * 1000.0 / Stopwatch.Frequency, max * 1000.0 / Stopwatch.Frequency, errors));
+            }
+        }
+    }
+}
