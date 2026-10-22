@@ -21,6 +21,9 @@ namespace CityPerformance
     public sealed class PerformanceMod : IModBigAmbitions
     {
         internal const string Id = "cityperformance.mod";
+        internal const string Version = "0.5.0";
+        // Windows build 3682. Do not add another hash without re-auditing every behavioral hook against it.
+        internal const string AuditedGameHash = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
         internal static readonly Harmony Harmony = new Harmony(Id);
         internal static IModLogger Logger;
         internal static volatile bool Diagnostics = true, Smoothing, Verified, Faulted, Loaded;
@@ -30,28 +33,86 @@ namespace CityPerformance
         {
             Logger = context.Logger; modId = context.ModId;
             Loaded = true; Faulted = false; Verified = false;
-            Diagnostics = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":diagnostics", 1) != 0;
-            ZoneScheduling.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":zones", 0) != 0;
-            ZoneScheduling.Faulted = false;
-            FrameTrace.Recording = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":trace", 0) != 0;
-            FrameTrace.AutoExport = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":autoexport", 0) != 0;
-            DetailedTrace.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":details", 0) != 0;
-            Smoothing = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":refill", 0) != 0;
-            CinematicWorld.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cinematic", 1) != 0;
-            CinematicWorld.AudioEnabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cameraaudio", 1) != 0;
-            CinematicWorld.DistancePercent = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cinematicdistance", 150);
-            TreeLods.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":trees", 0) != 0;
-            HyperrealDiscovery.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":hyperrealdiscovery", 1) != 0;
-            BakeryHelp.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":bakeryhelp", 1) != 0;
-            MidnightCleanup.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cleanup", 0) != 0;
-            MidnightCleanup.SetDelayMinutes(UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":cleanupminutes", 5));
-            BackgroundSaves.Enabled = UnityEngine.PlayerPrefs.GetInt("m:" + modId + ":backgroundsaves", 0) != 0;
-            Application.quitting -= BackgroundSaves.OnApplicationQuit;
-            Application.quitting += BackgroundSaves.OnApplicationQuit;
-            Application.quitting -= FrameTrace.OnApplicationQuit;
-            Application.quitting += FrameTrace.OnApplicationQuit;
-            try
+            // Saved choices, read per feature so one broken feature cannot block the others' settings.
+            Step("preferences", () => { Diagnostics = Pref("diagnostics", 1); Smoothing = Pref("refill", 0); });
+            Step("preferences", () => { ZoneScheduling.Enabled = Pref("zones", 0); ZoneScheduling.Faulted = false; });
+            Step("preferences", () => { FrameTrace.Recording = Pref("trace", 0); FrameTrace.AutoExport = Pref("autoexport", 0); });
+            Step("preferences", () => DetailedTrace.Enabled = Pref("details", 0));
+            Step("preferences", () =>
             {
+                CinematicWorld.Enabled = Pref("cinematic", 1);
+                CinematicWorld.AudioEnabled = Pref("cameraaudio", 1);
+                CinematicWorld.DistancePercent = UnityEngine.PlayerPrefs.GetInt(Key("cinematicdistance"), 150);
+            });
+            Step("preferences", () => TreeLods.Enabled = Pref("trees", 0));
+            Step("preferences", () => HyperrealDiscovery.Enabled = Pref("hyperrealdiscovery", 1));
+            Step("preferences", () => BakeryHelp.Enabled = Pref("bakeryhelp", 1));
+            Step("preferences", () =>
+            {
+                MidnightCleanup.Enabled = Pref("cleanup", 0);
+                MidnightCleanup.SetDelayMinutes(UnityEngine.PlayerPrefs.GetInt(Key("cleanupminutes"), 5));
+            });
+            Step("preferences", () => BackgroundSaves.Enabled = Pref("backgroundsaves", 0));
+            Step("quit hooks", () =>
+            {
+                Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                Application.quitting += BackgroundSaves.OnApplicationQuit;
+                Application.quitting -= FrameTrace.OnApplicationQuit;
+                Application.quitting += FrameTrace.OnApplicationQuit;
+            });
+            // Each step is isolated: a game update that breaks one feature must not take the others down,
+            // and a missing game type surfaces as one logged exception, not a failed mod load.
+            Step("options", RegisterOptions);
+            Step("game hash", ReadGameHash);
+            Step("pedestrian refill", () => { try { Refill.Install(); } catch { Faulted = true; throw; } });
+            Step("stationary scheduling", () => ZoneScheduling.Install());
+            Step("midnight cleanup", () => MidnightCleanup.Install());
+            Step("background autosaves", () => BackgroundSaves.Install());
+            Step("tree detail", () => TreeLods.Install());
+            Step("Hyperreal discovery", () => HyperrealDiscovery.Initialize());
+            Step("Bakery Help", () => BakeryHelp.Initialize());
+            Step("cinematic world", () => CinematicWorld.Install());
+            Step("cinematic audio zones", () => CinematicAudioZones.Install());
+            Step("cinematic population", () => CinematicPopulation.Install());
+            Step("cinematic decals", () => CinematicDecals.Install());
+            Step("frame trace", () => FrameTrace.Install());
+            Step("detailed diagnostics", () => DetailedTrace.Initialize());
+            Step("timing", () => Timings.Install(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) }));
+            Step("timing", () => Timings.Install(typeof(GameManager), "RunMainGameTick", new[] { typeof(float) }));
+            Step("timing", () => Timings.Install(typeof(SaveGameManager), "SerializeSaveGame", new[] { typeof(object) }));
+            Step("timing", () => Timings.Install(typeof(Culling.CullingGroupController), "Update", Type.EmptyTypes));
+            Step("timing", () => Timings.Install(typeof(GleyTrafficSystem.TrafficManager), "FixedUpdate", Type.EmptyTypes));
+            return Task.CompletedTask;
+        }
+        private string Key(string option) => "m:" + modId + ":" + option;
+        private bool Pref(string option, int fallback) => UnityEngine.PlayerPrefs.GetInt(Key(option), fallback) != 0;
+        // A missing or changed game type after an update: the feature is gone, the rest must carry on.
+        internal static bool LoadFailure(Exception e) => e is TypeInitializationException || e is TypeLoadException ||
+            e is MissingMemberException || e is FileNotFoundException || e is BadImageFormatException;
+        // Lifecycle and per-frame calls: contain only load failures. Game exceptions keep propagating as before.
+        internal static bool Contain(string name, Action action)
+        {
+            try { action(); return true; }
+            catch (Exception e) when (LoadFailure(e)) { Log("Not active: " + name + " (game build changed; original game behavior kept): " + e); return false; }
+        }
+        internal static void Step(string name, Action action)
+        {
+            try { action(); }
+            catch (Exception e) { Log("Not active: " + name + " (setup failed; original game behavior kept): " + e); }
+        }
+        private static void ReadGameHash()
+        {
+            using (var hash = SHA256.Create())
+            using (var file = File.OpenRead(typeof(PedestrianSpawner).Assembly.Location))
+            {
+                var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
+                Verified = actual == AuditedGameHash;
+                Log("Version " + Version + "; BigAmbitions SHA256=" + actual + "; verified=" + Verified +
+                    (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks run"));
+            }
+        }
+        private void RegisterOptions()
+        {
                 OptionsService.Register(modId, new ModOptions()
                     .AddHeader("cityperformance:header")
                     .AddToggle("diagnostics", "cityperformance:diagnostics", true, x => Diagnostics = x)
@@ -70,51 +131,26 @@ namespace CityPerformance
                     .AddToggle("autoexport", "cityperformance:autoexport", false, x => FrameTrace.AutoExport = x)
                     .AddToggle("details", "cityperformance:details", false, DetailedTrace.SetEnabled)
                     .AddButton("cityperformance:export", FrameTrace.RequestExport));
-                using (var hash = SHA256.Create())
-                using (var file = File.OpenRead(typeof(PedestrianSpawner).Assembly.Location))
-                {
-                    var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
-                    Verified = actual == "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
-                    Log("Version 0.4.4; BigAmbitions SHA256=" + actual + "; verified=" + Verified);
-                }
-                Refill.Install();
-                ZoneScheduling.Install();
-                MidnightCleanup.Install();
-                BackgroundSaves.Install();
-                TreeLods.Install();
-                HyperrealDiscovery.Initialize();
-                BakeryHelp.Initialize();
-                CinematicWorld.Install();
-                CinematicAudioZones.Install();
-                CinematicPopulation.Install();
-                CinematicDecals.Install();
-                FrameTrace.Install();
-                DetailedTrace.Initialize();
-                Timings.Install(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) });
-                Timings.Install(typeof(GameManager), "RunMainGameTick", new[] { typeof(float) });
-                Timings.Install(typeof(SaveGameManager), "SerializeSaveGame", new[] { typeof(object) });
-                Timings.Install(typeof(Culling.CullingGroupController), "Update", Type.EmptyTypes);
-                Timings.Install(typeof(GleyTrafficSystem.TrafficManager), "FixedUpdate", Type.EmptyTypes);
-            }
-            catch (Exception e) { Faulted = true; Log("Initialization failed; refill disabled: " + e); }
-            return Task.CompletedTask;
         }
         public Task OnUnloadAsync()
         {
             // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
-            HyperrealDiscovery.Shutdown();
-            BakeryHelp.Shutdown();
-            BackgroundSaves.Stop();
+            Contain("Hyperreal discovery", () => HyperrealDiscovery.Shutdown());
+            Contain("Bakery Help", () => BakeryHelp.Shutdown());
+            Contain("background autosaves", () => BackgroundSaves.Stop());
             Loaded = false;
-            try { Refill.Flush(); CityEntry.Stop(false); }
+            try { Contain("pedestrian refill", () => Refill.Flush()); CityEntry.Stop(false); }
             finally
             {
-                try { MidnightCleanup.Shutdown(); }
+                try { Contain("midnight cleanup", () => MidnightCleanup.Shutdown()); }
                 finally
                 {
-                    DetailedTrace.Shutdown();
-                    Application.quitting -= FrameTrace.OnApplicationQuit;
-                    Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                    Contain("detailed diagnostics", () => DetailedTrace.Shutdown());
+                    Contain("quit hooks", () =>
+                    {
+                        Application.quitting -= FrameTrace.OnApplicationQuit;
+                        Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                    });
                     try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
                     try { if (modId != null) OptionsService.RemoveModOptions(modId); }
                     catch (Exception e) { Log("Options removal failed: " + e.Message); }
@@ -152,6 +188,12 @@ namespace CityPerformance
         }
         private static void Start(int expectedTicket)
         {
+            // Kept free of game types so a changed game build fails inside the guard, not in the game's callback.
+            try { StartCity(expectedTicket); }
+            catch (Exception e) { PerformanceMod.Log("City host unavailable: " + e); try { Stop(); } catch { /* Already logged. */ } }
+        }
+        private static void StartCity(int expectedTicket)
+        {
             if (!PerformanceMod.Loaded || !lifetime.IsCurrent(expectedTicket) || startedTicket == expectedTicket ||
                 LoadScene.isLoading || SaveGameManager.Current == null) return;
             try
@@ -159,33 +201,34 @@ namespace CityPerformance
                 host = new GameObject("CityPerformance.Runtime");
                 Object.DontDestroyOnLoad(host); runtime = host.AddComponent<PerformanceHost>();
                 startedTicket = expectedTicket;
-                MidnightCleanup.StartCity();
-                BackgroundSaves.StartCity();
-                DetailedTrace.StartCity();
-                TreeLods.StartCity();
-                HyperrealDiscovery.StartCity();
-                BakeryHelp.StartCity();
-                PerformanceMod.Log("City ready; diagnostics=" + PerformanceMod.Diagnostics + "; trace=" + FrameTrace.Recording + "; autoexport=" + FrameTrace.AutoExport + "; zones requested=" + ZoneScheduling.Enabled + "; refill requested=" + PerformanceMod.Smoothing + "; trace directory=" + System.IO.Path.Combine(Application.persistentDataPath,"CityPerformanceTraces"));
+                PerformanceMod.Step("midnight cleanup", () => MidnightCleanup.StartCity());
+                PerformanceMod.Step("background autosaves", () => BackgroundSaves.StartCity());
+                PerformanceMod.Step("detailed diagnostics", () => DetailedTrace.StartCity());
+                PerformanceMod.Step("tree detail", () => TreeLods.StartCity());
+                PerformanceMod.Step("Hyperreal discovery", () => HyperrealDiscovery.StartCity());
+                PerformanceMod.Step("Bakery Help", () => BakeryHelp.StartCity());
+                PerformanceMod.Contain("city-ready status", () =>
+                    PerformanceMod.Log("City ready; diagnostics=" + PerformanceMod.Diagnostics + "; trace=" + FrameTrace.Recording + "; autoexport=" + FrameTrace.AutoExport + "; zones requested=" + ZoneScheduling.Enabled + "; refill requested=" + PerformanceMod.Smoothing + "; trace directory=" + System.IO.Path.Combine(Application.persistentDataPath,"CityPerformanceTraces")));
             }
             catch (Exception e) { Stop(); PerformanceMod.Log("City host failed: " + e); }
         }
         internal static void Stop(bool cancelZones = true)
         {
-            HyperrealDiscovery.EndCity();
-            BakeryHelp.EndCity();
-            try { MidnightCleanup.EndCity(); }
+            PerformanceMod.Contain("Hyperreal discovery", () => HyperrealDiscovery.EndCity());
+            PerformanceMod.Contain("Bakery Help", () => BakeryHelp.EndCity());
+            try { PerformanceMod.Contain("midnight cleanup", () => MidnightCleanup.EndCity()); }
             finally { StopAfterCleanup(cancelZones); }
         }
         private static void StopAfterCleanup(bool cancelZones)
         {
-            BackgroundSaves.Drain();
-            FrameTrace.FinishSession("city-or-mod-unload");
-            TreeLods.EndCity();
-            CinematicWorld.EndCity(cancelZones == false);
+            PerformanceMod.Contain("background autosaves", () => BackgroundSaves.Drain());
+            PerformanceMod.Contain("frame trace", () => FrameTrace.FinishSession("city-or-mod-unload"));
+            PerformanceMod.Contain("tree detail", () => TreeLods.EndCity());
+            PerformanceMod.Contain("cinematic world", () => CinematicWorld.EndCity(cancelZones == false));
             lifetime.End();
-            Refill.Cancel();
-            if(cancelZones) ZoneScheduling.CancelAll();
-            FrameTrace.Reset();
+            PerformanceMod.Contain("pedestrian refill", () => Refill.Cancel());
+            if(cancelZones) PerformanceMod.Contain("stationary scheduling", () => ZoneScheduling.CancelAll());
+            PerformanceMod.Contain("frame trace", () => FrameTrace.Reset());
             // Unity Destroy is deferred: disable and detach first so an old host cannot tick a new city's work.
             var oldHost = host; var oldRuntime = runtime;
             host = null; runtime = null;
@@ -202,7 +245,7 @@ namespace CityPerformance
             {
                 // Entry-unload order is unspecified. Flush here too when a mod is removed in an active city.
                 // Actual city teardown uses the game-unloaded callback above and cancels instead.
-                Refill.Flush();
+                PerformanceMod.Contain("pedestrian refill", () => Refill.Flush());
                 Stop(false);
             }
             return Task.CompletedTask;
@@ -344,27 +387,52 @@ namespace CityPerformance
                 catch(Exception e){FrameTrace.Recording=false;PerformanceMod.Log("Trace capture disabled: "+e);}
             }
         }
-        private void LateUpdate(){if(CityEntry.IsCurrent(this)){TreeLods.Tick();CinematicWorld.Tick();}}
-        private void FixedUpdate(){if(CityEntry.IsCurrent(this))FrameTrace.FixedStep();}
+        // One slot per per-frame feature tick. A tick that throws is stopped for this session and logged once,
+        // so a game update cannot turn one broken feature into an exception every frame.
+        // Only load failures stop a slot; game exceptions propagate to Unity exactly as before.
+        private static readonly string[] tickNames = { "tree detail", "cinematic world", "frame trace fixed step", "background autosaves", "Hyperreal discovery", "Bakery Help", "midnight cleanup", "frame trace", "stationary scheduling", "pedestrian refill" };
+        private static readonly bool[] stopped = new bool[10];
+        private static readonly Action[] ticks =
+        {
+            () => TreeLods.Tick(), () => CinematicWorld.Tick(), () => FrameTrace.FixedStep(), () => BackgroundSaves.Tick(),
+            () => HyperrealDiscovery.Tick(), () => BakeryHelp.Tick(), () => MidnightCleanup.Tick(),
+            () => { try { FrameTrace.Tick(); } catch (Exception e) when (!PerformanceMod.LoadFailure(e)) { FrameTrace.Recording = false; PerformanceMod.Log("Trace update disabled: " + e); } },
+            () => { try { ZoneScheduling.Tick(); } catch (Exception e) when (!PerformanceMod.LoadFailure(e)) { ZoneScheduling.Faulted = true; PerformanceMod.Log("Zone scheduler disabled: " + e); } },
+            () => { try { Refill.Tick(); } catch (Exception e) when (!PerformanceMod.LoadFailure(e)) { Refill.Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill disabled: " + e); } },
+        };
+        private static void Run(int slot)
+        {
+            if (stopped[slot]) return;
+            try { ticks[slot](); }
+            catch (Exception e) when (PerformanceMod.LoadFailure(e))
+            {
+                stopped[slot] = true;
+                if (slot == 9) PerformanceMod.Faulted = true;
+                PerformanceMod.Log("Stopped " + tickNames[slot] + " for this session (game build changed); original game behavior continues: " + e);
+            }
+        }
+        private void LateUpdate(){if(CityEntry.IsCurrent(this)){Run(0);Run(1);}}
+        private void FixedUpdate(){if(CityEntry.IsCurrent(this))Run(2);}
         private void Update()
         {
             if (!CityEntry.IsCurrent(this)) return;
-            BackgroundSaves.Tick();
-            HyperrealDiscovery.Tick();
-            BakeryHelp.Tick();
+            Run(3);
+            Run(4);
+            Run(5);
             double now = Time.realtimeSinceStartupAsDouble;
-            try{FrameTrace.Tick();}catch(Exception e){FrameTrace.Recording=false;PerformanceMod.Log("Trace update disabled: "+e);}
-            try{ZoneScheduling.Tick();}catch(Exception e){ZoneScheduling.Faulted=true;PerformanceMod.Log("Zone scheduler disabled: "+e);}
-            MidnightCleanup.Tick();
-            try { Refill.Tick(); }
-            catch (Exception e) { Refill.Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill disabled: " + e); }
+            Run(7);
+            Run(8);
+            Run(6);
+            Run(9);
             bool recording = PerformanceMod.Diagnostics && Application.isFocused && !LoadScene.isLoading;
             if (!window.Observe(now, recording)) return;
             var frames = window.Frames;
             PerformanceMod.Log(string.Format(System.Globalization.CultureInfo.InvariantCulture,
                 "PERF frames n={0} mean_ms={1:F2} p50_le_ms={2} p95_le_ms={3} p99_le_ms={4} max_ms={5:F2} over50={6} bin250plus={7} refill={8}",
                 frames.Count, frames.Count == 0 ? 0 : frames.Sum / frames.Count, frames.Percentile(.5), frames.Percentile(.95), frames.Percentile(.99), frames.Max, frames.Over50, frames.Overflow, PerformanceMod.Smoothing && PerformanceMod.Verified && !PerformanceMod.Faulted));
-            frames.Clear(); Timings.Report();DetailedTrace.Report();TreeLods.Report();CinematicWorld.Report();CinematicPopulation.Report();
+            frames.Clear();
+            try { Timings.Report(); DetailedTrace.Report(); TreeLods.Report(); CinematicWorld.Report(); CinematicPopulation.Report(); }
+            catch (Exception e) { PerformanceMod.Diagnostics = false; PerformanceMod.Log("Performance summaries stopped after an error: " + e); }
             // The next frame includes summary formatting/logging overhead in measured cadence.
         }
     }

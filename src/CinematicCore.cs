@@ -14,6 +14,8 @@ namespace CityPerformance
             if (wanted <= applied) { lastNeeded = now; return wanted; }
             return now - lastNeeded < 2 ? applied : wanted;
         }
+        // Camera coverage only serves the HART recording camera. Without its bridge the game stays vanilla.
+        internal static bool CoverageAllowed(bool installed, bool faulted, bool requested, bool bridge) => installed && !faulted && requested && bridge;
         internal static bool SphereInside(float signedPlaneDistance, float radius) => signedPlaneDistance >= -radius;
     }
 }

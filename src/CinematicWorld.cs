@@ -14,11 +14,13 @@ namespace CityPerformance
         internal static bool Enabled = true, AudioEnabled = true, Faulted;
         internal static float DistancePercent = 150;
         internal static Camera RecordingCamera { get; private set; }
-        internal static bool Active => installed && !Faulted && Enabled && CityEntry.Ready && !LoadScene.isLoading;
+        // Coverage is a HART Free Camera feature: without its bridge it changes nothing, including the main view.
+        internal static bool BridgeConnected => cameraGetter != null;
+        internal static bool Active => CinematicCore.CoverageAllowed(installed, Faulted, Enabled, BridgeConnected) && CityEntry.Ready && !LoadScene.isLoading;
         internal static bool AudioActive => installed && !Faulted && AudioEnabled && CityEntry.Ready && !LoadScene.isLoading && RecordingCamera != null;
         internal static readonly View Main = new View(), Second = new View();
         internal static Vector3 PlayerPosition;
-        private static bool installed, audioWasActive;
+        private static bool installed, audioWasActive, announcedMissing, bridgeBroken;
         private static Func<Camera> cameraGetter;
         private static double nextDiscovery, nextConflict;
         private static int groupCursor, frame = -1, dispatched, scans, transitions, deferred;
@@ -130,7 +132,7 @@ namespace CityPerformance
                 PerformanceMod.Harmony.Patch(audioPosition, prefix: new HarmonyMethod(typeof(CinematicWorld), nameof(AudioPosition)));
                 PerformanceMod.Harmony.Patch(audioLate, postfix: new HarmonyMethod(typeof(CinematicWorld), nameof(AudioLate)));
                 installed = true;
-                PerformanceMod.Log("Active: cinematic world hooks; coverage and recording-camera audio default on; bridge protocol 1.");
+                PerformanceMod.Log("Active: cinematic world hooks; coverage and recording-camera audio start only when the HART Free Camera bridge (protocol 1) is loaded.");
             }
             catch (Exception e) { UnpatchFeature(typeof(CinematicWorld)); Fail(e); }
         }
@@ -139,7 +141,18 @@ namespace CityPerformance
         internal static bool HasRecordingView() { Discover(); return RecordingCamera != null; }
         private static void Discover()
         {
-            if (cameraGetter != null) { RecordingCamera = cameraGetter(); return; }
+            if (cameraGetter != null)
+            {
+                try { RecordingCamera = cameraGetter(); return; }
+                catch (Exception e)
+                {
+                    // A broken bridge counts as absent: coverage and audio fall back to vanilla through the normal off path.
+                    cameraGetter = null; RecordingCamera = null; bridgeBroken = true;
+                    PerformanceMod.Log("CINEMA HART bridge failed and was dropped for this session; coverage returns to vanilla: " + e.Message);
+                    return;
+                }
+            }
+            if (bridgeBroken) { RecordingCamera = null; return; }
             RecordingCamera = null;
             double now = Time.realtimeSinceStartupAsDouble;
             if (now < nextDiscovery) return;
@@ -153,6 +166,11 @@ namespace CityPerformance
                 cameraGetter = (Func<Camera>)Delegate.CreateDelegate(typeof(Func<Camera>), getter);
                 RecordingCamera = cameraGetter();
                 PerformanceMod.Log("CINEMA connected HART recording-camera bridge 1."); break;
+            }
+            if (cameraGetter == null && !announcedMissing)
+            {
+                announcedMissing = true;
+                PerformanceMod.Log("CINEMA HART Free Camera bridge not loaded; coverage, decal distance, traffic observers and camera audio stay vanilla.");
             }
         }
         private static Group GetGroup(CullingGroupController owner)
@@ -309,7 +327,7 @@ namespace CityPerformance
         }
         internal static void Report()
         {
-            if (!Enabled && !audioWasActive) return;
+            if (!BridgeConnected || !Enabled && !audioWasActive) return;
             PerformanceMod.Log("CINEMA active=" + Active + "; recording=" + (RecordingCamera != null) + "; distance_pct=" + DistancePercent + "; audio=" + AudioActive + "; scans=" + scans + "; transitions=" + transitions + "; deferred=" + deferred + "; max_ms=" + maximumMs.ToString("F3", System.Globalization.CultureInfo.InvariantCulture));
             scans = transitions = deferred = 0; maximumMs = 0;
         }

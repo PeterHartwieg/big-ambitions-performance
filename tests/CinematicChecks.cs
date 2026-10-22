@@ -15,6 +15,8 @@ static class CinematicChecks
         check(CinematicCore.Hold(2,0,ref needed,12,true)==2, "detail releases after grace period");
         check(CinematicCore.Hold(2,0,ref needed,10.1,false)==2, "disable bypasses hold to restore native behavior");
         check(CinematicCore.Hold(1,0,ref needed,13,true)==1, "downgrade can retain intermediate distance band");
+        check(!CinematicCore.CoverageAllowed(true,false,true,false), "coverage stays vanilla without the HART Free Camera bridge, even when requested");
+        check(CinematicCore.CoverageAllowed(true,false,true,true) && !CinematicCore.CoverageAllowed(true,false,false,true) && !CinematicCore.CoverageAllowed(true,true,true,true) && !CinematicCore.CoverageAllowed(false,false,true,true), "coverage needs the bridge, the option, a clean install and no fault");
         check(CinematicCore.SphereInside(-4,4) && !CinematicCore.SphereInside(-4.01f,4), "large objects intersecting a viewing edge stay active");
     }
 }

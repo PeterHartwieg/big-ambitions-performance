@@ -15,7 +15,7 @@
   "cityperformance:trees": "Distance-based tree detail (experimental; keeps distant trees visible)",
   "cityperformance:hyperrealdiscovery": "Faster Hyperreal lamp discovery (experimental; audited versions only)",
   "cityperformance:bakeryhelp": "Avoid repeated Bakery Help searches (experimental; audited versions only)",
-  "cityperformance:cinematic": "Camera-aware world coverage (experimental)",
+  "cityperformance:cinematic": "Camera-aware world coverage (needs HART Free Camera; experimental)",
   "cityperformance:cinematicdistance": "Cinematic view distance",
   "cityperformance:percent": "{0}%",
   "cityperformance:cameraaudio": "Listen from the second camera while active"

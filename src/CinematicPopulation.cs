@@ -140,7 +140,7 @@ namespace CityPerformance
         }
         internal static void Report()
         {
-            if (!CinematicWorld.Enabled && owned.Count == 0) return;
+            if ((!CinematicWorld.Enabled || !CinematicWorld.BridgeConnected) && owned.Count == 0) return;
             PerformanceMod.Log("CINEMA pedestrians extra=" + owned.Count + "/20; acquisitions=" + created + "; visible_spawn_rejections=" + rejected + "; traffic=" + CinematicTraffic.Status);
             created = rejected = 0;
         }
