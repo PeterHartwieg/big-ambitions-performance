@@ -62,6 +62,7 @@ namespace CityPerformance
             });
             // Each step is isolated: a game update that breaks one feature must not take the others down,
             // and a missing game type surfaces as one logged exception, not a failed mod load.
+            // Presentation-only and fail-open; deliberately independent of the behavioral hash gate.
             Step("option button captions", OptionButtonCaptions.Start);
             Step("options", RegisterOptions);
             Step("game hash", ReadGameHash);
@@ -131,32 +132,40 @@ namespace CityPerformance
                     .AddToggle("trace", "cityperformance:trace", false, x => FrameTrace.Recording = x)
                     .AddToggle("autoexport", "cityperformance:autoexport", false, x => FrameTrace.AutoExport = x)
                     .AddToggle("details", "cityperformance:details", false, DetailedTrace.SetEnabled)
-                    .AddButton("cityperformance:export", FrameTrace.RequestExport));
+                    .AddButton(OptionButtonCaptions.ExportLabelKey, FrameTrace.RequestExport));
         }
         public Task OnUnloadAsync()
         {
-            // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
-            Contain("Hyperreal discovery", () => HyperrealDiscovery.Shutdown());
-            Contain("Bakery Help", () => BakeryHelp.Shutdown());
-            Contain("background autosaves", () => BackgroundSaves.Stop());
-            Loaded = false;
-            try { Contain("pedestrian refill", () => Refill.Flush()); CityEntry.Stop(false); }
-            finally
+            try
             {
-                try { Contain("midnight cleanup", () => MidnightCleanup.Shutdown()); }
+                // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
+                Contain("Hyperreal discovery", () => HyperrealDiscovery.Shutdown());
+                Contain("Bakery Help", () => BakeryHelp.Shutdown());
+                Contain("background autosaves", () => BackgroundSaves.Stop());
+                Loaded = false;
+                try { Contain("pedestrian refill", () => Refill.Flush()); CityEntry.Stop(false); }
                 finally
                 {
-                    Contain("detailed diagnostics", () => DetailedTrace.Shutdown());
-                    Contain("quit hooks", () =>
+                    try { Contain("midnight cleanup", () => MidnightCleanup.Shutdown()); }
+                    finally
                     {
-                        Application.quitting -= FrameTrace.OnApplicationQuit;
-                        Application.quitting -= BackgroundSaves.OnApplicationQuit;
-                    });
-                    try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
-                    try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
-                    try { if (modId != null) OptionsService.RemoveModOptions(modId); }
-                    catch (Exception e) { Log("Options removal failed: " + e.Message); }
+                        Contain("detailed diagnostics", () => DetailedTrace.Shutdown());
+                        Contain("quit hooks", () =>
+                        {
+                            Application.quitting -= FrameTrace.OnApplicationQuit;
+                            Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                        });
+                        try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
+                        try { if (modId != null) OptionsService.RemoveModOptions(modId); }
+                        catch (Exception e) { Log("Options removal failed: " + e.Message); }
+                    }
                 }
+            }
+            finally
+            {
+                // Keep captions installed through options removal, including its native page rebuild.
+                // Even an earlier teardown exception must withdraw this separate presentation owner.
+                try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
             }
             return Task.CompletedTask;
         }

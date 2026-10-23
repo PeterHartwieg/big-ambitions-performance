@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using BigAmbitions.Mods;
 using BigAmbitions.ModsInternal;
 using HarmonyLib;
@@ -7,13 +9,33 @@ using Localizor.LanguageChangeEvent;
 
 namespace CityPerformance
 {
-    // Build 3682 initializes the descriptive row label and callback, leaving the button's TMP caption unchanged.
-    // Apply after every native initialization, including options-page rebuilds, and only to our export action.
+    // Build 3682 initializes the row label and callback but leaves the button's prefab caption unchanged.
     static class OptionButtonCaptions
     {
+        internal const string ExportLabelKey = "cityperformance:export";
         internal const string ExportKey = "cityperformance:button_export";
         static readonly Harmony harmony = new Harmony("cityperformance.ui.buttoncaptions");
+        static readonly ConditionalWeakTable<ModOptionsButtonControl, CaptionState> mutated = new ConditionalWeakTable<ModOptionsButtonControl, CaptionState>();
+        static readonly HashSet<string> warnedMessages = new HashSet<string>(StringComparer.Ordinal);
         static bool warned;
+
+        sealed class CaptionState
+        {
+            internal TextLocalizationComponent Localized;
+            internal LanguageChangeEventDataHolder Data;
+            internal string Text;
+            internal bool Enabled;
+
+            internal void Restore()
+            {
+                if (Localized == null) return;
+                // Leave an added game component disabled: Destroy is deferred and a same-frame rebind may need it.
+                Localized.enabled = false;
+                Localized.SetData(Data);
+                Localized.TextContainer.text = Text;
+                Localized.enabled = Enabled;
+            }
+        }
 
         internal static MethodBase ResolveHook()
         {
@@ -25,30 +47,59 @@ namespace CityPerformance
             harmony.Patch(ResolveHook(), postfix: new HarmonyMethod(typeof(OptionButtonCaptions), nameof(AfterInitialize)));
         }
 
-        internal static void Stop() { harmony.UnpatchAll(harmony.Id); warned = false; }
+        internal static void Stop() { harmony.UnpatchAll(harmony.Id); warnedMessages.Clear(); warned = false; }
 
         static void AfterInitialize(ModOptionsButtonControl __instance, ModOption option)
         {
             var button = option as ButtonOption;
-            if (button == null || button.Label != "cityperformance:export" || button.OnClick == null
-                || button.OnClick.Method.DeclaringType?.Assembly != typeof(PerformanceMod).Assembly) return;
+            string key = button != null && button.OnClick != null
+                && button.OnClick.Method.DeclaringType?.Assembly == typeof(PerformanceMod).Assembly
+                ? (button.Label == ExportLabelKey ? ExportKey : null) : null;
             try
             {
-                // Keep the descriptive row label intact; this is the caption inside the instantiated button.
+                if (key == null)
+                {
+                    // A pooled control can be rebound to a foreign, unrelated or non-button option.
+                    // Do not access Unity at all unless this exact instance was changed by us.
+                    if (!ReferenceEquals(__instance, null) && mutated.TryGetValue(__instance, out var previous))
+                    {
+                        previous.Restore();
+                        mutated.Remove(__instance);
+                    }
+                    return;
+                }
                 var caption = __instance.transform.Find("ButtonContainer/Button/Text (TMP)");
                 if (caption == null) { Warn("the native button caption was not found"); return; }
-                var localized = caption.GetComponent<TextLocalizationComponent>()
-                    ?? caption.gameObject.AddComponent<TextLocalizationComponent>();
-                // SetData refreshes reused controls even if the key is unchanged and clears prefab formatting.
-                // Localization owns subsequent language changes and re-enables, so it cannot restore the placeholder.
-                localized.SetData(new LanguageChangeEventDataHolder { Key = ExportKey });
+                var localized = caption.GetComponent<TextLocalizationComponent>();
+                bool added = localized == null;
+                if (added) localized = caption.gameObject.AddComponent<TextLocalizationComponent>();
+                if (!mutated.TryGetValue(__instance, out var original))
+                {
+                    original = new CaptionState
+                    {
+                        Localized = localized,
+                        Data = added ? new LanguageChangeEventDataHolder() : new LanguageChangeEventDataHolder
+                        {
+                            Key = localized.Key, Arguments = localized.Arguments, Prefix = localized.Prefix,
+                            Suffix = localized.Suffix, Format = localized.Format
+                        },
+                        Text = localized.TextContainer.text,
+                        Enabled = !added && localized.enabled
+                    };
+                    mutated.Add(__instance, original);
+                }
+                localized.enabled = true;
+                // Reset leftover formatting on clones or a prefab component, and force a text refresh.
+                // Localization also reapplies the caption after a language change or re-enable.
+                localized.SetData(new LanguageChangeEventDataHolder { Key = key });
             }
-            catch (Exception ex) { Warn(ex.Message); }
+            catch (Exception ex) { Warn(ex.GetType().Name + ": " + ex.Message); }
         }
 
         static void Warn(string message)
         {
-            if (warned) return;
+            if (warned && warnedMessages.Contains(message)) return;
+            warnedMessages.Add(message);
             warned = true;
             PerformanceMod.Log("Button captions unavailable: " + message);
         }
