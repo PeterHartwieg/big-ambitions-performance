@@ -17,8 +17,9 @@ static class SaveHookChecks
         void Check(bool ok, string label) { if (!ok) throw new Exception(label); checks++; Console.WriteLine("PASS " + label); }
         object Call(string name, params object[] args) => AccessTools.Method(type, name).Invoke(null, args);
         Check(AccessTools.Field(type, "save").GetValue(null) == null, "option state initializes without game reflection");
+        AccessTools.Field(type, "Enabled").SetValue(null, false);
         Call("Install");
-        Check(AccessTools.Field(type, "save").GetValue(null) == null && Harmony.GetPatchInfo(save) == null, "default-off performs no save lookup or patch");
+        Check(AccessTools.Field(type, "save").GetValue(null) == null && Harmony.GetPatchInfo(save) == null, "explicit off performs no save lookup or patch");
         Call("Bind");
         var source = PatchProcessor.GetOriginalInstructions(save);
         var rewritten = ((IEnumerable<CodeInstruction>)rewrite.Invoke(null, new object[] { source })).ToArray();

@@ -17,7 +17,7 @@ namespace CityPerformance
     // Daily simulation, events, autosaves and every other cleanup caller stay in place.
     internal static class MidnightCleanup
     {
-        internal static bool Enabled, Faulted;
+        internal static bool Enabled = true, Faulted;
         private static readonly CleanupPlan plan = new CleanupPlan();
         private static readonly MethodInfo target = AccessTools.DeclaredMethod(typeof(GameManager), "NewDay", Type.EmptyTypes);
         private static readonly MethodInfo unload = AccessTools.DeclaredMethod(typeof(Resources), nameof(Resources.UnloadUnusedAssets), Type.EmptyTypes);
@@ -52,7 +52,7 @@ namespace CityPerformance
                 Rewrite(DetailedTrace.Instructions(target)).ToArray();
                 PerformanceMod.Harmony.Patch(target, transpiler: new HarmonyMethod(typeof(MidnightCleanup), nameof(Rewrite)));
                 installed = true;
-                PerformanceMod.Log("Active: audited NewDay cleanup batching; defaults off; maximum wait " + F(plan.DelaySeconds) + "s excluding active saves/cleanup.");
+                PerformanceMod.Log("Active: audited NewDay cleanup batching; defaults on; maximum wait " + F(plan.DelaySeconds) + "s excluding active saves/cleanup.");
             }
             catch (Exception e)
             {

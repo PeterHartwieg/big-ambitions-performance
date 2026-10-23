@@ -2,6 +2,10 @@
 
 ## 0.5.0 (22 October 2026), first Workshop candidate
 
+- Experimental first Workshop release. All behavior features and experiments now default on; performance summaries, trace recording, automatic trace export and extra diagnostics default off. Existing saved choices are preserved.
+- If problems occur, turn on Performance summaries (logging), then disable features one by one and repeat the same route or action to find the best setup for your city.
+- Audited-build and conflict guards remain active. Bakery, Hyperreal and HART Free Camera features require their supported dependencies.
+
 - Camera-aware world coverage now starts only when the HART Free Camera bridge is loaded. Without it the game keeps its own coverage, camera far clip, decal distance, traffic observers and pedestrians. Before this, a game without HART Free Camera still got wider main-camera coverage at 150%.
 - Each setup step runs on its own. If a game update breaks one feature, the log names it and the other features still load. Before this, one failing step skipped every step after it and switched off pedestrian refill.
 - If a feature's per-frame tick, city start or city stop fails to load after a game update, that feature stops for the session and logs once instead of throwing every frame. Game exceptions still propagate as before.
@@ -13,7 +17,7 @@
 - Packaging reads the version from the project file, refuses a mismatch with the source and ships this changelog.
 - New offline check: `tools/DetailCheck --vanilla` runs every installer with no other mod loaded, on the audited build and on another build.
 
-Option defaults are unchanged. Pedestrian refill, the stationary-zone budget, tree detail, midnight cleanup batching, background autosaves and all trace options stay off. Bakery Help and Hyperreal lamp discovery stay on and run only when those mods, in their audited versions, are loaded.
+Release defaults approved 23 October: all behavior features and experiments are on. Logging and trace tools are off. Existing stored choices and all audited-build/dependency/conflict guards remain in force.
 
 ## Earlier versions
 

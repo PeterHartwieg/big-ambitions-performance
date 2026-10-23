@@ -40,25 +40,13 @@ These come from reading the sibling repos, not from a run.
 5. A HART bridge whose getter throws is dropped for the session, and coverage returns to vanilla through the normal off path.
 6. Smaller items: one log line when the bridge is absent, no camera lines in the 30-second summary without the bridge, the version line explains an unaudited build, the option label says coverage needs HART Free Camera, the version is 0.5.0, packaging reads it from the project file and ships the changelog.
 
-Change 1 is the only one a vanilla player on build 3682 would notice. 2 to 4 matter after a game update. The vanilla harness needs the 0.5.0 entry points, so it could not run against 0.4.4; reading the 0.4.4 code, I found no path that throws in a vanilla game on the audited build.
+The default changes approved on 23 October below also enable the vanilla behavior experiments. Change 1 explains the camera dependency. 2 to 4 matter after a game update. The vanilla harness needs the 0.5.0 entry points, so it could not run against 0.4.4; reading the 0.4.4 code, I found no path that throws in a vanilla game on the audited build.
 
 ## Defaults
 
-No default changed. The table says what I would publish and why.
+Peter approved the 23 October release defaults: all nine behavior switches are on (refill, zones, trees, cleanup, background autosaves, Bakery Help, Hyperreal discovery, camera coverage and camera audio). Summaries, trace recording, automatic export and extra diagnostics are off. Existing stored preferences win. Cinematic distance stays 150% and cleanup wait stays five minutes.
 
-| Option | Published default | Reason |
-| --- | --- | --- |
-| Performance summaries | On | Cheap log lines every 30 s; they are what a viewer's bug report needs. Open: off would keep Player.log quieter for viewers. |
-| Pedestrian refill | Off | Open. Peter runs it on; no matched off/on measurement exists. |
-| Stationary-zone budget | Off | Open, and my first candidate for on: it targets the stationary spawn spikes and has the most offline coverage. Needs the matched route comparison in the README first. |
-| Tree detail | Off | Open. Visual change; GPU effect unmeasured. |
-| Midnight cleanup batching | Off | Open. Fewer sweeps but each sweep still hitches (415–526 ms measured on 20 October); the five-minute wait is untested. |
-| Background autosaves | Off | Keep off for the Workshop even after a good test: it writes save files. |
-| Bakery Help | On | Only acts with the audited Bakery. Replaces HMP's former default-on fix. Gain unmeasured, and it has never run in the game. |
-| Hyperreal lamp discovery | On | Same as Bakery Help, with the audited Hyperreal. Gain unmeasured, never run in the game. |
-| Camera coverage and camera audio | On | Now gated on HART Free Camera, so on is safe for everyone else. |
-| Cinematic view distance | 150% | Unchanged. |
-| Trace, auto-save trace, extra diagnostics | Off | Diagnostics for test sessions. |
+These are experiments. Players who encounter problems should enable Performance summaries (logging) and disable features one by one, repeating the same action or route to find the best setup. Native binary and conflict guards remain mandatory; enabled does not mean a guard is bypassed. Background autosaves still validate the detached snapshot against native serialization before using the worker.
 
 Preferences are keyed by the runtime mod ID. A Workshop install has a different ID from the `ModsLocal` copy, so a Workshop subscriber starts from these defaults, and Peter's PC choices (refill and zones on, trace on) do not follow him if he switches to the Workshop copy.
 
@@ -89,7 +77,7 @@ These run on .NET and CoreCLR without Unity. They check managed contracts and ho
 - Behavior after a real game update.
 - The HART Free Camera bridge on the Workshop. HART Free Camera 1.1.1 with the bridge is prepared but not published (its `WORKSHOP.md`, 22 October). The 1.1.0 DLL from 18 October has no bridge type. Until 1.1.1 ships, Workshop viewers get no camera coverage, which is the safe state.
 - A HART Free Camera unloaded while its assembly stays loaded: the bridge type is still found, so the main view keeps coverage as with HART present and the recording camera off. Assemblies cannot unload in Mono, so only HART itself could report this.
-- Thumbnail, Discord channel, licence and title: open, see `workshop/WORKSHOP.md`.
+- Approved thumbnail is packaged as preview.png; title remains City Performance. Bug reports use Workshop comments/discussions. No project licence file has been added; Harmony retains its licence.
 
 ## In-game checks for Peter
 
@@ -101,10 +89,10 @@ Install `build/CityPerformance-0.5.0.zip` as the only mod. Start the game, open 
 - `Hyperreal discovery: Hyperreal absent; original behavior`
 - `Bakery Help: Bakery absent; original Help discovery`
 - `CINEMA HART Free Camera bridge not loaded; …`, once
-- `PERF frames …` every 30 s and no `CINEMA active=` lines
+- No recurring `PERF frames …` summaries with logging off; enable Performance summaries to collect them.
 - no `setup failed`, no `Stopped … for this session`, no exception stack trace from City Performance
 
-In the game, the City Performance options page opens and lists every option. Nothing looks different from an unmodded game.
+In the game, the City Performance options page opens and lists every option. Confirm all behavior toggles start on and logging toggles start off in a fresh profile.
 
 **2. Series pack with the new pair.**
 City Performance 0.5.0, Hard Mode Patch 0.4.2, Bakery, Hyperreal and HART Free Camera 1.1.1, on a copy of the series save. Check:
@@ -119,9 +107,9 @@ City Performance 0.5.0, Hard Mode Patch 0.4.2, Bakery, Hyperreal and HART Free C
 
 **4. Mac (optional).** Load the Mac game with City Performance only: the version line says `verified=False; game build not audited…`, and there are no errors.
 
-After 1 and 2 pass, the matched off/on comparisons in the README decide the open defaults.
+The approved defaults above do not establish performance gains; matched off/on comparisons remain pending.
 
-## Release package
+## Historical package, 22 October (superseded)
 
 - Folder: `build/CityPerformance/` (DLL SHA256 `fac504be9258198ca9ed9cee2eef48777aacaa9b2151fd990b569d4c2ad79dbc`)
 - Archive: `build/CityPerformance-0.5.0.zip` (SHA256 `36cc298d30f699ef01978181c9abb4ba02bb0579a479e563112f7adf76ab705e`)
@@ -130,3 +118,5 @@ After 1 and 2 pass, the matched off/on comparisons in the README decide the open
 - Changelog: `CHANGELOG.md`
 
 `build/` is ignored by git, so the archive is local to this Mac. Rebuild with `tools/package.py` after `dotnet build -c Release`.
+
+The 23 October release-session-2 package and validation supersede those historical hashes. See `docs/release-session2-2026-10-23.md`. Releases now build from `main`, created from `workshop-release`.

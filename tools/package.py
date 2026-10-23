@@ -15,8 +15,9 @@ files = {
  'CHANGELOG.md': root/'CHANGELOG.md',
 }
 # The Mod Creator uses the first image in the mod folder's root as the Workshop thumbnail.
-preview = root/'workshop'/'preview.jpg'
-if preview.is_file(): files['preview.jpg'] = preview
+preview = root/'workshop'/'preview.png'
+if not preview.is_file(): raise SystemExit('Missing workshop/preview.png')
+files['preview.png'] = preview
 for name, src in files.items():
  dest=out/name; dest.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(src,dest)
 manifest=''.join(hashlib.sha256((out/name).read_bytes()).hexdigest()+'  '+name+'\n' for name in sorted(files))
@@ -25,3 +26,5 @@ archive = root/'build'/f'CityPerformance-{version}.zip'
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
  for name in sorted(files): z.write(out/name,'CityPerformance/'+name)
 print('Packaged',out,'and',archive)
+
+(root/'build'/f'CityPerformance-{version}.zip.sha256').write_text(hashlib.sha256(archive.read_bytes()).hexdigest()+'  '+archive.name+'\n')

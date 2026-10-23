@@ -1,0 +1,42 @@
+Experimental performance tools and diagnostics for Big Ambitions. All behavior features and experiments start enabled. Logging and trace tools start disabled. Existing saved choices are preserved. The mod never promises a frame-rate gain; it gives you the switches and the measurements to find out on your own city.
+
+[h2]Works on its own[/h2]
+You need no other mods. Parts made for other mods start only when those mods are loaded, in the exact versions this release was checked against:
+[list]
+[*][b]Bakery - V1.2[/b]: the Help menu finds its pages without searching the whole scene.
+[*][b]POLYMODS HYPERREAL[/b]: its street-lamp search skips sorting the results.
+[*][b]HART Free Camera[/b]: the city fills in around the recording camera, and you can listen from it.
+[/list]
+If one of those mods updates, that part steps aside and the mod keeps the original behavior until City Performance is updated too.
+
+[h2]Game version[/h2]
+The changes to the game were checked against the current Windows build (3682). On any other build, including the Mac version and the next game update, the game behavior hooks withdraw automatically. Timing and trace tools remain available when enabled; the Hyperreal query can still run on the audited Mac Unity pair. Status and failure lines remain in Player.log even while recurring logging is off.
+
+[h2]Options[/h2]
+Under Settings > Mods > City Performance:
+[list]
+[*][b]Performance summaries[/b] (off): a frame-time summary in Player.log every 30 seconds.
+[*][b]Smooth pedestrian refills[/b] (on): spreads a pedestrian refill over a few frames.
+[*][b]Share stationary-zone spawn budget[/b] (on): limits how many street performers and standing characters appear in one frame.
+[*][b]Distance-based tree detail[/b] (on): lets distant trees use their lighter mesh while keeping them visible.
+[*][b]Batch midnight asset cleanups[/b] (on): runs the game's midnight memory cleanup less often, behind a loading screen where possible.
+[*][b]Background autosaves[/b] (on): writes autosaves on a background thread after checking the first one byte for byte against the game's own save.
+[*][b]Bakery Help and Hyperreal lamp search[/b] (on): only with those mods loaded.
+[*][b]Camera-aware world coverage[/b] and [b]Listen from the second camera[/b] (on): only with HART Free Camera loaded.
+[*][b]Trace recording and export[/b] (off): records recent frames and the worst hitches and saves them as CSV files.
+[/list]
+
+[h2]Good to know[/h2]
+[list]
+[*]These are experiments. If problems occur, enable Performance summaries (logging), then disable features one by one and repeat the same route or action to find the best setup for your city.
+[*]Background autosaves are the riskiest option. Keep a manual save. The mod keeps the previous autosave next to the new one as a .cityperformance-previous file.
+[*]If another mod hooks the same game code, that part of City Performance steps aside instead of fighting it.
+[*]Traces go to the CityPerformanceTraces folder next to Player.log, in %USERPROFILE%\AppData\LocalLow\Hovgaard Games\Big Ambitions.
+[*]The mod adds nothing to your save. Unsubscribe and your saves load without it.
+[/list]
+
+[h2]Bug reports[/h2]
+Post bugs in this item's Workshop comments or discussions, one post per problem. Include the mod version, the game build, your other mods and what happened. The City Performance lines in Player.log help most, especially the first one, which shows the version and whether your game build is the audited one.
+
+[h2]Support[/h2]
+The mod is free and stays free. If you'd like to say thanks, you can [url=https://www.paypal.com/donate/?hosted_button_id=Q8KVURCRBFLQN]support my Big Ambitions projects via PayPal[/url].

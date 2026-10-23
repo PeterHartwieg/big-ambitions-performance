@@ -26,7 +26,7 @@ namespace CityPerformance
         internal const string AuditedGameHash = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
         internal static readonly Harmony Harmony = new Harmony(Id);
         internal static IModLogger Logger;
-        internal static volatile bool Diagnostics = true, Smoothing, Verified, Faulted, Loaded;
+        internal static volatile bool Diagnostics = false, Smoothing = true, Verified, Faulted, Loaded;
         private string modId;
         public string[] RelativeAssetBundlePaths => Array.Empty<string>();
         public Task OnLoadAsync(ModContext context)
@@ -34,8 +34,8 @@ namespace CityPerformance
             Logger = context.Logger; modId = context.ModId;
             Loaded = true; Faulted = false; Verified = false;
             // Saved choices, read per feature so one broken feature cannot block the others' settings.
-            Step("preferences", () => { Diagnostics = Pref("diagnostics", 1); Smoothing = Pref("refill", 0); });
-            Step("preferences", () => { ZoneScheduling.Enabled = Pref("zones", 0); ZoneScheduling.Faulted = false; });
+            Step("preferences", () => { Diagnostics = Pref("diagnostics", 0); Smoothing = Pref("refill", 1); });
+            Step("preferences", () => { ZoneScheduling.Enabled = Pref("zones", 1); ZoneScheduling.Faulted = false; });
             Step("preferences", () => { FrameTrace.Recording = Pref("trace", 0); FrameTrace.AutoExport = Pref("autoexport", 0); });
             Step("preferences", () => DetailedTrace.Enabled = Pref("details", 0));
             Step("preferences", () =>
@@ -44,15 +44,15 @@ namespace CityPerformance
                 CinematicWorld.AudioEnabled = Pref("cameraaudio", 1);
                 CinematicWorld.DistancePercent = UnityEngine.PlayerPrefs.GetInt(Key("cinematicdistance"), 150);
             });
-            Step("preferences", () => TreeLods.Enabled = Pref("trees", 0));
+            Step("preferences", () => TreeLods.Enabled = Pref("trees", 1));
             Step("preferences", () => HyperrealDiscovery.Enabled = Pref("hyperrealdiscovery", 1));
             Step("preferences", () => BakeryHelp.Enabled = Pref("bakeryhelp", 1));
             Step("preferences", () =>
             {
-                MidnightCleanup.Enabled = Pref("cleanup", 0);
+                MidnightCleanup.Enabled = Pref("cleanup", 1);
                 MidnightCleanup.SetDelayMinutes(UnityEngine.PlayerPrefs.GetInt(Key("cleanupminutes"), 5));
             });
-            Step("preferences", () => BackgroundSaves.Enabled = Pref("backgroundsaves", 0));
+            Step("preferences", () => BackgroundSaves.Enabled = Pref("backgroundsaves", 1));
             Step("quit hooks", () =>
             {
                 Application.quitting -= BackgroundSaves.OnApplicationQuit;
@@ -115,18 +115,18 @@ namespace CityPerformance
         {
                 OptionsService.Register(modId, new ModOptions()
                     .AddHeader("cityperformance:header")
-                    .AddToggle("diagnostics", "cityperformance:diagnostics", true, x => Diagnostics = x)
-                    .AddToggle("refill", "cityperformance:refill", false, x => { Smoothing = x; Log("Pedestrian-refill smoothing requested="+x+"; verified="+Verified+"; faulted="+Faulted); })
-                    .AddToggle("zones", "cityperformance:zones", false, x => ZoneScheduling.Enabled = x)
-                    .AddToggle("trees", "cityperformance:trees", false, TreeLods.SetEnabled)
+                    .AddToggle("diagnostics", "cityperformance:diagnostics", false, x => Diagnostics = x)
+                    .AddToggle("refill", "cityperformance:refill", true, x => { Smoothing = x; Log("Pedestrian-refill smoothing requested="+x+"; verified="+Verified+"; faulted="+Faulted); })
+                    .AddToggle("zones", "cityperformance:zones", true, x => ZoneScheduling.Enabled = x)
+                    .AddToggle("trees", "cityperformance:trees", true, TreeLods.SetEnabled)
                     .AddToggle("hyperrealdiscovery", "cityperformance:hyperrealdiscovery", true, HyperrealDiscovery.SetEnabled)
                     .AddToggle("bakeryhelp", "cityperformance:bakeryhelp", true, BakeryHelp.SetEnabled)
                     .AddToggle("cinematic", "cityperformance:cinematic", true, CinematicWorld.SetEnabled)
                     .AddSlider("cinematicdistance", "cityperformance:cinematicdistance", 100, 200, 150, x => CinematicWorld.DistancePercent = x, "cityperformance:percent")
                     .AddToggle("cameraaudio", "cityperformance:cameraaudio", true, x => CinematicWorld.AudioEnabled = x)
-                    .AddToggle("cleanup", "cityperformance:cleanup", false, MidnightCleanup.SetEnabled)
+                    .AddToggle("cleanup", "cityperformance:cleanup", true, MidnightCleanup.SetEnabled)
                     .AddSlider("cleanupminutes", "cityperformance:cleanupminutes", 1, 10, 5, MidnightCleanup.SetDelayMinutes, "cityperformance:minutes")
-                    .AddToggle("backgroundsaves", "cityperformance:backgroundsaves", false, BackgroundSaves.SetEnabled)
+                    .AddToggle("backgroundsaves", "cityperformance:backgroundsaves", true, BackgroundSaves.SetEnabled)
                     .AddToggle("trace", "cityperformance:trace", false, x => FrameTrace.Recording = x)
                     .AddToggle("autoexport", "cityperformance:autoexport", false, x => FrameTrace.AutoExport = x)
                     .AddToggle("details", "cityperformance:details", false, DetailedTrace.SetEnabled)
@@ -271,7 +271,7 @@ namespace CityPerformance
             PerformanceMod.Harmony.Patch(method,
                 prefix: new HarmonyMethod(typeof(Refill), nameof(Prefix)),
                 finalizer: new HarmonyMethod(typeof(Refill), nameof(Finalizer)));
-            PerformanceMod.Log("Active: PedestrianSpawner.SetActivePedestrians refill hook; optimization defaults off.");
+            PerformanceMod.Log("Active: PedestrianSpawner.SetActivePedestrians refill hook; optimization defaults on.");
         }
         private static bool ForeignPatch()
         {

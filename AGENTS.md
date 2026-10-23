@@ -11,3 +11,5 @@ Keep changes narrow, configurable and fail-open. Do not suppress vanilla excepti
 Never commit game DLLs, decompiled game source, Harmony binaries, generated packages or save data. `tools/build.sh` builds locally and packages an explicit allowlist. `tests/Tests.csproj` tests pure scheduling/metrics without game dependencies. Document runtime validation separately from compile/core-test evidence.
 
 Diagnostic storage (Peter, 21 October 2026): keep historical game logs, trace exports and playtest transcript archives on the home Windows PC under `C:\Users\Peter\HART-Diagnostics\Performance`, not on the MacBook. Mac copies are temporary working data; verify the PC archive before removing them. Keep source, test fixtures, active files and concise working reports local.
+
+Release branch (Peter, 23 October 2026): `main` was created from `workshop-release`. Build and prepare future releases from `main`; retain the old branch and do not rewrite published history. Release defaults enable all behavior experiments and disable recurring diagnostics/trace logging, while preserving existing saved preferences and compatibility guards.

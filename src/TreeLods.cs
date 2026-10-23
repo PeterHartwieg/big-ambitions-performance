@@ -12,7 +12,7 @@ namespace CityPerformance
     // Never use the player's distance: the recording camera can be close to a distant tree.
     internal static class TreeLods
     {
-        internal static bool Enabled, Faulted;
+        internal static bool Enabled = true, Faulted;
         private static bool installed, inCity, mapHold, announced;
         private static int scan, refresh, skipped, changedElsewhere, setupFrame = -1, earliestFrame;
         private static double nextConflictCheck;
@@ -42,7 +42,7 @@ namespace CityPerformance
                 groupOf = AccessTools.FieldRefAccess<TreeController, LODGroup>("lodGroup");
                 PerformanceMod.Harmony.Patch(map, postfix: new HarmonyMethod(typeof(TreeLods), nameof(MapChanged)));
                 installed = true;
-                PerformanceMod.Log("Active: tree-detail hook; option defaults off; validated two-mesh trees only, no distance disappearance.");
+                PerformanceMod.Log("Active: tree-detail hook; option defaults on; validated two-mesh trees only, no distance disappearance.");
             }
             catch (Exception e)
             {

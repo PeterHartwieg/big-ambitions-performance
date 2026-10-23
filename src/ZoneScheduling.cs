@@ -10,7 +10,7 @@ namespace CityPerformance
 {
     internal static class ZoneScheduling
     {
-        internal static bool Enabled, Faulted;
+        internal static bool Enabled = true, Faulted;
         private static readonly StepBudget budget = new StepBudget(128, 4, 2.0);
         private static MethodInfo factory, clear;
         private static MethodInfo[] guards;
@@ -36,7 +36,7 @@ namespace CityPerformance
                 visible = AccessTools.FieldRefAccess<AiSpawnerZone, bool>("isVisible");
                 PerformanceMod.Harmony.Patch(factory, postfix: new HarmonyMethod(typeof(ZoneScheduling), nameof(Wrap)));
                 PerformanceMod.Harmony.Patch(clear, prefix: new HarmonyMethod(typeof(ZoneScheduling), nameof(Clear)));
-                PerformanceMod.Log("Active: stationary iterator hook; shared 2ms/4-step budget, option defaults off.");
+                PerformanceMod.Log("Active: stationary iterator hook; shared 2ms/4-step budget, option defaults on.");
             }
             catch (Exception e) { Faulted = true; PerformanceMod.Log("Not active: stationary scheduling: " + e); }
         }

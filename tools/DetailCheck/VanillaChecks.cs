@@ -83,6 +83,7 @@ static class VanillaChecks
         }
         try
         {
+            DefaultsChecks.Run(mod, Check);
             Check(!AppDomain.CurrentDomain.GetAssemblies().Any(a => new[] { "PolyModsHyperreal", "Bakery", "HARTFreeCamera", "CameraTools", "FoodTrucks", "HardModePatch", "RealLifeOverhaul" }.Contains(a.GetName().Name)),
                 "fixture process has no other mod assemblies loaded");
 
@@ -95,7 +96,7 @@ static class VanillaChecks
             var verified = PatchedBy();
             foreach (var name in new[] { "Refill", "ZoneScheduling", "MidnightCleanup", "TreeLods", "CinematicWorld", "CinematicAudioZones", "CinematicPopulation", "CinematicTraffic", "CinematicDecals", "FrameTrace", "Timings" })
                 Check(verified.Contains(name), "audited build installs vanilla feature: " + name);
-            Check(!verified.Contains("BackgroundSaves"), "background autosaves install nothing while the option is off");
+            Check(verified.Contains("BackgroundSaves"), "background autosaves install with the release default on");
             Check(!verified.Contains("HyperrealDiscovery") && Lines.Any(l => l.Contains("Hyperreal discovery: Hyperreal absent")), "Hyperreal absent: no hook, one plain status line");
             Check(!verified.Contains("BakeryHelp") && Lines.Any(l => l.Contains("Bakery Help: Bakery absent")), "Bakery absent: no hook, one plain status line");
             Check(!(bool)AccessTools.PropertyGetter(Feature("CinematicWorld"), "BridgeConnected").Invoke(null, null), "HART Free Camera absent: bridge not connected, so coverage stays vanilla");

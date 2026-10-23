@@ -19,7 +19,7 @@ namespace CityPerformance
     // metadata construction, thread field and save-in-progress lifecycle remain in use.
     internal static class BackgroundSaves
     {
-        internal static volatile bool Enabled, Faulted;
+        internal static volatile bool Enabled = true, Faulted;
         private static bool installed, validated, quitting;
         private static int mainThread, validatedRevision;
         [ThreadStatic] private static Call current;
@@ -113,7 +113,7 @@ namespace CityPerformance
                 foreach (var method in loadBoundaries)
                     PerformanceMod.Harmony.Patch(method, prefix: new HarmonyMethod(typeof(BackgroundSaves), nameof(Drain)));
                 installed = true;
-                PerformanceMod.Log("AUTOSAVE installed; defaults off; first eligible save validates snapshot bytes; native format and save events retained.");
+                PerformanceMod.Log("AUTOSAVE installed; defaults on; first eligible save validates snapshot bytes; native format and save events retained.");
             }
             catch (Exception e)
             {

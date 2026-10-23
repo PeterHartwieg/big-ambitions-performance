@@ -5,6 +5,7 @@
     <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
     <AssemblyName>CityPerformance</AssemblyName>
     <Version>0.5.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <LangVersion>9</LangVersion>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GameManaged Condition="'$(GameManaged)' == ''">$(MSBuildProjectDirectory)/build/refs</GameManaged>

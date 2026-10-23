@@ -1,20 +1,20 @@
 # City Performance: Workshop upload
 
-Paste-ready fields for the game's Mod Creator (Main menu > Mods > Mod Creator). This folder is not part of the package, except `preview.jpg` once it exists. Nothing here has been uploaded. Read `docs/release-readiness-0.5.0.md` first: the in-game checks listed there come before the upload.
+Paste-ready fields for the game's Mod Creator (Main menu > Mods > Mod Creator). This folder is not part of the package, except `preview.png`. Nothing here has been uploaded. Read `docs/release-readiness-0.5.0.md` first: the in-game checks listed there come before the upload.
 
 ## Fields
 
 **Mod folder:** `CityPerformance`. Unzip `build/CityPerformance-0.5.0.zip` into `ModsLocal` on the PC that uploads; the Mod Creator lists the folders in `ModsLocal`.
 
-**Title:** `City Performance` (open: Peter may want a HART. prefix like the other HART mods).
+**Title:** `City Performance`
 
 **Target build:** `3682`, the Windows build whose `BigAmbitions.dll` the behavioral hooks were audited against (SHA256 `9427561b…e911`).
 
 **Version:** `0.5.0`. Package: `build/CityPerformance/`; archive: `build/CityPerformance-0.5.0.zip`; file hashes: `build/CityPerformance.sha256`.
 
-**Thumbnail:** none yet. The repo has no preview image and no tooling that makes one. The Mod Creator takes the first image in the mod folder's root, so put a `preview.jpg` under 1 MB in `workshop/` and rerun `python3 tools/package.py`; it copies the file into the package root.
+**Thumbnail:** `workshop/preview.png`, the only image in the package root. Approved artwork; the build script copies it automatically. Gallery cards stay outside the runtime package.
 
-**Bug reports:** open. The other HART mods each have a Discord channel (`#self-driving-bugs`, `#free-camera-bugs`). There is no City Performance channel yet; the description below has a placeholder.
+**Bug reports:** use the Workshop comments or discussion for the relevant item; no Discord invitation is configured here.
 
 **Donations:** the PayPal hosted button `Q8KVURCRBFLQN` covers all of Peter's Big Ambitions projects, so the description reuses it.
 
@@ -23,7 +23,7 @@ Paste-ready fields for the game's Mod Creator (Main menu > Mods > Mod Creator). 
 **Description** (Steam formatting):
 
 ```
-Experimental performance tools and diagnostics for Big Ambitions. Everything that changes how the game runs is optional, and most of it starts switched off. The mod never promises a frame-rate gain; it gives you the switches and the measurements to find out on your own city.
+Experimental performance tools and diagnostics for Big Ambitions. All behavior features and experiments start enabled. Logging and trace tools start disabled. Existing saved choices are preserved. The mod never promises a frame-rate gain; it gives you the switches and the measurements to find out on your own city.
 
 [h2]Works on its own[/h2]
 You need no other mods. Parts made for other mods start only when those mods are loaded, in the exact versions this release was checked against:
@@ -35,17 +35,17 @@ You need no other mods. Parts made for other mods start only when those mods are
 If one of those mods updates, that part steps aside and the mod keeps the original behavior until City Performance is updated too.
 
 [h2]Game version[/h2]
-The changes to the game were checked against the current Windows build (3682). On any other build, including the Mac version and the next game update, City Performance runs only its timing and trace tools. It switches the rest off by itself and says so in the log.
+The changes to the game were checked against the current Windows build (3682). On any other build, including the Mac version and the next game update, the game behavior hooks withdraw automatically. Timing and trace tools remain available when enabled; the Hyperreal query can still run on the audited Mac Unity pair. Status and failure lines remain in Player.log even while recurring logging is off.
 
 [h2]Options[/h2]
 Under Settings > Mods > City Performance:
 [list]
-[*][b]Performance summaries[/b] (on): a frame-time summary in Player.log every 30 seconds.
-[*][b]Smooth pedestrian refills[/b] (off): spreads a pedestrian refill over a few frames.
-[*][b]Share stationary-zone spawn budget[/b] (off): limits how many street performers and standing characters appear in one frame.
-[*][b]Distance-based tree detail[/b] (off): lets distant trees use their lighter mesh while keeping them visible.
-[*][b]Batch midnight asset cleanups[/b] (off): runs the game's midnight memory cleanup less often, behind a loading screen where possible.
-[*][b]Background autosaves[/b] (off): writes autosaves on a background thread after checking the first one byte for byte against the game's own save.
+[*][b]Performance summaries[/b] (off): a frame-time summary in Player.log every 30 seconds.
+[*][b]Smooth pedestrian refills[/b] (on): spreads a pedestrian refill over a few frames.
+[*][b]Share stationary-zone spawn budget[/b] (on): limits how many street performers and standing characters appear in one frame.
+[*][b]Distance-based tree detail[/b] (on): lets distant trees use their lighter mesh while keeping them visible.
+[*][b]Batch midnight asset cleanups[/b] (on): runs the game's midnight memory cleanup less often, behind a loading screen where possible.
+[*][b]Background autosaves[/b] (on): writes autosaves on a background thread after checking the first one byte for byte against the game's own save.
 [*][b]Bakery Help and Hyperreal lamp search[/b] (on): only with those mods loaded.
 [*][b]Camera-aware world coverage[/b] and [b]Listen from the second camera[/b] (on): only with HART Free Camera loaded.
 [*][b]Trace recording and export[/b] (off): records recent frames and the worst hitches and saves them as CSV files.
@@ -53,7 +53,7 @@ Under Settings > Mods > City Performance:
 
 [h2]Good to know[/h2]
 [list]
-[*]These are experiments. Turn one on, play the same route as before and compare. If a switch does nothing for your city, turn it back off.
+[*]These are experiments. If problems occur, enable Performance summaries (logging), then disable features one by one and repeat the same route or action to find the best setup for your city.
 [*]Background autosaves are the riskiest option. Keep a manual save. The mod keeps the previous autosave next to the new one as a .cityperformance-previous file.
 [*]If another mod hooks the same game code, that part of City Performance steps aside instead of fighting it.
 [*]Traces go to the CityPerformanceTraces folder next to Player.log, in %USERPROFILE%\AppData\LocalLow\Hovgaard Games\Big Ambitions.
@@ -61,23 +61,22 @@ Under Settings > Mods > City Performance:
 [/list]
 
 [h2]Bug reports[/h2]
-Post bugs in [url=DISCORD-LINK]#city-performance-bugs on my Discord[/url], one post per problem. Include the mod version, the game build, your other mods and what happened. The City Performance lines in Player.log help most, especially the first one, which shows the version and whether your game build is the audited one.
+Post bugs in this item's Workshop comments or discussions, one post per problem. Include the mod version, the game build, your other mods and what happened. The City Performance lines in Player.log help most, especially the first one, which shows the version and whether your game build is the audited one.
 
 [h2]Support[/h2]
-The mod is free and stays free. If you'd like to say thanks, you can [url=https://www.paypal.com/donate/?hosted_button_id=Q8KVURCRBFLQN]support my Big Ambitions projects via PayPal[/url]. It helps me keep this mod working after game updates.
-
-Made for the HART. Group series. The full README ships with the mod.
+The mod is free and stays free. If you'd like to say thanks, you can [url=https://www.paypal.com/donate/?hosted_button_id=Q8KVURCRBFLQN]support my Big Ambitions projects via PayPal[/url].
 ```
 
 **Change log** (first upload):
 
 ```
-0.5.0: first Workshop release
+[b]City Performance 0.5.0[/b]
 
-- Works with no other mods installed. Bakery, Hyperreal and HART Free Camera features start only when those mods are loaded.
-- Camera-aware coverage now needs HART Free Camera; without it the game's own coverage is untouched.
-- On a game build other than the audited one, only the timing and trace tools run.
-- A feature that breaks after a game update now stops on its own and leaves the others running.
-
-Restart the game after updating.
+[list]
+[*]Experimental first Workshop release. All behavior features and experiments now default on; performance summaries, trace recording, automatic trace export and extra diagnostics default off. Existing saved choices are preserved.
+[*]If problems occur, turn on Performance summaries (logging), then disable features one by one and repeat the same route or action to find the best setup for your city.
+[*]Audited-build and conflict guards remain active. Bakery, Hyperreal and HART Free Camera features require their supported dependencies.
+[*]Features fail independently after incompatible game updates. No measured performance gain is promised.
+[*]Background autosaves validate against native serialization before using the worker. Keep a manual save. Restart after updating.
+[/list]
 ```
