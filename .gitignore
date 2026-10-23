@@ -8,3 +8,26 @@ tools/**/obj/
 *.dll
 *.pdb
 .DS_Store
+
+# --- repo cleanup 2026-10-23 ---
+.DS_Store
+node_modules/
+.wrangler/
+.scratch/
+e2e-failures/
+.recorder/
+.claude/worktrees/
+CLAUDE.local.md
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.hsg
+Library/
+Temp/
+Logs/
+UserSettings/
+*.dll
+*.pdb
+*.exe
