@@ -8,6 +8,8 @@ The trace action keeps its descriptive title and shows **Export** on the button 
 
 Check the caption hook, ownership filters, packaged locale and cleanup without starting Unity with `dotnet run --project tools/DetailCheck -c Release -- build/refs build/CityPerformance/CityPerformance.dll --button-captions` after building. Native acceptance still needs opening, closing and rebuilding the Mods page, changing language, and checking the **Export** caption beside its descriptive title. With RLO loaded, also check its key-binding captions: cloned rows inherit localization components but do not inherit the original control's weak-table tracking.
 
+Slider value labels use the native named argument `{value}`: `{value}%` for cinematic view distance and `{value} min` for maximum cleanup wait. Native mod sliders and the game's `SliderToLabel` supply an object with a `value` member; localization replaces that member name, so a positional `{0}` remains literal. Check the packaged labels with `dotnet run --project tools/DetailCheck -c Release -- build/refs build/CityPerformance/CityPerformance.dll --slider-labels` after building. This runs the actual game localizer with the native initialization/change argument types, checking both sliders at their minimum, default, maximum and a changed value, including English fallback for another language. Native UI appearance and interaction still need a playtest.
+
 | Option | Default | Behavior |
 | --- | --- | --- |
 | Performance summaries | Off | Frame histogram and inclusive method summaries every 30 seconds of focused city play. |

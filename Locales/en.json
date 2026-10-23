@@ -5,7 +5,7 @@
   "cityperformance:zones": "Share stationary-zone spawn budget (experimental; verified builds only)",
   "cityperformance:cleanup": "Batch midnight asset cleanups (experimental)",
   "cityperformance:cleanupminutes": "Maximum cleanup wait (memory pressure can trigger earlier)",
-  "cityperformance:minutes": "{0} min",
+  "cityperformance:minutes": "{value} min",
   "cityperformance:backgroundsaves": "Background autosaves (experimental; validates first save)",
   "cityperformance:savefailed": "Background autosave failed. The previous save was retained where available. Please make a manual save and check the City Performance log.",
   "cityperformance:trace": "Record bounded per-frame hitch trace",
@@ -18,6 +18,6 @@
   "cityperformance:bakeryhelp": "Avoid repeated Bakery Help searches (experimental; audited versions only)",
   "cityperformance:cinematic": "Camera-aware world coverage (needs HART Free Camera; experimental)",
   "cityperformance:cinematicdistance": "Cinematic view distance",
-  "cityperformance:percent": "{0}%",
+  "cityperformance:percent": "{value}%",
   "cityperformance:cameraaudio": "Listen from the second camera while active"
 }
