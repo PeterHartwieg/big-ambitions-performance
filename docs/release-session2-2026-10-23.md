@@ -11,7 +11,7 @@ Pending: native Windows all-on behavior, UI, Help/lamp parity, background autosa
 ## Package verification
 
 - Archive: `build/CityPerformance-0.5.0.zip`.
-- SHA-256: `d56f39ee7673a40af9fe9a74bd249f74f37131557933060d7bbadda5a7219811`; matching `.zip.sha256` sidecar.
+- SHA-256: `2651e16026f955f76c30de3fdd6616e4782a14f96aee32ca3f8d17a07b9ee425`; matching `.zip.sha256` sidecar.
 - DLL SHA-256: `ae114913db19d8fa7db0a967245410908ff671c8f4e90d0d4dca85fa2dfb9002`.
 - 7 files: ZIP CRC, exact file inventory, every decompressed hash, package manifest and approved thumbnail equality passed. Exactly one root DLL and only `preview.png` as the root image; no preview.jpg.
 - Full description: `workshop/DESCRIPTION.bbcode.txt` (3689 characters, below 8,000), ends with the PayPal Support section.
