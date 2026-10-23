@@ -1,0 +1,3 @@
+/* City Performance: dark, HART green, frame-time traces. */
+:root { --bg: #0D100F; --panel: #151917; --ink: #F1F3EF; --soft: #B9C1BA; --dim: #7D877F; --rule: #262C28; --accent: #43C07A; --warn: #F2B84B; }
+.grid line { stroke: #1E2420; stroke-width: 2; }
