@@ -12,6 +12,7 @@
   "cityperformance:autoexport": "Automatically save trace when leaving the city or quitting",
   "cityperformance:details": "Extra diagnostics: hourly systems, mod callbacks, memory and cameras",
   "cityperformance:export": "Export current trace (background CSV write)",
+  "cityperformance:button_export": "Export",
   "cityperformance:trees": "Distance-based tree detail (experimental; keeps distant trees visible)",
   "cityperformance:hyperrealdiscovery": "Faster Hyperreal lamp discovery (experimental; audited versions only)",
   "cityperformance:bakeryhelp": "Avoid repeated Bakery Help searches (experimental; audited versions only)",

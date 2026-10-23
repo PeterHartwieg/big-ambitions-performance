@@ -62,6 +62,7 @@ namespace CityPerformance
             });
             // Each step is isolated: a game update that breaks one feature must not take the others down,
             // and a missing game type surfaces as one logged exception, not a failed mod load.
+            Step("option button captions", OptionButtonCaptions.Start);
             Step("options", RegisterOptions);
             Step("game hash", ReadGameHash);
             Step("pedestrian refill", () => { try { Refill.Install(); } catch { Faulted = true; throw; } });
@@ -151,6 +152,7 @@ namespace CityPerformance
                         Application.quitting -= FrameTrace.OnApplicationQuit;
                         Application.quitting -= BackgroundSaves.OnApplicationQuit;
                     });
+                    try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
                     try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
                     try { if (modId != null) OptionsService.RemoveModOptions(modId); }
                     catch (Exception e) { Log("Options removal failed: " + e.Message); }

@@ -4,6 +4,10 @@ Version 0.5.0, the first Workshop candidate. City Performance is an experimental
 
 ## Options
 
+The trace action keeps its descriptive title and shows **Export** on the button itself. Build 3682's native options helper only sets the row title and callback, leaving the button's TMP prefab text as "Your Text Here". A presentation-only postfix on `ModOptionsButtonControl.Initialize(ModOption)` assigns this mod's caption after each page build. It updates or adds the caption's `TextLocalizationComponent` so language changes retain the label. The hook is scoped to this assembly's export action and removed on unload. Offline compilation and hook checks do not establish native visual acceptance.
+
+Check the caption hook, ownership filters, packaged locale and cleanup without starting Unity with `dotnet run --project tools/DetailCheck -c Release -- build/refs build/CityPerformance/CityPerformance.dll --button-captions` after building. Native acceptance still needs opening, closing and rebuilding the Mods page, changing language, and checking the **Export** caption beside its descriptive title.
+
 | Option | Default | Behavior |
 | --- | --- | --- |
 | Performance summaries | Off | Frame histogram and inclusive method summaries every 30 seconds of focused city play. |
