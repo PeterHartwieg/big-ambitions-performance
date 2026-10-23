@@ -1,7 +1,17 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../hart.css"><link rel="stylesheet" href="../theme.css"></head><body><div class="card"><div class="top"><div class="kicker mono"><b>City Performance</b> &middot; Big Ambitions mod</div><img class="mark" src="../src/hart-wordmark.svg" alt="HART."></div>
+<style>
+.exp { display: inline-block; margin-top: 34px; font-size: 20px; color: var(--warn); border: 2px solid var(--warn); border-radius: 999px; padding: 7px 18px; }
+.copy .lede { margin-top: 26px; }
+.steps { margin-top: 34px; border-top: 2px solid var(--rule); padding-top: 26px; }
+.steps .mono { font-size: 20px; color: var(--dim); }
+.steps ol { list-style: none; margin-top: 14px; counter-reset: s; }
+.steps li { counter-increment: s; display: flex; gap: 20px; align-items: baseline; font-size: 29px; line-height: 1.5; color: var(--ink); }
+.steps li::before { content: counter(s); font-family: Plex, monospace; font-size: 22px; color: var(--accent); width: 22px; }
+</style>
 <div class="copy"><h1>Switches, not promises.</h1>
-<p class="lede">Experimental performance tools for Big Ambitions. All features and experiments start enabled. Logging starts disabled.</p>
-<p class="lede">If problems occur, enable logging and disable features one by one to find your best setup.</p></div>
+<div class="exp mono">Experimental</div>
+<p class="lede">Every feature and experiment starts on. Logging starts off.</p>
+<div class="steps"><div class="mono">If something goes wrong</div><ol><li>Turn on logging.</li><li>Switch features off one by one.</li><li>Keep the setup that runs best.</li></ol></div></div>
 <div class="stage panel" style="padding:50px 56px">
 <div class="mono" style="font-size:22px; color:var(--dim)">Frame time, one route &middot; illustration</div>
 <svg viewBox="0 0 880 560" style="width:100%; height:560px; margin-top:20px" preserveAspectRatio="none">

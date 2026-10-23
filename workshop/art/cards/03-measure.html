@@ -1,11 +1,25 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="stylesheet" href="../hart.css"><link rel="stylesheet" href="../theme.css"></head><body><div class="card"><div class="top"><div class="kicker mono"><b>City Performance</b> &middot; Big Ambitions mod</div><img class="mark" src="../src/hart-wordmark.svg" alt="HART."></div>
+<style>
+.lg { padding: 24px 38px; }
+.lg .hd { display: flex; justify-content: space-between; align-items: center; }
+.lg .hd .mono { font-size: 21px; color: var(--accent); }
+.sw { display: inline-flex; align-items: center; gap: 14px; font-family: Plex, monospace; font-size: 19px; letter-spacing: 0.12em; color: var(--dim); }
+.sw i { width: 58px; height: 30px; border-radius: 999px; border: 2px solid var(--dim); position: relative; display: inline-block; }
+.sw i::after { content: ""; position: absolute; left: 4px; top: 4px; width: 18px; height: 18px; border-radius: 50%; background: var(--dim); }
+.lg .t { font-size: 27px; line-height: 1.3; margin-top: 8px; }
+.lg .f { font-family: Plex, monospace; font-size: 19px; color: var(--dim); margin-top: 8px; }
+</style>
 <div class="copy"><h1>Measure your own city.</h1>
-<p class="lede">The mod never promises a frame-rate gain. It gives you the measurements to find out on your own save.</p></div>
-<div class="stage" style="display:flex; flex-direction:column; gap:36px">
-<div class="panel"><div class="mono accent" style="font-size:22px">Performance summaries &middot; off</div>
-<div style="font-size:34px; margin-top:16px; line-height:1.35">A frame-time summary in Player.log every 30&nbsp;seconds.</div></div>
-<div class="panel"><div class="mono accent" style="font-size:22px">Trace recording and export &middot; off</div>
-<div style="font-size:34px; margin-top:16px; line-height:1.35">Records recent frames and the worst hitches and saves them as CSV files.</div>
-<div class="mono dim" style="font-size:20px; margin-top:22px; letter-spacing:0.04em; text-transform:none">CityPerformanceTraces/, next to Player.log</div></div>
+<p class="lede">The mod never promises a frame-rate gain. Logging starts off. Turn it on to track down a problem or measure your own save.</p></div>
+<div class="stage" style="display:flex; flex-direction:column; gap:18px; justify-content:center">
+<div class="panel lg"><div class="hd"><span class="mono">Performance summaries</span><span class="sw">OFF<i></i></span></div>
+<div class="t">A frame-time summary in Player.log every 30&nbsp;seconds.</div></div>
+<div class="panel lg"><div class="hd"><span class="mono">Per-frame hitch trace</span><span class="sw">OFF<i></i></span></div>
+<div class="t">Keeps the latest 8,192 frames and the worst hitches for CSV export.</div>
+<div class="f">CityPerformanceTraces/, next to Player.log</div></div>
+<div class="panel lg"><div class="hd"><span class="mono">Automatically save trace</span><span class="sw">OFF<i></i></span></div>
+<div class="t">Writes the trace when you leave the city or quit.</div></div>
+<div class="panel lg"><div class="hd"><span class="mono">Extra diagnostics</span><span class="sw">OFF<i></i></span></div>
+<div class="t">Times hourly systems and other mods' callbacks. Needs the trace.</div></div>
 </div>
 <div class="foot mono"><span>City Performance 0.5.0</span><span>03 / 05</span></div></div></body></html>
