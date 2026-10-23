@@ -1,3 +1,5 @@
+[b]Note:[/b] City Performance is experimental and part of the HART. Mod Pack, which is still being playtested. Features and defaults may change in upcoming updates. Feedback is welcome in the comments.
+
 Experimental performance tools and diagnostics for Big Ambitions. All behavior features and experiments start enabled. Logging and trace tools start disabled. Existing saved choices are preserved. The mod never promises a frame-rate gain; it gives you the switches and the measurements to find out on your own city.
 
 [h2]Works on its own[/h2]
