@@ -16,6 +16,8 @@
 - The option label says coverage needs HART Free Camera.
 - Packaging reads the version from the project file, refuses a mismatch with the source and ships this changelog.
 - New offline check: `tools/DetailCheck --vanilla` runs every installer with no other mod loaded, on the audited build and on another build.
+- The trace export button now reads **Export** instead of the game's placeholder "Your Text Here"; the row keeps its descriptive title. Captions written by other mods on the same button are left alone. Offline check: `tools/DetailCheck --button-captions`.
+- Slider values now show `150%` and `5 min` instead of a literal `{0}%` / `{0} min`. Offline check: `tools/DetailCheck --slider-labels`.
 
 Release defaults approved 23 October: all behavior features and experiments are on. Logging and trace tools are off. Existing stored choices and all audited-build/dependency/conflict guards remain in force.
 

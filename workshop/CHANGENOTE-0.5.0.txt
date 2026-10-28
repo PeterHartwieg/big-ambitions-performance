@@ -5,3 +5,4 @@ City Performance 0.5.0
 - Audited-build and conflict guards remain active. Bakery, Hyperreal and HART Free Camera features require their supported dependencies.
 - Features fail independently after incompatible game updates. No measured performance gain is promised.
 - Background autosaves validate against native serialization before using the worker. Keep a manual save. Restart after updating.
+- The trace export button reads Export instead of "Your Text Here", and slider values show 150% / 5 min instead of {0}.
