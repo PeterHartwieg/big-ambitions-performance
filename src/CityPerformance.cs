@@ -318,9 +318,13 @@ namespace CityPerformance
         private static void Prefix(PedestrianSpawner __instance, ref int amount, out RequestState __state)
         {
             __state = default;
+            bool continuation = bypass;
+            bypass = false;
+            // Even after handoff, a newer request supersedes an in-flight CP restore.
+            // The deferred call itself belongs to the existing request revision.
+            if (!continuation) { __state.Target = amount; __state.Revision = ++revision; }
             if (PersistentCityOwnsRefill()) return;
-            if (bypass) { bypass = false; return; }
-            __state.Target = amount; __state.Revision = ++revision;
+            if (continuation) return;
             try
             {
                 // Any newer request replaces the old target, including decreases and indoor calls.
@@ -343,14 +347,15 @@ namespace CityPerformance
         }
         private static Exception Finalizer(PedestrianSpawner __instance, RequestState __state, Exception __exception)
         {
-            if (PersistentCityOwnsRefill()) return __exception;
+            bool persistentCityOwnsRefill = PersistentCityOwnsRefill();
             // Restore the full requested target even if the vanilla call throws. Never swallow its exception.
+            // Handoff cancels future acquisitions, not the cleanup of a clamp we already applied.
             try
             {
                 if (__state.Restore && __state.Revision == revision && lastTarget != null) lastTarget(__instance) = __state.Target;
             }
             catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill target restore failed: " + e); }
-            if (__exception != null) { Cancel(); PerformanceMod.Faulted = true; }
+            if (!persistentCityOwnsRefill && __exception != null) { Cancel(); PerformanceMod.Faulted = true; }
             return __exception;
         }
         internal static void Tick()
@@ -373,7 +378,7 @@ namespace CityPerformance
             finally
             {
                 bypass = false;
-                try { if (!PersistentCityOwnsRefill() && spawner != null && revision == requestRevision) lastTarget(spawner) = target; }
+                try { if (spawner != null && revision == requestRevision) lastTarget(spawner) = target; }
                 catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Deferred target restore failed: " + e); }
             }
         }

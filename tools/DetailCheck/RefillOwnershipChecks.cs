@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using HarmonyLib;
 
 // Uses real CP methods and Harmony metadata; never executes native pedestrian/Unity calls.
@@ -11,6 +12,26 @@ internal static class RefillOwnershipChecks
     private static bool SkipShutdown() => false;
     private static readonly Exception teardownError = new InvalidOperationException("injected early unload failure");
     private static void FailShutdown() => throw teardownError;
+    private static Action<object, int> refillBody;
+    private static void RunRefill(object instance, int amount) => refillBody(instance, amount);
+    private static IEnumerable<CodeInstruction> ManagedRefill(IEnumerable<CodeInstruction> source)
+    {
+        yield return new CodeInstruction(OpCodes.Ldarg_0);
+        yield return new CodeInstruction(OpCodes.Ldarg_1);
+        yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(RefillOwnershipChecks), nameof(RunRefill)));
+        yield return new CodeInstruction(OpCodes.Ret);
+    }
+    private static bool ManagedNotEqual(object a, object b) => !ReferenceEquals(a, b);
+    private static IEnumerable<CodeInstruction> ManagedNullCheck(IEnumerable<CodeInstruction> source)
+    {
+        foreach (var instruction in source)
+        {
+            var copy = new CodeInstruction(instruction);
+            if (copy.operand is MethodInfo m && m.DeclaringType?.FullName == "UnityEngine.Object" && m.Name == "op_Inequality")
+                copy.operand = AccessTools.Method(typeof(RefillOwnershipChecks), nameof(ManagedNotEqual));
+            yield return copy;
+        }
+    }
 
     internal static void Run(Assembly mod, Assembly game)
     {
@@ -42,7 +63,24 @@ internal static class RefillOwnershipChecks
             Check(Installed(), "refill installs again before late Persistent City load");
             Queue();
             Check(Pending(), "finite CP backlog exists before ownership changes");
-            AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("PersistentCity"), AssemblyBuilderAccess.Run);
+            var spawner = RuntimeHelpers.GetUninitializedObject(method.DeclaringType);
+            var target = AccessTools.Field(method.DeclaringType, "_lastSetAmount");
+            // Replace only native execution/null semantics. CP's Apply, bypass prefix,
+            // finalizer and target field reference run normally around this managed body.
+            fixture.Patch(method, transpiler: new HarmonyMethod(typeof(RefillOwnershipChecks), nameof(ManagedRefill)));
+            fixture.Patch(AccessTools.Method(refill, "Apply"), transpiler: new HarmonyMethod(typeof(RefillOwnershipChecks), nameof(ManagedNullCheck)));
+            refillBody = (instance, amount) => target.SetValue(instance, amount);
+            AccessTools.Field(refill, "owner").SetValue(null, spawner);
+            Call("Apply", 2);
+            Check((int)target.GetValue(spawner) == 100 && Pending(), "without Persistent City deferred call still restores target and retains plan");
+            refillBody = (instance, amount) =>
+            {
+                target.SetValue(instance, amount);
+                AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("PersistentCity"), AssemblyBuilderAccess.Run);
+            };
+            AccessTools.Field(refill, "owner").SetValue(null, spawner);
+            Call("Apply", 2);
+            Check((int)target.GetValue(spawner) == 100, "handoff during deferred call restores full target after partial acquisition");
             Call("Tick");
             Check(!Pending(), "late assembly load cancels backlog before touching Unity owner state");
             Queue();
@@ -54,12 +92,29 @@ internal static class RefillOwnershipChecks
             Check((int)request[1] == 100 && !Pending(), "prefix passes request unchanged and cancels pending work");
             var failure = new InvalidOperationException("original game failure");
             Check(ReferenceEquals(Call("Finalizer", null, request[2], failure), failure), "original exceptions pass through unchanged");
-            // Simulate a request already in flight when the assembly loaded. A stale restore
-            // must not touch even the old spawner's _lastSetAmount after ownership changes.
+            // A request clamped before handoff still owes restoration of its full target.
             var state = request[2];
             AccessTools.Field(state.GetType(), "Restore").SetValue(state, true);
+            AccessTools.Field(state.GetType(), "Target").SetValue(state, 400);
             AccessTools.Field(state.GetType(), "Revision").SetValue(state, AccessTools.Field(refill, "revision").GetValue(null));
-            Check(Call("Finalizer", null, state, null) == null, "in-flight request restoration stands down too");
+            target.SetValue(spawner, 52);
+            Check(ReferenceEquals(Call("Finalizer", spawner, state, failure), failure) && (int)target.GetValue(spawner) == 400,
+                "in-flight clamp is restored while the original exception is preserved");
+            object[] newerRequest = { spawner, 250, null };
+            Call("Prefix", newerRequest);
+            target.SetValue(spawner, 250);
+            Call("Finalizer", spawner, state, null);
+            Check((int)target.GetValue(spawner) == 250, "newer request after handoff prevents stale finalizer restoration");
+            Queue();
+            AccessTools.Field(refill, "owner").SetValue(null, spawner);
+            refillBody = (instance, amount) =>
+            {
+                object[] nestedRequest = { instance, 300, null };
+                Call("Prefix", nestedRequest);
+                target.SetValue(instance, 300);
+            };
+            Call("Apply", 2);
+            Check((int)target.GetValue(spawner) == 300, "newer request after handoff prevents stale deferred restoration");
             Check(!(bool)AccessTools.Field(perf, "Faulted").GetValue(null), "ownership surrender does not fault the experiment");
             Call("Tick"); Call("Flush");
             Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "late ownership is logged exactly once across all entry points");
