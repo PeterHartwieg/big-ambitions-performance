@@ -1,9 +1,11 @@
 using System.Reflection;
 using HarmonyLib;
 
-// A game with no other mods loaded: run every installer the mod entry runs, on the audited build and on an
-// unaudited one (a game update), and check that nothing throws, nothing logs a failure, optional-mod
-// features stay inert and an unaudited build gets timing hooks only. Managed contracts only, no Unity.
+// A game with no other mods loaded: run the mod entry's installers for CP's main Harmony owner, on the audited
+// build and on an unaudited one (a game update), and check that nothing throws, nothing logs a failure,
+// optional-mod features stay inert and the main owner keeps timing hooks only on an unaudited build. The
+// presentation-only button-caption hook (OptionButtonCaptions) is not started here; --button-captions covers it.
+// Managed contracts only, no Unity.
 static class VanillaChecks
 {
     internal static readonly List<string> Lines = new List<string>();
@@ -108,7 +110,7 @@ static class VanillaChecks
             Load(false);
             Check(Clean(), "unaudited build (game update): installers withdraw without a failure or exception log");
             var unverified = PatchedBy();
-            Check(unverified.SetEquals(new[] { "FrameTrace", "Timings" }), "unaudited build keeps only timing/trace hooks (got: " + string.Join(",", unverified) + ")");
+            Check(unverified.SetEquals(new[] { "FrameTrace", "Timings" }), "unaudited build: CP's main Harmony owner keeps only timing/trace hooks (got: " + string.Join(",", unverified) + ")");
             Check(Lines.Any(l => l.Contains("Not active: pedestrian refill")) && Lines.Any(l => l.Contains("Not active: midnight cleanup")) && Lines.Any(l => l.Contains("Not active: tree detail")),
                 "unaudited build says which behavioral features stay off");
             Unload();

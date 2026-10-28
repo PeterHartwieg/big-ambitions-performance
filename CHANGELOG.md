@@ -11,7 +11,7 @@
 - If a feature's per-frame tick, city start or city stop fails to load after a game update, that feature stops for the session and logs once instead of throwing every frame. Game exceptions still propagate as before.
 - A HART Free Camera bridge that throws is dropped for the session, and coverage returns to vanilla.
 - Saved choices are read per feature, so one broken feature cannot block the settings of the others.
-- When the game build is not the audited one, the version line in the log says that only timing and trace hooks run.
+- When the game build is not the audited one, the version line in the log says that only timing and trace hooks and the presentation-only button-caption hook run.
 - The 30-second summaries no longer print camera lines in a game without HART Free Camera.
 - The option label says coverage needs HART Free Camera.
 - Packaging reads the version from the project file, refuses a mismatch with the source and ships this changelog.
