@@ -143,6 +143,8 @@ internal static class RefillOwnershipChecks
             Check((int)afterUnload[1] == 400, "requests after failed unload still pass through unchanged");
             Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "failed unload does not repeat ownership log");
             owner.UnpatchAll(owner.Id);
+            // Isolate assembly presence: no fixture patch may independently refuse installation.
+            fixture.Unpatch(method, AccessTools.Method(typeof(RefillOwnershipChecks), nameof(ManagedRefill)));
             lines.Clear();
             Call("Install");
             Check(!Installed(), "Persistent City loaded first prevents refill hook installation");
