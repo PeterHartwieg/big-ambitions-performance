@@ -75,9 +75,9 @@ namespace CityPerformance
                     previous.Restore();
                     return;
                 }
-                // A clone of our row (e.g. RLO's SpawnUi) copies our caption without our tracking; clear only that.
+                // A clone of our row copies our caption without our tracking; clear only that, including its visible text.
                 var stale = ExistingCaption(__instance);
-                if (stale != null && stale.Key == ExportKey) SetCaption(stale, new LanguageChangeEventDataHolder(), null, false);
+                if (stale != null && stale.Key == ExportKey) SetCaption(stale, new LanguageChangeEventDataHolder(), string.Empty, false);
                 return;
             }
             var caption = __instance.transform.Find(CaptionPath);

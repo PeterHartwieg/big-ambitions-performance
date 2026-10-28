@@ -20,15 +20,18 @@ static class ButtonCaptionChecks
     const string ForeignKey = "foreign:caption";
     static FieldInfo KeyField;
     static object WriterCaption, CloneCaption;
+    // Visible TMP text per component; the substituted SetCaption keeps the native rule that null text is left unchanged.
+    static readonly Dictionary<object, string> VisibleText = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
     static readonly List<(string Key, bool Enabled)> CaptionWrites = new List<(string Key, bool Enabled)>();
     public static bool SkipOriginal() { return false; }
     // A foreign caption owner writing its own key on the same control (e.g. HART Mod Pack's identical hook).
     public static void ForeignCaption() { if (WriterCaption != null) KeyField.SetValue(WriterCaption, ForeignKey); }
     public static bool SubstituteExistingCaption(ref object __result) { __result = CloneCaption; return false; }
-    public static bool SubstituteSetCaption(object localized, object data, bool enabled)
+    public static bool SubstituteSetCaption(object localized, object data, string text, bool enabled)
     {
         string key = (string)AccessTools.Field(data.GetType(), "Key").GetValue(data);
         KeyField.SetValue(localized, key);
+        if (text != null) VisibleText[localized] = text;
         CaptionWrites.Add((key, enabled));
         return false;
     }
@@ -121,14 +124,17 @@ static class ButtonCaptionChecks
                     var control = Alive(hook.DeclaringType);
                     var component = Alive(componentType);
                     KeyField.SetValue(component, existing);
+                    // A cloned, enabled row has already rendered its localized caption.
+                    VisibleText[component] = existing == exportKey ? "Export" : "Foreign";
                     CloneCaption = component;
                     CaptionWrites.Clear();
                     try { hook.Invoke(control, new[] { foreignButton }); }
                     finally { CloneCaption = null; }
                     Check(existing == exportKey
                         ? (string)KeyField.GetValue(component) == null && CaptionWrites.Count == 1 && CaptionWrites[0] == (null, false)
-                        : (string)KeyField.GetValue(component) == ForeignKey && CaptionWrites.Count == 0,
-                        existing == exportKey ? "an untracked clone of our row has our caption cleared and disabled"
+                            && VisibleText[component] == string.Empty
+                        : (string)KeyField.GetValue(component) == ForeignKey && CaptionWrites.Count == 0 && VisibleText[component] == "Foreign",
+                        existing == exportKey ? "an untracked clone of our row has our caption and visible text cleared and disabled"
                             : "an untracked foreign caption is left untouched");
                 }
                 Check(Warnings.Count == warningCount, "rebound and cloned controls log no caption failure");
