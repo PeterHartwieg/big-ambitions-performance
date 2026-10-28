@@ -21,7 +21,7 @@ namespace CityPerformance
     public sealed class PerformanceMod : IModBigAmbitions
     {
         internal const string Id = "cityperformance.mod";
-        internal const string Version = "0.5.0";
+        internal const string Version = "0.5.1";
         // Windows build 3682. Do not add another hash without re-auditing every behavioral hook against it.
         internal const string AuditedGameHash = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
         internal static readonly Harmony Harmony = new Harmony(Id);

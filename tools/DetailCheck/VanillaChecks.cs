@@ -94,7 +94,7 @@ static class VanillaChecks
             Console.WriteLine("GAME " + gameHash + " audited=" + audited);
             if (audited) {
             Load(true);
-            Check(Clean(), "audited build, no other mods: every installer runs without a failure or exception log");
+            Check(Clean(), "audited build, no other mods: installers for CP's main Harmony owner run without a failure or exception log");
             var verified = PatchedBy();
             foreach (var name in new[] { "Refill", "ZoneScheduling", "MidnightCleanup", "TreeLods", "CinematicWorld", "CinematicAudioZones", "CinematicPopulation", "CinematicTraffic", "CinematicDecals", "FrameTrace", "Timings" })
                 Check(verified.Contains(name), "audited build installs vanilla feature: " + name);

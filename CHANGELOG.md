@@ -1,5 +1,10 @@
 # City Performance changelog
 
+## 0.5.1
+
+- Slider value labels now show the value (for example, 150% and 5 min) instead of a literal {0}. Offline check: `tools/DetailCheck --slider-labels`.
+- The trace export button now reads Export instead of the game's placeholder "Your Text Here". The row keeps its title, and other mods' captions are left alone. On an unaudited game build, the startup message now also names the presentation-only button-caption hook. Offline check: `tools/DetailCheck --button-captions`.
+
 ## 0.5.0 (22 October 2026), first Workshop candidate
 
 - Experimental first Workshop release. All behavior features and experiments now default on; performance summaries, trace recording, automatic trace export and extra diagnostics default off. Existing saved choices are preserved.
@@ -11,13 +16,11 @@
 - If a feature's per-frame tick, city start or city stop fails to load after a game update, that feature stops for the session and logs once instead of throwing every frame. Game exceptions still propagate as before.
 - A HART Free Camera bridge that throws is dropped for the session, and coverage returns to vanilla.
 - Saved choices are read per feature, so one broken feature cannot block the settings of the others.
-- When the game build is not the audited one, the version line in the log says that only timing and trace hooks and the presentation-only button-caption hook run.
+- When the game build is not the audited one, the version line in the log says that only timing and trace hooks run.
 - The 30-second summaries no longer print camera lines in a game without HART Free Camera.
 - The option label says coverage needs HART Free Camera.
 - Packaging reads the version from the project file, refuses a mismatch with the source and ships this changelog.
-- New offline check: `tools/DetailCheck --vanilla` runs every installer with no other mod loaded, on the audited build and on another build.
-- The trace export button now reads **Export** instead of the game's placeholder "Your Text Here"; the row keeps its descriptive title. Captions written by other mods on the same button are left alone. Offline check: `tools/DetailCheck --button-captions`.
-- Slider values now show `150%` and `5 min` instead of a literal `{0}%` / `{0} min`. Offline check: `tools/DetailCheck --slider-labels`.
+- New offline check: `tools/DetailCheck --vanilla` runs the installers for CP's main Harmony owner with no other mod loaded, on the audited build and on another build. `--button-captions` covers the separate caption hook.
 
 Release defaults approved 23 October: all behavior features and experiments are on. Logging and trace tools are off. Existing stored choices and all audited-build/dependency/conflict guards remain in force.
 
