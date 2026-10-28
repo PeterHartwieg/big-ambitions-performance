@@ -1,5 +1,10 @@
 # City Performance changelog
 
+## Unreleased
+
+- Ownership handoff preserves the full target of a refill call already in flight, while newer requests prevent stale restoration. Failed mod teardown now cancels pending refill and retains the observed Persistent City ownership decision even if CP's hooks remain installed.
+- General pedestrian refill smoothing now stands down when Persistent City's assembly is present, including when it loads after City Performance. Pending refill work is cancelled without flushing, and one status line identifies Persistent City as the owner. Without Persistent City, the existing audited-build and conflict guards and refill behavior remain unchanged. Offline checks cover both load orders; native gameplay validation is still pending.
+
 ## 0.5.0 (22 October 2026), first Workshop candidate
 
 - Experimental first Workshop release. All behavior features and experiments now default on; performance summaries, trace recording, automatic trace export and extra diagnostics default off. Existing saved choices are preserved.

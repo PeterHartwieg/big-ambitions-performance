@@ -163,6 +163,7 @@ namespace CityPerformance
             }
             finally
             {
+                Refill.StopOwnershipWatch();
                 // Keep captions installed through options removal, including its native page rebuild.
                 // Even an earlier teardown exception must withdraw this separate presentation owner.
                 try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
@@ -273,8 +274,33 @@ namespace CityPerformance
         private static MethodInfo method;
         private static AccessTools.FieldRef<PedestrianSpawner, int> lastTarget;
         private static readonly FrameQuota quota = new FrameQuota(2);
+        private static RefillOwnership ownership;
+        private static bool ownershipLogged;
+        internal static void StopOwnershipWatch()
+        {
+            ownership?.Dispose();
+            // An earlier unload step may throw before our hooks are removed. Keep the
+            // observed presence authoritative even after detaching the loader callback.
+            // Install replaces this disposed watcher on the next load.
+            Cancel();
+        }
+        private static bool PersistentCityOwnsRefill()
+        {
+            if (ownership == null || !ownership.Present) return false;
+            Cancel(); // Never flush CP's backlog through the new owner's hook.
+            if (!ownershipLogged)
+            {
+                ownershipLogged = true;
+                PerformanceMod.Log("Pedestrian refill inactive: Persistent City is present and owns pedestrian refill; City Performance stands down (pending work cancelled).");
+            }
+            return true;
+        }
         internal static void Install()
         {
+            StopOwnershipWatch();
+            ownershipLogged = false;
+            ownership = new RefillOwnership();
+            if (PersistentCityOwnsRefill()) return;
             method = AccessTools.Method(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) });
             if (!PerformanceMod.Verified || method == null || method.IsStatic || method.ReturnType != typeof(void) || method.DeclaringType != typeof(PedestrianSpawner) || ForeignPatch())
             { PerformanceMod.Log("Not active: pedestrian refill (unverified build or conflicting patch)."); return; }
@@ -292,8 +318,13 @@ namespace CityPerformance
         private static void Prefix(PedestrianSpawner __instance, ref int amount, out RequestState __state)
         {
             __state = default;
-            if (bypass) { bypass = false; return; }
-            __state.Target = amount; __state.Revision = ++revision;
+            bool continuation = bypass;
+            bypass = false;
+            // Even after handoff, a newer request supersedes an in-flight CP restore.
+            // The deferred call itself belongs to the existing request revision.
+            if (!continuation) { __state.Target = amount; __state.Revision = ++revision; }
+            if (PersistentCityOwnsRefill()) return;
+            if (continuation) return;
             try
             {
                 // Any newer request replaces the old target, including decreases and indoor calls.
@@ -316,17 +347,20 @@ namespace CityPerformance
         }
         private static Exception Finalizer(PedestrianSpawner __instance, RequestState __state, Exception __exception)
         {
+            bool persistentCityOwnsRefill = PersistentCityOwnsRefill();
             // Restore the full requested target even if the vanilla call throws. Never swallow its exception.
+            // Handoff cancels future acquisitions, not the cleanup of a clamp we already applied.
             try
             {
                 if (__state.Restore && __state.Revision == revision && lastTarget != null) lastTarget(__instance) = __state.Target;
             }
             catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill target restore failed: " + e); }
-            if (__exception != null) { Cancel(); PerformanceMod.Faulted = true; }
+            if (!persistentCityOwnsRefill && __exception != null) { Cancel(); PerformanceMod.Faulted = true; }
             return __exception;
         }
         internal static void Tick()
         {
+            if (PersistentCityOwnsRefill()) return;
             if (!OwnerIsCurrent()) { Cancel(); return; }
             if (BuildingManager.IsInsideBuilding || LoadScene.isLoading) { Cancel(); return; }
             if (ForeignPatch()) { DisableForConflict(); return; }
@@ -352,6 +386,7 @@ namespace CityPerformance
         {
             try
             {
+                if (PersistentCityOwnsRefill()) return;
                 if (OwnerIsCurrent() && plan.Pending && !BuildingManager.IsInsideBuilding && !LoadScene.isLoading)
                 {
                     if (ForeignPatch()) { DisableForConflict(); return; }

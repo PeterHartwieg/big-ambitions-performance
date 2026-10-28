@@ -58,6 +58,7 @@ class Tests
         CleanupChecks.Run(Check);
         TreeChecks.Run(Check);
         CinematicChecks.Run(Check);
+        RefillOwnershipChecks.Run(Check);
         Console.WriteLine($"PASS: {checks} checks");
     }
 }
