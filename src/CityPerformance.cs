@@ -163,6 +163,7 @@ namespace CityPerformance
             }
             finally
             {
+                Refill.StopOwnershipWatch();
                 // Keep captions installed through options removal, including its native page rebuild.
                 // Even an earlier teardown exception must withdraw this separate presentation owner.
                 try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
@@ -273,8 +274,30 @@ namespace CityPerformance
         private static MethodInfo method;
         private static AccessTools.FieldRef<PedestrianSpawner, int> lastTarget;
         private static readonly FrameQuota quota = new FrameQuota(2);
+        private static RefillOwnership ownership;
+        private static bool ownershipLogged;
+        internal static void StopOwnershipWatch()
+        {
+            ownership?.Dispose();
+            ownership = null;
+        }
+        private static bool PersistentCityOwnsRefill()
+        {
+            if (ownership == null || !ownership.Present) return false;
+            Cancel(); // Never flush CP's backlog through the new owner's hook.
+            if (!ownershipLogged)
+            {
+                ownershipLogged = true;
+                PerformanceMod.Log("Pedestrian refill inactive: Persistent City is present and owns pedestrian refill; City Performance stands down (pending work cancelled).");
+            }
+            return true;
+        }
         internal static void Install()
         {
+            StopOwnershipWatch();
+            ownershipLogged = false;
+            ownership = new RefillOwnership();
+            if (PersistentCityOwnsRefill()) return;
             method = AccessTools.Method(typeof(PedestrianSpawner), "SetActivePedestrians", new[] { typeof(int) });
             if (!PerformanceMod.Verified || method == null || method.IsStatic || method.ReturnType != typeof(void) || method.DeclaringType != typeof(PedestrianSpawner) || ForeignPatch())
             { PerformanceMod.Log("Not active: pedestrian refill (unverified build or conflicting patch)."); return; }
@@ -292,6 +315,7 @@ namespace CityPerformance
         private static void Prefix(PedestrianSpawner __instance, ref int amount, out RequestState __state)
         {
             __state = default;
+            if (PersistentCityOwnsRefill()) return;
             if (bypass) { bypass = false; return; }
             __state.Target = amount; __state.Revision = ++revision;
             try
@@ -316,6 +340,7 @@ namespace CityPerformance
         }
         private static Exception Finalizer(PedestrianSpawner __instance, RequestState __state, Exception __exception)
         {
+            if (PersistentCityOwnsRefill()) return __exception;
             // Restore the full requested target even if the vanilla call throws. Never swallow its exception.
             try
             {
@@ -327,6 +352,7 @@ namespace CityPerformance
         }
         internal static void Tick()
         {
+            if (PersistentCityOwnsRefill()) return;
             if (!OwnerIsCurrent()) { Cancel(); return; }
             if (BuildingManager.IsInsideBuilding || LoadScene.isLoading) { Cancel(); return; }
             if (ForeignPatch()) { DisableForConflict(); return; }
@@ -344,7 +370,7 @@ namespace CityPerformance
             finally
             {
                 bypass = false;
-                try { if (spawner != null && revision == requestRevision) lastTarget(spawner) = target; }
+                try { if (!PersistentCityOwnsRefill() && spawner != null && revision == requestRevision) lastTarget(spawner) = target; }
                 catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Deferred target restore failed: " + e); }
             }
         }
@@ -352,6 +378,7 @@ namespace CityPerformance
         {
             try
             {
+                if (PersistentCityOwnsRefill()) return;
                 if (OwnerIsCurrent() && plan.Pending && !BuildingManager.IsInsideBuilding && !LoadScene.isLoading)
                 {
                     if (ForeignPatch()) { DisableForConflict(); return; }

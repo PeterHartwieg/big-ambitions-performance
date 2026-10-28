@@ -184,6 +184,10 @@ For the installed October 18 comparison: use the same route with Hard Mode Patch
 
 ## General refill behavior
 
+When the `PersistentCity` assembly is loaded, Persistent City owns general pedestrian refill. CP skips installation if it is already present; a later assembly load makes CP's refill hook inert before its next request, continuation or flush. Pending CP acquisitions are cancelled without flushing, and one status line per CP load says that it stands down. Detection does not depend on Persistent City's Harmony hooks having installed yet. The saved refill option is preserved; the assembly remains authoritative even if Persistent City's hooks are disabled or removed during that process. Other CP features are unaffected.
+
+Offline ownership checks: `dotnet run --project tools/DetailCheck -c Release -- build/refs build/CityPerformance/CityPerformance.dll --refill-ownership`. These exercise real CP entry points with a synthetic assembly identity, without running Unity. Native acceptance still needs both mod load orders, a density request, option changes with pending work, and city/mod unload; this change has not been installed or playtested.
+
 The original full target is retained while an initial finite acquisition deficit is spread over frames. Departures cannot extend the acquisition budget indefinitely. New requests replace old targets; reductions stay vanilla. Disabling the option flushes remaining acquisitions (potential one-time spike). New city/spawner ownership, loading or interior entry cancels stale pending work. Exceptions disable this experiment; original-call exceptions are preserved. Deferred failures are logged and not retried, avoiding duplicate partial effects. A newly conflicting patch cancels pending refill without invoking the conflicting chain.
 
 ## Build and artifacts
