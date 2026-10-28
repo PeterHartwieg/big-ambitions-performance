@@ -8,6 +8,9 @@ internal static class RefillOwnershipChecks
     private static readonly List<string> lines = new();
     private static bool CaptureLog(string text) { lines.Add(text); return false; }
     private static void ForeignPrefix() { }
+    private static bool SkipShutdown() => false;
+    private static readonly Exception teardownError = new InvalidOperationException("injected early unload failure");
+    private static void FailShutdown() => throw teardownError;
 
     internal static void Run(Assembly mod, Assembly game)
     {
@@ -60,6 +63,30 @@ internal static class RefillOwnershipChecks
             Check(!(bool)AccessTools.Field(perf, "Faulted").GetValue(null), "ownership surrender does not fault the experiment");
             Call("Tick"); Call("Flush");
             Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "late ownership is logged exactly once across all entry points");
+            foreach (var name in new[] { "HyperrealDiscovery", "BakeryHelp" })
+                fixture.Patch(AccessTools.Method(mod.GetType("CityPerformance." + name, true), "Shutdown"),
+                    prefix: new HarmonyMethod(typeof(RefillOwnershipChecks), nameof(SkipShutdown)));
+            fixture.Patch(AccessTools.Method(mod.GetType("CityPerformance.BackgroundSaves", true), "Stop"),
+                prefix: new HarmonyMethod(typeof(RefillOwnershipChecks), nameof(FailShutdown)));
+            AccessTools.Field(perf, "Loaded").SetValue(null, true);
+            Queue();
+            try
+            {
+                AccessTools.Method(perf, "OnUnloadAsync").Invoke(Activator.CreateInstance(perf), null);
+                throw new Exception("FAIL early unload exception was lost");
+            }
+            catch (TargetInvocationException e)
+            {
+                Check(ReferenceEquals(e.InnerException, teardownError), "real unload preserves early shutdown exception");
+            }
+            Check(Installed() && (bool)AccessTools.Field(perf, "Loaded").GetValue(null), "failed unload leaves hooks and loaded flag active in regression fixture");
+            Check(!Pending(), "failed unload cancels pending refill work");
+            Check((bool)Call("PersistentCityOwnsRefill"), "failed unload retains Persistent City ownership after watcher disposal");
+            Call("Tick"); Call("Flush");
+            object[] afterUnload = { null, 400, null };
+            Call("Prefix", afterUnload);
+            Check((int)afterUnload[1] == 400, "requests after failed unload still pass through unchanged");
+            Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "failed unload does not repeat ownership log");
             owner.UnpatchAll(owner.Id);
             lines.Clear();
             Call("Install");
@@ -67,7 +94,7 @@ internal static class RefillOwnershipChecks
             Call("Tick"); Call("Flush");
             Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "early ownership is logged once per CP load");
             Call("StopOwnershipWatch");
-            Check(AccessTools.Field(refill, "ownership").GetValue(null) == null, "mod teardown releases assembly watcher");
+            Check((bool)Call("PersistentCityOwnsRefill"), "detached watcher retains presence until next install");
         }
         finally
         {

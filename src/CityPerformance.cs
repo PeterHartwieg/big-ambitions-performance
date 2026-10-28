@@ -279,7 +279,10 @@ namespace CityPerformance
         internal static void StopOwnershipWatch()
         {
             ownership?.Dispose();
-            ownership = null;
+            // An earlier unload step may throw before our hooks are removed. Keep the
+            // observed presence authoritative even after detaching the loader callback.
+            // Install replaces this disposed watcher on the next load.
+            Cancel();
         }
         private static bool PersistentCityOwnsRefill()
         {
