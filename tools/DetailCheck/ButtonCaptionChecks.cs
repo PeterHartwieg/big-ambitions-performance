@@ -115,7 +115,8 @@ static class ButtonCaptionChecks
                     finally { WriterCaption = null; writer.Unpatch(hook, writerMethod); }
                     bool kept = (string)KeyField.GetValue(component) == ForeignKey && !Tracked(control);
                     Check(foreignFirst ? kept && CaptionWrites.Count == 0
-                        : kept && CaptionWrites.Count == 1 && CaptionWrites[0] == (null, false),
+                        : kept && CaptionWrites.Count == 1 && CaptionWrites[0] == (null, false)
+                            && VisibleText.TryGetValue(component, out var restored) && restored == "Your Text Here",
                         foreignFirst ? "a rebound control keeps a caption written before ours and drops our tracking"
                             : "a rebound control restores ours first and keeps a later foreign caption");
                 }

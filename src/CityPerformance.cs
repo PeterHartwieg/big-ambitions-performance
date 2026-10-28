@@ -110,7 +110,7 @@ namespace CityPerformance
                 var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
                 Verified = actual == AuditedGameHash;
                 Log("Version " + Version + "; BigAmbitions SHA256=" + actual + "; verified=" + Verified +
-                    (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks run"));
+                    (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run"));
             }
         }
         private void RegisterOptions()
