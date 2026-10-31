@@ -4,13 +4,13 @@ Paste-ready fields for the game's Mod Creator (Main menu > Mods > Mod Creator). 
 
 ## Fields
 
-**Mod folder:** `CityPerformance`. Unzip `build/CityPerformance-0.5.0.zip` into `ModsLocal` on the PC that uploads; the Mod Creator lists the folders in `ModsLocal`.
+**Mod folder:** `CityPerformance`. Unzip `build/CityPerformance-0.5.1.zip` into `ModsLocal` on the PC that uploads; the Mod Creator lists the folders in `ModsLocal`.
 
 **Title:** `City Performance`
 
 **Target build:** `3682`, the Windows build whose `BigAmbitions.dll` the behavioral hooks were audited against (SHA256 `9427561b…e911`).
 
-**Version:** `0.5.0`. Package: `build/CityPerformance/`; archive: `build/CityPerformance-0.5.0.zip`; file hashes: `build/CityPerformance.sha256`.
+**Version:** `0.5.1`. Package: `build/CityPerformance/`; archive: `build/CityPerformance-0.5.1.zip`; file hashes: `build/CityPerformance.sha256`.
 
 **Thumbnail:** `workshop/preview.png`, the only image in the package root. Approved artwork; the build script copies it automatically. Gallery cards stay outside the runtime package.
 
@@ -67,16 +67,11 @@ Post bugs in this item's Workshop comments or discussions, one post per problem.
 The mod is free and stays free. If you'd like to say thanks, you can [url=https://www.paypal.com/donate/?hosted_button_id=Q8KVURCRBFLQN]support my Big Ambitions projects via PayPal[/url].
 ```
 
-**Change log** (first upload):
+**Change log** (current release):
 
 ```
-[b]City Performance 0.5.0[/b]
-
-[list]
-[*]Experimental first Workshop release. All behavior features and experiments now default on; performance summaries, trace recording, automatic trace export and extra diagnostics default off. Existing saved choices are preserved.
-[*]If problems occur, turn on Performance summaries (logging), then disable features one by one and repeat the same route or action to find the best setup for your city.
-[*]Audited-build and conflict guards remain active. Bakery, Hyperreal and HART Free Camera features require their supported dependencies.
-[*]Features fail independently after incompatible game updates. No measured performance gain is promised.
-[*]Background autosaves validate against native serialization before using the worker. Keep a manual save. Restart after updating.
-[/list]
+City Performance 0.5.1
+Slider value labels now show values such as 150% and 5 min instead of a literal {0}.
+The trace export button now reads Export instead of Your Text Here.
+The row keeps its title, and other mods' captions are left alone.
 ```

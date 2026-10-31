@@ -19,9 +19,10 @@ Every feature, what it hooks, what it needs, and what a game without that depend
 | Hyperreal lamp discovery | Transpiler on Hyperreal's `StreetLights.Scan` | Assembly `PolyModsHyperreal` with SHA256 `7d1bd589…ef10`, plus an audited Unity Core and HDRP pair (Windows or Mac) | Logs `Hyperreal discovery: Hyperreal absent; original behavior`. No hook. Independent of the game hash. |
 | Camera-aware coverage, camera audio, extra pedestrians, traffic observers, decal distance | Culling dispatch, audio listener, audio zones, pedestrian targets and pool, Gley traffic, HDRP decal distance | Audited build for the hooks. Behavior needs the HART Free Camera bridge type `Hart.FreeCamera.CinematicCameraBridge`, protocol 1. Traffic also needs `ExternalPlugins.dll` `7d43e9d4…15d1`, decals the Windows HDRP `d0f86930…dfc6` | Since 0.5.0 the hooks pass through and the log says `CINEMA HART Free Camera bridge not loaded…` once. |
 | Frame trace and the five timing scopes | Timing-only prefixes and finalizers | Nothing, they run on every build | A method that no longer exists logs `Not active: timing …`. |
+| Export button caption | `ModOptionsButtonControl.Initialize(ModOption)` postfix under its own owner `cityperformance.ui.buttoncaptions`; presentation only | Nothing, it runs on every build. It captions only this mod's export button, restores a rebound control only while it still shows this caption, and clears this caption from untracked clones | Other mods' buttons keep their own captions. A changed localizer or TMP API logs `Button captions unavailable: …` once per distinct failure. |
 | Extra diagnostics | Timing-only hooks on hourly and daily game methods, subscribers, plus Camera Tools (`CameraTools.CameraToolsRuntime`) and Food Trucks (`FoodTrucks.Catering`) when those are loaded | Option on, audited build for the game hooks | Absent mods are skipped. `AccessTools.TypeByName` never forces a load. |
 
-The built DLL references only `netstandard`, `BigAmbitions.ModAPI`, `0Harmony`, `BigAmbitions`, `UnityEngine.CoreModule`, `UnityEngine.PhysicsModule`, `ExternalPlugins`, `Unity.Mathematics`, `OdinSerializer`, `HGExtensions` and `UnityEngine.UI`. All are game files. No other mod is referenced at compile time; every mod is found by assembly or type name at runtime.
+The built DLL references only `netstandard`, `BigAmbitions.ModAPI`, `0Harmony`, `BigAmbitions`, `UnityEngine.CoreModule`, `UnityEngine.PhysicsModule`, `ExternalPlugins`, `Unity.Mathematics`, `OdinSerializer`, `HGPlugins`, `HGExtensions`, `UnityEngine.UI` and `Unity.TextMeshPro`. All are game files. No other mod is referenced at compile time; every mod is found by assembly or type name at runtime.
 
 ### Interactions with the series pack
 
@@ -53,7 +54,7 @@ Preferences are keyed by the runtime mod ID. A Workshop install has a different 
 ## Hash gate
 
 - A Windows viewer on build 3682 gets the same `BigAmbitions.dll` from Steam, so `verified=True` and the same features as Peter's PC. Bakery Help and the lamp query additionally need the exact mod versions above; a viewer on a newer Bakery or Hyperreal gets the original behavior and a log line saying the binary is unreviewed.
-- A Mac viewer: the local Mac game hashes to `a06699c9…951e`, so `verified=False`. Only timing and trace hooks run; camera coverage, refill, zones, cleanup, trees and Bakery Help stay off. The Hyperreal query can still run, because its audited Unity pair includes the Mac one.
+- A Mac viewer: the local Mac game hashes to `a06699c9…951e`, so `verified=False`. Only timing and trace hooks and the presentation-only button-caption hook run; camera coverage, refill, zones, cleanup, trees and Bakery Help stay off. The Hyperreal query can still run, because its audited Unity pair includes the Mac one.
 - After a game update the hash changes and every behavioral feature stays off with a `Not active` line. Bakery Help also stops, since it checks the game hash. The lamp query keeps running only if Unity's Core and HDRP files are unchanged. Timing hooks attach by method name and log `Not active: timing …` for anything renamed. Re-enabling features for the new build needs a fresh audit and a new hash, per AGENTS.md.
 - What the gate cannot cover: an update that removes or renames a game type City Performance names directly. Each setup step, lifecycle step and tick now contains that failure. The host's `Update` still reads `LoadScene.isLoading` itself, so an update that removes `LoadScene` would still throw there every frame. That would be a large engine-level change, and the offline check cannot simulate it.
 
@@ -64,6 +65,7 @@ All against the 0.5.0 Release DLL built from this branch, with the Windows build
 - Release build: 0 warnings, 0 errors.
 - Pure core checks: 340 pass (338 before plus 2 for bridge gating).
 - New vanilla harness, `tools/DetailCheck --vanilla`: 25 pass on the Windows set and 7 on the Mac game's own Managed folder (the audited-build pass is skipped there because the hash differs). Every installer runs with no other mod loaded and logs no failure. Bakery, Hyperreal and the HART bridge stay inert. Refill is not faulted. An unaudited build installs only timing and trace hooks. A throwing setup step is logged once and contained. The lifecycle guard contains a type-initializer failure and lets a game exception through.
+- Option captions (added 28 October, after this run): `tools/DetailCheck --button-captions` checks the caption hook, ownership filters, a foreign caption writer before and after ours, clone clearing, the packaged locale and unload cleanup; `tools/DetailCheck --slider-labels` runs the game localizer on both slider labels. Neither checks native visuals.
 - Existing harnesses, unchanged and passing: Hyperreal 69 (Windows and Mac sets), ownership 99 with HMP 0.4.2 `72c89d0e…` and 0.4.1, unsupported-platform 3 (Mac), cinematic hooks 28, detail and tree hooks 88, save hooks 43 and gate 23.
 - Baseline: before any change, the tree as found rebuilt to the reviewed 0.4.4 DLL `80b0a0d8…` and passed the same suites. It is committed unchanged as the branch's first commit.
 - Independent review with Codex (`gpt-6.1-sol`), read-only. Round 1 found four issues, all fixed: the first tick guard swallowed Unity's cleanup exceptions; lifecycle calls were unguarded; a throwing bridge getter logged every frame; three ticks still retried permanent failures. Round 2 found two more: unload could skip `UnpatchAll` if diagnostics failed to load, and the city-ready status line read feature fields outside a guard. Both fixed. Round 3: approve. Prompts, logs and answers are in `build/workshop-release-20261022/`.
@@ -92,7 +94,9 @@ Install `build/CityPerformance-0.5.0.zip` as the only mod. Start the game, open 
 - No recurring `PERF frames …` summaries with logging off; enable Performance summaries to collect them.
 - no `setup failed`, no `Stopped … for this session`, no exception stack trace from City Performance
 
-In the game, the City Performance options page opens and lists every option. Confirm all behavior toggles start on and logging toggles start off in a fresh profile.
+In the game, the City Performance options page opens and lists every option. Confirm all behavior toggles start on and logging toggles start off in a fresh profile. The trace button reads **Export** beside its descriptive title, also after closing and reopening the page and after changing language. The sliders read `150%` and `5 min` and update while dragged.
+
+In a separate run with RLO loaded, its key-binding buttons must not read **Export**, and its key suffix must land on the row label, not the button.
 
 **2. Series pack with the new pair.**
 City Performance 0.5.0, Hard Mode Patch 0.4.2, Bakery, Hyperreal and HART Free Camera 1.1.1, on a copy of the series save. Check:

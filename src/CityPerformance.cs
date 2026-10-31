@@ -21,7 +21,7 @@ namespace CityPerformance
     public sealed class PerformanceMod : IModBigAmbitions
     {
         internal const string Id = "cityperformance.mod";
-        internal const string Version = "0.5.0";
+        internal const string Version = "0.5.1";
         // Windows build 3682. Do not add another hash without re-auditing every behavioral hook against it.
         internal const string AuditedGameHash = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
         internal static readonly Harmony Harmony = new Harmony(Id);
@@ -62,6 +62,8 @@ namespace CityPerformance
             });
             // Each step is isolated: a game update that breaks one feature must not take the others down,
             // and a missing game type surfaces as one logged exception, not a failed mod load.
+            // Presentation-only and fail-open; deliberately independent of the behavioral hash gate.
+            Step("option button captions", OptionButtonCaptions.Start);
             Step("options", RegisterOptions);
             Step("game hash", ReadGameHash);
             Step("pedestrian refill", () => { try { Refill.Install(); } catch { Faulted = true; throw; } });
@@ -108,7 +110,7 @@ namespace CityPerformance
                 var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
                 Verified = actual == AuditedGameHash;
                 Log("Version " + Version + "; BigAmbitions SHA256=" + actual + "; verified=" + Verified +
-                    (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks run"));
+                    (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run"));
             }
         }
         private void RegisterOptions()
@@ -130,31 +132,40 @@ namespace CityPerformance
                     .AddToggle("trace", "cityperformance:trace", false, x => FrameTrace.Recording = x)
                     .AddToggle("autoexport", "cityperformance:autoexport", false, x => FrameTrace.AutoExport = x)
                     .AddToggle("details", "cityperformance:details", false, DetailedTrace.SetEnabled)
-                    .AddButton("cityperformance:export", FrameTrace.RequestExport));
+                    .AddButton(OptionButtonCaptions.ExportLabelKey, FrameTrace.RequestExport));
         }
         public Task OnUnloadAsync()
         {
-            // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
-            Contain("Hyperreal discovery", () => HyperrealDiscovery.Shutdown());
-            Contain("Bakery Help", () => BakeryHelp.Shutdown());
-            Contain("background autosaves", () => BackgroundSaves.Stop());
-            Loaded = false;
-            try { Contain("pedestrian refill", () => Refill.Flush()); CityEntry.Stop(false); }
-            finally
+            try
             {
-                try { Contain("midnight cleanup", () => MidnightCleanup.Shutdown()); }
+                // This adapter owns a separate Harmony id; deactivate even if another feature's drain fails.
+                Contain("Hyperreal discovery", () => HyperrealDiscovery.Shutdown());
+                Contain("Bakery Help", () => BakeryHelp.Shutdown());
+                Contain("background autosaves", () => BackgroundSaves.Stop());
+                Loaded = false;
+                try { Contain("pedestrian refill", () => Refill.Flush()); CityEntry.Stop(false); }
                 finally
                 {
-                    Contain("detailed diagnostics", () => DetailedTrace.Shutdown());
-                    Contain("quit hooks", () =>
+                    try { Contain("midnight cleanup", () => MidnightCleanup.Shutdown()); }
+                    finally
                     {
-                        Application.quitting -= FrameTrace.OnApplicationQuit;
-                        Application.quitting -= BackgroundSaves.OnApplicationQuit;
-                    });
-                    try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
-                    try { if (modId != null) OptionsService.RemoveModOptions(modId); }
-                    catch (Exception e) { Log("Options removal failed: " + e.Message); }
+                        Contain("detailed diagnostics", () => DetailedTrace.Shutdown());
+                        Contain("quit hooks", () =>
+                        {
+                            Application.quitting -= FrameTrace.OnApplicationQuit;
+                            Application.quitting -= BackgroundSaves.OnApplicationQuit;
+                        });
+                        try { Harmony.UnpatchAll(Id); } catch (Exception e) { Log("Unpatch failed: " + e); }
+                        try { if (modId != null) OptionsService.RemoveModOptions(modId); }
+                        catch (Exception e) { Log("Options removal failed: " + e.Message); }
+                    }
                 }
+            }
+            finally
+            {
+                // Keep captions installed through options removal, including its native page rebuild.
+                // Even an earlier teardown exception must withdraw this separate presentation owner.
+                try { OptionButtonCaptions.Stop(); } catch (Exception e) { Log("Button caption cleanup failed: " + e); }
             }
             return Task.CompletedTask;
         }

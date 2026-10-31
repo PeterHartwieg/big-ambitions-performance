@@ -6,9 +6,9 @@ using System.Reflection.Emit;
 using System.Runtime.Loader;
 using HarmonyLib;
 
-// Metadata and managed hooks only: never starts Unity or invokes a game method.
+// Managed contracts only: never starts Unity or invokes native engine calls.
 if(args.Length<3 || args.Length>4 || args.Length==4 && args[3]!="--trees-only")
-{Console.Error.WriteLine("Usage: DetailCheck <Managed> <CityPerformance.dll> <CameraTools.dll> [--trees-only] OR DetailCheck <Managed> <CityPerformance.dll> --cinematic|--vanilla");return 2;}
+{Console.Error.WriteLine("Usage: DetailCheck <Managed> <CityPerformance.dll> <CameraTools.dll> [--trees-only] OR DetailCheck <Managed> <CityPerformance.dll> --cinematic|--vanilla|--button-captions|--slider-labels");return 2;}
 string managed=Path.GetFullPath(args[0]);
 AssemblyLoadContext.Default.Resolving+=(context,name)=>
 {
@@ -18,6 +18,8 @@ AssemblyLoadContext.Default.Resolving+=(context,name)=>
 };
 var mod=AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(args[1]));
 var game=AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(managed,"BigAmbitions.dll"));
+if(args[2]=="--slider-labels"){SliderLabelChecks.Run(mod,game);return 0;}
+if(args[2]=="--button-captions"){ButtonCaptionChecks.Run(mod,game);return 0;}
 if(args[2]=="--cinematic"){CinematicHookChecks.Run(mod,game);return 0;}
 if(args[2]=="--vanilla"){VanillaChecks.Run(mod,game);return 0;}
 var camera=AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(args[2]));
