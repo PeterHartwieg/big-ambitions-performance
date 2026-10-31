@@ -1,0 +1,37 @@
+{
+  "local": "2026-10-31T05:37:08.9327537+01:00",
+  "backup": "<rig-stage>\\backup",
+  "profile": "<agent-profile>",
+  "profileFileCount": 4828,
+  "profileHashVerified": true,
+  "modsLocalIncluded": true,
+  "registryExisted": true,
+  "preferencesSha256": "66fccbcc5f63bc492e36ba7f342d9d2480adb2b87404a650a8607094d207381d",
+  "rootFiles": [
+    {
+      "file": "agent-install.json",
+      "existed": true,
+      "sha256": "9785d1de5c7360875b2a2a47f511815660dd98a38d6f64ab4ecff8c20627b949"
+    },
+    {
+      "file": "run.json",
+      "existed": true,
+      "sha256": "54ee71b80b390cb8ef67e3f32465ad74eb1319f06b0e67d2ed8d2ec3935faec3"
+    },
+    {
+      "file": "Player-agent.log",
+      "existed": true,
+      "sha256": "9d9a6335b6f9b6feb1d9a437554cb4f380467ab341c348294667dc0d686a1248"
+    },
+    {
+      "file": "launch-error.txt",
+      "existed": false,
+      "sha256": null
+    },
+    {
+      "file": "Agent-Windows.ps1",
+      "existed": true,
+      "sha256": "e9dee2a2980bd274c401e795a886082f0682d13b86366d1815e091f336748d99"
+    }
+  ]
+}

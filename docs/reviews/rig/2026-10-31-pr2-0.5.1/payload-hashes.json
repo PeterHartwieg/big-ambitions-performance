@@ -1,0 +1,28 @@
+{
+  "before": {
+    "CHANGELOG.md": "fa8ce007209ab1c748cef38b801fb92815dac4af6a4bea4badbf57b671e13d9f",
+    "CityPerformance.dll": "d0757a088641f6dcd1567b14c536d1657fabfe72bcf010696ee4950185cb9000",
+    "preview.png": "0b282f1968c44088555409a1e66ab3af25d4bff935d2e1df02447f0d74cf405c",
+    "README.md": "13e6c6604519b14ef252c02772843e9b8ad22109dd3181615f20a652169005a9",
+    "Dependencies/0Harmony.dll": "7b9e756306fa3d7620e02a857c8927a6ab04973f9bd8a77d3866700a6deac55c",
+    "Dependencies/Harmony-LICENSE.txt": "407ddd98200c9f17f49942b5a7791e288a2bd553b59bf2f462db87dbb21c50bc",
+    "Locales/en.json": "440f59c2736ad8c2657008353f13075d2ead0f2fd96649569707e879a3a4c2f2"
+  },
+  "workshop": {
+    "CHANGELOG.md": "c8d0414e95575e79196b89a54d69487cfa4ac49e7c71d5e3b9248ae96f8bba2f",
+    "CityPerformance.dll": "ae114913db19d8fa7db0a967245410908ff671c8f4e90d0d4dca85fa2dfb9002",
+    "README.md": "768577986127ec6b0e3ee48f90033c246c275401599501eaa42624f4976e022b",
+    "Dependencies/0Harmony.dll": "7b9e756306fa3d7620e02a857c8927a6ab04973f9bd8a77d3866700a6deac55c",
+    "Dependencies/Harmony-LICENSE.txt": "407ddd98200c9f17f49942b5a7791e288a2bd553b59bf2f462db87dbb21c50bc",
+    "Locales/en.json": "5865c4f5395aa6d911194e1ab932e4e39457dbc9023f7b4304dc47272ba790ad"
+  },
+  "after": {
+    "CHANGELOG.md": "8ecaa2e0e3463baa8a930cc4412c444130f26a1fc194a5eb6fd108de3c57dbbb",
+    "CityPerformance.dll": "cf51c486c2f294f536608d87d5f435054b23cdc8bebd9db65f9b52c935f557ee",
+    "preview.png": "0b282f1968c44088555409a1e66ab3af25d4bff935d2e1df02447f0d74cf405c",
+    "README.md": "1d0b5aafdf51466f49de6c555a13169b28effeef241bc2e91c350ddd328a1c7c",
+    "Dependencies/0Harmony.dll": "7b9e756306fa3d7620e02a857c8927a6ab04973f9bd8a77d3866700a6deac55c",
+    "Dependencies/Harmony-LICENSE.txt": "407ddd98200c9f17f49942b5a7791e288a2bd553b59bf2f462db87dbb21c50bc",
+    "Locales/en.json": "670eecbad2ce4e9de89555b584a95be45887589da925112c87b470f56df59465"
+  }
+}

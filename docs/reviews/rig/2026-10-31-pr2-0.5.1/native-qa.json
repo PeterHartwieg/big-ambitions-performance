@@ -1,0 +1,73 @@
+{
+  "before-final": {
+    "sha256": "360cf6882bbf6d82aa65e90c94e748350d72616a4f7a2159da2d321c1d50d5c5",
+    "cp_exception_blocks": [],
+    "cp_failure_lines": [],
+    "harmony_failure_lines": [],
+    "all_exception_blocks": [],
+    "version_and_build": [
+      "[Mod:CityPerfPR2_before_20261031_043336] Version 0.5.0; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks run",
+      "Loaded Big Ambitions (Build 3682)"
+    ]
+  },
+  "workshop-final": {
+    "sha256": "7177ada7ceb0e55bfae3cc0a8a4589125c489bc56863c40db116945636c21bb3",
+    "cp_exception_blocks": [],
+    "cp_failure_lines": [],
+    "harmony_failure_lines": [],
+    "all_exception_blocks": [],
+    "version_and_build": [
+      "[Mod:CityPerfPR2_workshop_20261031_043336] Version 0.5.0; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks run",
+      "Loaded Big Ambitions (Build 3682)"
+    ]
+  },
+  "after-in-session-reload-attempt": {
+    "sha256": "556c303d6c5c485c2a8645bcf40f8c9aebeccdeb6077e575d6712182f724e23c",
+    "cp_exception_blocks": [],
+    "cp_failure_lines": [],
+    "harmony_failure_lines": [],
+    "all_exception_blocks": [
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "InvalidOperationException: Operation is not valid due to the current state of the object.\n  at TimeHelper.GetDayOfWeek (System.Int32 dayNumber) [0x00046] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at TimeHelper.GetDayOfWeek () [0x00005] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.BuildingHelper.GetTodaySchedule (BuildingRegistration registration) [0x0000a] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.BusinessHelper.IsBusinessOpen (BuildingRegistration buildingRegistration, System.Int32 hour) [0x0000d] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Streets.Pedestrians.PedestrianBuildingPositionProvider.GetRandomAvailableBuildingTarget (UnityEngine.Vector3 fromPosition, System.Single minimumDistance, System.Single maximumDistance, BuildingRegistration& buildingRegistration) [0x00069] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Streets.Pedestrians.Pedestrian.GetRandomAvailableBuildingTarget (UnityEngine.Vector3 initialPosition, BuildingRegistration& buildingRegistration) [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Streets.Pedestrians.Pedestrian.GetTarget (System.Boolean prioritizeBuilding, BuildingRegistration& buildingRegistration) [0x00017] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Streets.Pedestrians.Pedestrian.ChangeState (System.Boolean isMoving) [0x0006b] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Streets.Pedestrians.PedestrianStationaryBehavior.Update () [0x00028] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n"
+    ],
+    "version_and_build": [
+      "[Mod:CityPerfPR2_after_20261031_043336] Version 0.5.1; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run",
+      "Loaded Big Ambitions (Build 3682)",
+      "Loaded Big Ambitions (Build 3682)"
+    ]
+  },
+  "after-verified-final": {
+    "sha256": "2f2aa500f439cec44be5feefb650590ee0ea8f95bb08b07e2e7a6b131779461d",
+    "cp_exception_blocks": [],
+    "cp_failure_lines": [],
+    "harmony_failure_lines": [],
+    "all_exception_blocks": [
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)\n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n"
+    ],
+    "version_and_build": [
+      "[Mod:CityPerfPR2_after_20261031_043336] Version 0.5.1; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run",
+      "Loaded Big Ambitions (Build 3682)"
+    ]
+  },
+  "control-final": {
+    "sha256": "008a04fe26623de2c7ca6a896dc82b1d195206bd48a15e799a213bd37710868f",
+    "cp_exception_blocks": [],
+    "cp_failure_lines": [],
+    "harmony_failure_lines": [],
+    "all_exception_blocks": [
+      "NullReferenceException: Object reference not set to an instance of an object\n  at Buildings.Outdoors.BuildingOutsideMusicController.HasMusicOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Buildings.Outdoors.BuildingOutsideMusicController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.HasPedestriansOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at Buildings.Outdoors.BuildingOutsideMusicController.HasMusicOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Buildings.Outdoors.BuildingOutsideMusicController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n",
+      "NullReferenceException: Object reference not set to an instance of an object\n  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.HasPedestriansOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0 \n"
+    ],
+    "version_and_build": [
+      "Loaded Big Ambitions (Build 3682)"
+    ]
+  }
+}

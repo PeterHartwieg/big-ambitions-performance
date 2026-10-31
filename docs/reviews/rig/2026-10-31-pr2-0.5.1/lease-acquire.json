@@ -1,0 +1,10 @@
+{
+  "instance": "agent1",
+  "held": true,
+  "owner": "cityperf-pr2-0.5.1-rig",
+  "purpose": "PR2 native UI and defaults proof",
+  "acquired_utc": "2026-10-31T04:33:36.9943346Z",
+  "expires_automatically": false,
+  "pending": 0,
+  "legacy_blocked": false
+}

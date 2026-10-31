@@ -1,0 +1,458 @@
+{
+  "controls": [
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/MarketInsider",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/VoogleMaps",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/EconoView",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/BizMan",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/MyEmployees",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Rivals",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Contacts",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Persona",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/FilterErrorButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/FilterLogButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/CollapseButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/FilterWarningButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/HideButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "IngameDebugConsole/DebugLogWindow/Buttons/ClearButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/Avatar/DanceButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/PlayerHUD/HospitalizationNotification/Dimmer",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/TimeControls/Pause",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/PlayerStats/Happiness",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/Avatar",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/Money",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/Radio/Skip",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/PlayerHUD/HospitalizationNotification/Message/Continue",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/PlayerStats/Hunger",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/PlayerStats/Energy",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Headline",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Left Bar/Avatar/AccessoriesButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Buttons/NotificationsButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Buttons/HelpButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Tasks/ExpandButton/Background",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Buttons/SettingsButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/BuildingResume/Panel/Headline/CloseButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Tasks/Container/Panel/Headline",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/Topbar/Container/Buttons/ReportBugButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "UnityEngine.UI.Button",
+      "path": "Canvases/DailySummaryUI/Panel/Container/EconoviewButton",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/RealLife Minimap/Headline/Label",
+      "text": "Map",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/RealLifeOverhaul Phone Chrome/Clock",
+      "text": "10:14",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/MarketInsider/Title",
+      "text": "MarketInsider",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/VoogleMaps/Title",
+      "text": "Voogle Maps",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/EconoView/Title",
+      "text": "EconoView",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/BizMan/Title",
+      "text": "BizMan",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/MyEmployees/Title",
+      "text": "MyEmployees",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Rivals/Title",
+      "text": "Rivals",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Contacts/Badge/BadgeText",
+      "text": "20",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Contacts/Title",
+      "text": "Contacts",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/AppButtons/Persona/Title",
+      "text": "Persona",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Container/Row/Name",
+      "text": "Total profit",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/HospitalizationNotification/Message/Continue/Text (TMP)",
+      "text": "Continue",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/BusinessType",
+      "text": "Residential",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/CurrentAddressLabel",
+      "text": "23 3rd Street",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/Radio/NowPlayingLabel",
+      "text": "Now playing...",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Container/Row/Value",
+      "text": "81",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PersonalGoalOverlay/Panel/Description",
+      "text": "Personal goal achieved",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Headline/Address",
+      "text": "19 3rd Street",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PersonalGoalOverlay/Panel/PersonalGoalTitle",
+      "text": "Open a retail business",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/HospitalizationNotification/Message/Text",
+      "text": "You had no more energy and passed out.\nThe local authorities transported you to closest medical center to recover.",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/Stats/TrafficIndexLabel",
+      "text": "29",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Headline/Text (TMP)",
+      "text": "Day {day} Summary",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Topbar/Container/Left Bar/Money/Formatter/Balance",
+      "text": "$10.0K",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Headline/Title",
+      "text": "BizPhone 1.0",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/OpenState",
+      "text": "Occupied",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Smartphone/Container/Mask/OffsetReverser/Phone/Radio/Track",
+      "text": "-",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/Neighborhood",
+      "text": "Neighborhood: Hell's Kitchen",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/BusinessName",
+      "text": null,
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Tasks/Container/Panel/Headline/Label",
+      "text": "objectives",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Container/Row/Value",
+      "text": "+$12,000",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/OptionsTip",
+      "text": "Right click for options",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Container/Row/Name",
+      "text": "Businesses",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/Stats/BuildingAreaLabel",
+      "text": "54 m\u00b2 (B1)",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Topbar/Container/Left Bar/Time/Label",
+      "text": "10:14",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/FPS",
+      "text": "53 FPS",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/CasinoMessage/Message/Text",
+      "text": "Welcome to international waters. Best of luck!",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/Topbar/Container/Left Bar/Date/Label",
+      "text": "Monday (Day 1)",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/BuildingResume/Panel/Data/RivalBuildingOwner",
+      "text": "Building owned by Diana Swiderski",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/DailySummaryUI/Panel/Container/EconoviewButton/Label",
+      "text": "Details (EconoView)",
+      "value": null
+    },
+    {
+      "type": "TMPro.TextMeshProUGUI",
+      "path": "Canvases/PlayerHUD/CurrentNeighborhoodLabel",
+      "text": "Hell's Kitchen",
+      "value": null
+    }
+  ],
+  "id": "after-smoke-clock-end-fe5a8f",
+  "op": "ui",
+  "main_menu": false,
+  "utc": "2026-10-31T04:42:45.3566501Z"
+}

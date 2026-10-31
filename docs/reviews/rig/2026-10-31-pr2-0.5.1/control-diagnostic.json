@@ -1,0 +1,24 @@
+{
+  "state": {},
+  "assemblies": [
+    {
+      "name": "BigAmbitions",
+      "version": "0.0.0.0",
+      "path": "C:\\BigAmbitions-AgentTests\\Big Ambitions Agent Tests_Data\\Managed\\BigAmbitions.dll",
+      "sha256": "055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063"
+    },
+    {
+      "name": "RealLifeOverhaul",
+      "version": "0.45.0.0",
+      "path": "<agent-profile>\\ModsLocal\\RealLifeOverhaul\\RealLifeOverhaul.dll",
+      "sha256": "2f360a365cf7915f012cd62f4fd06214ef5cdaa0498331e05a7c831a3c20ab32"
+    }
+  ],
+  "profile": "<agent-profile>",
+  "width": 960,
+  "height": 540,
+  "id": "control-diagnostic-9a6bcc",
+  "op": "diagnostic",
+  "main_menu": true,
+  "utc": "2026-10-31T04:47:10.9471899Z"
+}

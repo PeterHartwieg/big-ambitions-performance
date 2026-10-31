@@ -1,0 +1,168 @@
+{
+  "defaults": [
+    {
+      "id": "diagnostics",
+      "setting": "Performance summaries",
+      "workshop": false,
+      "after": false,
+      "before": false,
+      "expected": false
+    },
+    {
+      "id": "refill",
+      "setting": "General pedestrian refill smoothing",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "zones",
+      "setting": "Shared stationary-zone spawn budget",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "bakeryhelp",
+      "setting": "Avoid repeated Bakery Help searches",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "hyperrealdiscovery",
+      "setting": "Faster Hyperreal lamp discovery",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "trees",
+      "setting": "Distance-based tree detail",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "cinematic",
+      "setting": "Camera-aware world coverage",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "cameraaudio",
+      "setting": "Listen from the second camera while active",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "cleanup",
+      "setting": "Batch midnight asset cleanups",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "backgroundsaves",
+      "setting": "Background autosaves",
+      "workshop": true,
+      "after": true,
+      "before": true,
+      "expected": true
+    },
+    {
+      "id": "trace",
+      "setting": "Record per-frame hitch trace",
+      "workshop": false,
+      "after": false,
+      "before": false,
+      "expected": false
+    },
+    {
+      "id": "autoexport",
+      "setting": "Automatically save trace",
+      "workshop": false,
+      "after": false,
+      "before": false,
+      "expected": false
+    },
+    {
+      "id": "details",
+      "setting": "Extra diagnostics",
+      "workshop": false,
+      "after": false,
+      "before": false,
+      "expected": false
+    },
+    {
+      "id": "cinematicdistance",
+      "setting": "Cinematic view distance",
+      "workshop": 150.0,
+      "after": 150.0,
+      "before": 150.0,
+      "expected": 150
+    },
+    {
+      "id": "cleanupminutes",
+      "setting": "Maximum cleanup wait",
+      "workshop": 5.0,
+      "after": 5.0,
+      "before": 5.0,
+      "expected": 5
+    }
+  ],
+  "foreign_button_count": 19,
+  "foreign_buttons_before": {
+    "Troubleshooting: 2 of 3 on": "Open",
+    "Performance: 3 of 8 on": "Open",
+    "Controls: 2 of 3 on": "Open",
+    "Your businesses: 38 of 47 on": "Open",
+    "Money: 11 of 19 on": "Open",
+    "Work: 12 of 15 on": "Open",
+    "Getting around: 32 of 40 on": "Open",
+    "The city: 41 of 45 on": "Open",
+    "Your character and home: 70 of 77 on": "Open",
+    "Report a bug": "Report",
+    "Load my choices from the file": "Import",
+    "Save my choices to a file": "Export",
+    "Reset every option and key": "Reset",
+    "Hardcore: everything strict, lower job pay": "Apply",
+    "Realistic: more incidents and more police": "Apply",
+    "Standard: the mod as it ships": "Apply",
+    "Relaxed: a living city, little happens to you": "Apply",
+    "Open the Guide on your phone": "Open",
+    "Start here:  Custom": "Close"
+  },
+  "foreign_buttons_after": {
+    "Troubleshooting: 2 of 3 on": "Open",
+    "Performance: 3 of 8 on": "Open",
+    "Controls: 2 of 3 on": "Open",
+    "Your businesses: 38 of 47 on": "Open",
+    "Money: 11 of 19 on": "Open",
+    "Work: 12 of 15 on": "Open",
+    "Getting around: 32 of 40 on": "Open",
+    "The city: 41 of 45 on": "Open",
+    "Your character and home: 70 of 77 on": "Open",
+    "Report a bug": "Report",
+    "Load my choices from the file": "Import",
+    "Save my choices to a file": "Export",
+    "Reset every option and key": "Reset",
+    "Hardcore: everything strict, lower job pay": "Apply",
+    "Realistic: more incidents and more police": "Apply",
+    "Standard: the mod as it ships": "Apply",
+    "Relaxed: a living city, little happens to you": "Apply",
+    "Open the Guide on your phone": "Open",
+    "Start here:  Custom": "Close"
+  },
+  "checks_1_2_3": true
+}

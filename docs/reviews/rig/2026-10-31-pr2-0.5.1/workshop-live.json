@@ -1,0 +1,541 @@
+{
+  "rows": [
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Extra diagnostics: hourly systems, mod callbacks, memory and cameras"
+        }
+      ],
+      "isOn": false
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Automatically save trace when leaving the city or quitting"
+        }
+      ],
+      "isOn": false
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Record bounded per-frame hitch trace"
+        }
+      ],
+      "isOn": false
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Background autosaves (experimental; validates first save)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Batch midnight asset cleanups (experimental)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Listen from the second camera while active"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Camera-aware world coverage (needs HART Free Camera; experimental)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Avoid repeated Bakery Help searches (experimental; audited versions only)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Faster Hyperreal lamp discovery (experimental; audited versions only)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Distance-based tree detail (experimental; keeps distant trees visible)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Share stationary-zone spawn budget (experimental; verified builds only)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Smooth pedestrian refills (experimental; verified builds only)"
+        }
+      ],
+      "isOn": true
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsToggleControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsToggle(Clone)/Label",
+          "text": "Log performance summaries every 30 seconds"
+        }
+      ],
+      "isOn": false
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsSliderControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)/Label",
+          "text": "Maximum cleanup wait (memory pressure can trigger earlier)"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)/Slider/Suffix",
+          "text": "{0} min"
+        }
+      ],
+      "value": 5.0
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsSliderControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)/Label",
+          "text": "Cinematic view distance"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsSlider(Clone)/Slider/Suffix",
+          "text": "{0}%"
+        }
+      ],
+      "value": 150.0
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Troubleshooting: 2 of 3 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Performance: 3 of 8 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Controls: 2 of 3 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Your businesses: 38 of 47 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Money: 11 of 19 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Work: 12 of 15 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Getting around: 32 of 40 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "The city: 41 of 45 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Your character and home: 70 of 77 on"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Report a bug"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Report"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Load my choices from the file"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Import"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Save my choices to a file"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Export"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Reset every option and key"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Reset"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Hardcore: everything strict, lower job pay"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Apply"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Realistic: more incidents and more police"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Apply"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Standard: the mod as it ships"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Apply"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Relaxed: a living city, little happens to you"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Apply"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Open the Guide on your phone"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Open"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Start here:  Custom"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Close"
+        }
+      ]
+    },
+    {
+      "type": "BigAmbitions.ModsInternal.ModOptionsButtonControl",
+      "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)",
+      "texts": [
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Label",
+          "text": "Export current trace (background CSV write)"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/Labels/Tip",
+          "text": "menu_options_reset_windows_tip"
+        },
+        {
+          "path": "UI/OptionsView/Views/Mods/Scroll View/Viewport/Content/OptionsButton(Clone)/ButtonContainer/Button/Text (TMP)",
+          "text": "Your text here"
+        }
+      ]
+    }
+  ],
+  "id": "workshop-live-1e6047",
+  "op": "live",
+  "main_menu": true,
+  "utc": "2026-10-31T04:38:40.4602374Z"
+}

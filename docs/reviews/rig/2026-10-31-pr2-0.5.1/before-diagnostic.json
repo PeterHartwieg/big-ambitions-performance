@@ -1,0 +1,80 @@
+{
+  "state": {
+    "CityPerformance.PerformanceMod": {
+      "Id": "cityperformance.mod",
+      "Version": "0.5.0",
+      "AuditedGameHash": "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911",
+      "Diagnostics": false,
+      "Smoothing": true,
+      "Verified": false,
+      "Faulted": false,
+      "Loaded": true
+    },
+    "CityPerformance.BackgroundSaves": {
+      "Enabled": true,
+      "Faulted": false,
+      "installed": false,
+      "validated": false,
+      "quitting": false,
+      "mainThread": 1,
+      "validatedRevision": 0
+    },
+    "CityPerformance.HyperrealDiscovery": {
+      "Owner": "cityperformance.mod.hyperreal",
+      "HyperrealHash": "7d1bd589947558e2f3cc476f06d4699618732835718ffd2335f2e5102cfcef10",
+      "Enabled": true,
+      "initialized": true,
+      "inCity": false,
+      "installed": false,
+      "active": false,
+      "blocked": false,
+      "rewritten": false,
+      "removeFailed": false,
+      "pending": 0,
+      "status": "waiting for city-ready; requested=True",
+      "inactiveReason": null
+    },
+    "CityPerformance.BakeryHelp": {
+      "Owner": "cityperformance.mod.bakeryhelp",
+      "BakeryHash": "6d68edab0f5600f51b912fb5228ac7fdc245e7962f8be968670715b2e60fee3a",
+      "Enabled": true,
+      "initialized": true,
+      "inCity": false,
+      "installed": false,
+      "active": false,
+      "blocked": false,
+      "removeFailed": false,
+      "rewritten": false,
+      "pending": 0,
+      "status": "waiting for city-ready; requested=True",
+      "inactiveReason": null
+    }
+  },
+  "assemblies": [
+    {
+      "name": "BigAmbitions",
+      "version": "0.0.0.0",
+      "path": "C:\\BigAmbitions-AgentTests\\Big Ambitions Agent Tests_Data\\Managed\\BigAmbitions.dll",
+      "sha256": "055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063"
+    },
+    {
+      "name": "CityPerformance",
+      "version": "0.5.0.0",
+      "path": "<agent-profile>\\ModsLocal\\CityPerfPR2_before_20261031_043336\\CityPerformance.dll",
+      "sha256": "d0757a088641f6dcd1567b14c536d1657fabfe72bcf010696ee4950185cb9000"
+    },
+    {
+      "name": "RealLifeOverhaul",
+      "version": "0.45.0.0",
+      "path": "<agent-profile>\\ModsLocal\\RealLifeOverhaul\\RealLifeOverhaul.dll",
+      "sha256": "2f360a365cf7915f012cd62f4fd06214ef5cdaa0498331e05a7c831a3c20ab32"
+    }
+  ],
+  "profile": "<agent-profile>",
+  "width": 960,
+  "height": 540,
+  "id": "before-diagnostic-565aa6",
+  "op": "diagnostic",
+  "main_menu": true,
+  "utc": "2026-10-31T04:37:35.8712987Z"
+}

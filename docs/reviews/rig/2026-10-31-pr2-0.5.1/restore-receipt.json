@@ -1,0 +1,12 @@
+{
+  "utc": "2026-10-31T04:51:53.592561+00:00",
+  "profile_files": 4828,
+  "profile_hashes_match": true,
+  "preferences_sha256": "66fccbcc5f63bc492e36ba7f342d9d2480adb2b87404a650a8607094d207381d",
+  "preferences_match": true,
+  "root_hashes_match": true,
+  "receipt_references": 107,
+  "receipt_hashes_match": true,
+  "processes": [],
+  "verification": "Complete inventory/size/SHA-256 for every original file, root metadata, isolated preference export and installation reference"
+}

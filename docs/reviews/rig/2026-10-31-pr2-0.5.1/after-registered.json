@@ -1,0 +1,115 @@
+{
+  "pages": [
+    {
+      "modId": "<agent-profile>\\ModsLocal\\CityPerfPR2_after_20261031_043336",
+      "options": [
+        {
+          "type": "HeaderOption",
+          "id": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "diagnostics",
+          "DefaultValue": false,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "refill",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "zones",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "trees",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "hyperrealdiscovery",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "bakeryhelp",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "cinematic",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "SliderOption",
+          "id": "cinematicdistance",
+          "DefaultValue": 150,
+          "Min": 100,
+          "Max": 200,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "cameraaudio",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "cleanup",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "SliderOption",
+          "id": "cleanupminutes",
+          "DefaultValue": 5,
+          "Min": 1,
+          "Max": 10,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "backgroundsaves",
+          "DefaultValue": true,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "trace",
+          "DefaultValue": false,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "autoexport",
+          "DefaultValue": false,
+          "stored": null
+        },
+        {
+          "type": "ToggleOption",
+          "id": "details",
+          "DefaultValue": false,
+          "stored": null
+        },
+        {
+          "type": "ButtonOption",
+          "id": null
+        }
+      ]
+    }
+  ],
+  "id": "after-registered-09a51f",
+  "op": "options",
+  "main_menu": true,
+  "utc": "2026-10-31T04:39:14.6810023Z"
+}

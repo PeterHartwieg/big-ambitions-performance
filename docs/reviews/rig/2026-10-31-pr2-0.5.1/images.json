@@ -1,0 +1,52 @@
+{
+  "S1-before-distance.png": {
+    "sha256": "34822bee527dc83df36c33f859c5a0ebd2ee940eed4d97bbe65e31e84744220e",
+    "bytes": 322573,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S2-before-export.png": {
+    "sha256": "ea54efb1650232b56e6c58a5ab5b69ace21aedf1adc9a101a7e4ba138b903ddb",
+    "bytes": 320194,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S1-after-defaults.png": {
+    "sha256": "2ac8557cec071b11a5050008e9ef1166a7445de5a7d857359fc0c4728ec8f26f",
+    "bytes": 321966,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S1-after-changed.png": {
+    "sha256": "a6893a73d5de42e093cc42bcddb2ecbaa098fe9c5b568cb93ca5c69b8755a5c0",
+    "bytes": 322080,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S2-after-export.png": {
+    "sha256": "64510db6ed74cf4d336ffbf767c74150ba8f1f25b030bd1248715b37f0785cc2",
+    "bytes": 319807,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S3-workshop-background-default.png": {
+    "sha256": "3cb506cde4b6ec7b172a3729e7deccd4c386453c3121122aae5edd0ac44cd41f",
+    "bytes": 320456,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S3-workshop-slider-defaults.png": {
+    "sha256": "34822bee527dc83df36c33f859c5a0ebd2ee940eed4d97bbe65e31e84744220e",
+    "bytes": 322573,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S5-after-two-minutes.png": {
+    "sha256": "a2b8c46fbf9ea83e56f87818cb4771f026924247bdc2d4e14f470baf3d3eef81",
+    "bytes": 690336,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S5-after-verified-reload.png": {
+    "sha256": "d12a26ab1d16e02a570e166dc0c11f462909238278c5a4bd970f00cfd80eb49d",
+    "bytes": 676069,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  },
+  "S5-control-without-cityperformance.png": {
+    "sha256": "c99e2ed974f0609696421db187e7eeb718a3af3eda6807e6d7f912ae4a776718",
+    "bytes": 637807,
+    "method": "Unity ScreenCapture PNG; original byte stream, 960 x 540, no resizing or annotations"
+  }
+}

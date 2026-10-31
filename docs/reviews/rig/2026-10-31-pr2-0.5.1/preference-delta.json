@@ -1,0 +1,19 @@
+{
+  "existing_cp_keys_changed": [],
+  "restored_changed_keys": [
+    "LastSaveGameName_h3892854119",
+    "Screenmanager Native RefreshRate Denominator_h3121420550",
+    "Screenmanager Native RefreshRate Numerator_h4243137005",
+    "unity.player_session_count_h922449978",
+    "unity.player_sessionid_h1351336811"
+  ],
+  "read_only_handle_failure_corrected": true,
+  "new_keys": [
+    "particleQuality_h3958263164",
+    "textureQuality_h3589807447",
+    "m:<agent-profile>\\ModsLocal\\CityPerfPR2_after_20261031_043336:cinematicdistance_h2117895401",
+    "m:<agent-profile>\\ModsLocal\\CityPerfPR2_after_20261031_043336:cleanupminutes_h3744743908"
+  ],
+  "utc": "2026-10-31T04:51:49.7690180Z",
+  "registry_key_recreated": false
+}

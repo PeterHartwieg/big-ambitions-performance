@@ -1,0 +1,195 @@
+=== before-final ===
+[Mod:CityPerfPR2_before_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_before_20261031_043336] Version 0.5.0; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks run
+[Mod:CityPerfPR2_before_20261031_043336] Not active: pedestrian refill (unverified build or conflicting patch).
+[Mod:CityPerfPR2_before_20261031_043336] Not active: midnight cleanup deferral (build, signature, multiplayer or conflict).
+[Mod:CityPerfPR2_before_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_before_20261031_043336] Not active: tree detail (unverified build, signature or conflicting patch).
+[Mod:CityPerfPR2_before_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_before_20261031_043336] Bakery Help: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_before_20261031_043336] Not active: cinematic coverage (unverified build or conflicting hooks).
+[Mod:CityPerfPR2_before_20261031_043336] Active: timing PedestrianSpawner.SetActivePedestrians
+[Mod:CityPerfPR2_before_20261031_043336] Active: timing GameManager.RunMainGameTick
+[Mod:CityPerfPR2_before_20261031_043336] Active: timing SaveGameManager.SerializeSaveGame
+[Mod:CityPerfPR2_before_20261031_043336] Active: timing CullingGroupController.Update
+[Mod:CityPerfPR2_before_20261031_043336] Active: timing TrafficManager.FixedUpdate
+Loaded Big Ambitions (Build 3682)
+[Mod:CityPerfPR2_before_20261031_043336] Pedestrian-refill smoothing requested=True; verified=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] TREE requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=true
+[Mod:CityPerfPR2_before_20261031_043336] CINEMA coverage requested=True
+[Mod:CityPerfPR2_before_20261031_043336] Midnight cleanup deferral requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_before_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_before_20261031_043336] AUTOSAVE requested=True; validated=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] Detailed diagnostics requested=False. New hooks are discovered outside hourly callbacks; setup frames are marked in the trace.
+[Mod:CityPerfPR2_before_20261031_043336] Pedestrian-refill smoothing requested=True; verified=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] TREE requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] CINEMA coverage requested=True
+[Mod:CityPerfPR2_before_20261031_043336] Midnight cleanup deferral requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_before_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_before_20261031_043336] AUTOSAVE requested=True; validated=False; faulted=False
+[Mod:CityPerfPR2_before_20261031_043336] Detailed diagnostics requested=False. New hooks are discovered outside hourly callbacks; setup frames are marked in the trace.
+=== workshop-final ===
+[Mod:CityPerfPR2_workshop_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_workshop_20261031_043336] Version 0.5.0; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks run
+[Mod:CityPerfPR2_workshop_20261031_043336] Not active: pedestrian refill (unverified build or conflicting patch).
+[Mod:CityPerfPR2_workshop_20261031_043336] Not active: midnight cleanup deferral (build, signature, multiplayer or conflict).
+[Mod:CityPerfPR2_workshop_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_workshop_20261031_043336] Not active: tree detail (unverified build, signature or conflicting patch).
+[Mod:CityPerfPR2_workshop_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_workshop_20261031_043336] Bakery Help: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_workshop_20261031_043336] Not active: cinematic coverage (unverified build or conflicting hooks).
+[Mod:CityPerfPR2_workshop_20261031_043336] Active: timing PedestrianSpawner.SetActivePedestrians
+[Mod:CityPerfPR2_workshop_20261031_043336] Active: timing GameManager.RunMainGameTick
+[Mod:CityPerfPR2_workshop_20261031_043336] Active: timing SaveGameManager.SerializeSaveGame
+[Mod:CityPerfPR2_workshop_20261031_043336] Active: timing CullingGroupController.Update
+[Mod:CityPerfPR2_workshop_20261031_043336] Active: timing TrafficManager.FixedUpdate
+Loaded Big Ambitions (Build 3682)
+[Mod:CityPerfPR2_workshop_20261031_043336] Pedestrian-refill smoothing requested=True; verified=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] TREE requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=true
+[Mod:CityPerfPR2_workshop_20261031_043336] CINEMA coverage requested=True
+[Mod:CityPerfPR2_workshop_20261031_043336] Midnight cleanup deferral requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_workshop_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_workshop_20261031_043336] AUTOSAVE requested=True; validated=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] Detailed diagnostics requested=False. New hooks are discovered outside hourly callbacks; setup frames are marked in the trace.
+[Mod:CityPerfPR2_workshop_20261031_043336] Pedestrian-refill smoothing requested=True; verified=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] TREE requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] CINEMA coverage requested=True
+[Mod:CityPerfPR2_workshop_20261031_043336] Midnight cleanup deferral requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_workshop_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_workshop_20261031_043336] AUTOSAVE requested=True; validated=False; faulted=False
+[Mod:CityPerfPR2_workshop_20261031_043336] Detailed diagnostics requested=False. New hooks are discovered outside hourly callbacks; setup frames are marked in the trace.
+=== after-in-session-reload-attempt ===
+[Mod:CityPerfPR2_after_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_after_20261031_043336] Version 0.5.1; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run
+[Mod:CityPerfPR2_after_20261031_043336] Not active: pedestrian refill (unverified build or conflicting patch).
+[Mod:CityPerfPR2_after_20261031_043336] Not active: midnight cleanup deferral (build, signature, multiplayer or conflict).
+[Mod:CityPerfPR2_after_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_after_20261031_043336] Not active: tree detail (unverified build, signature or conflicting patch).
+[Mod:CityPerfPR2_after_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_after_20261031_043336] Bakery Help: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_after_20261031_043336] Not active: cinematic coverage (unverified build or conflicting hooks).
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing PedestrianSpawner.SetActivePedestrians
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing GameManager.RunMainGameTick
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing SaveGameManager.SerializeSaveGame
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing CullingGroupController.Update
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing TrafficManager.FixedUpdate
+Loaded Big Ambitions (Build 3682)
+[Mod:CityPerfPR2_after_20261031_043336] Pedestrian-refill smoothing requested=True; verified=False; faulted=False
+[Mod:CityPerfPR2_after_20261031_043336] TREE requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_after_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=true
+[Mod:CityPerfPR2_after_20261031_043336] CINEMA coverage requested=True
+[Mod:CityPerfPR2_after_20261031_043336] Midnight cleanup deferral requested=True; installed=False; faulted=False
+[Mod:CityPerfPR2_after_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_after_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_after_20261031_043336] AUTOSAVE requested=True; validated=False; faulted=False
+[Mod:CityPerfPR2_after_20261031_043336] Detailed diagnostics requested=False. New hooks are discovered outside hourly callbacks; setup frames are marked in the trace.
+[Mod:CityPerfPR2_after_20261031_043336] Cleanup batching maximum_wait_seconds=420; pending_deadline_seconds=none
+[Mod:CityPerfPR2_after_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_after_20261031_043336] Hyperreal discovery: Hyperreal absent; original behavior
+[Mod:CityPerfPR2_after_20261031_043336] Bakery Help: Bakery absent; original Help discovery
+[Mod:CityPerfPR2_after_20261031_043336] City ready; diagnostics=False; trace=False; autoexport=False; zones requested=True; refill requested=True; trace directory=<agent-profile>\CityPerformanceTraces
+Loaded Big Ambitions (Build 3682)
+Observed non-CP exception blocks:
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+InvalidOperationException: Operation is not valid due to the current state of the object.
+  at TimeHelper.GetDayOfWeek (System.Int32 dayNumber) [0x00046] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at TimeHelper.GetDayOfWeek () [0x00005] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.BuildingHelper.GetTodaySchedule (BuildingRegistration registration) [0x0000a] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.BusinessHelper.IsBusinessOpen (BuildingRegistration buildingRegistration, System.Int32 hour) [0x0000d] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Streets.Pedestrians.PedestrianBuildingPositionProvider.GetRandomAvailableBuildingTarget (UnityEngine.Vector3 fromPosition, System.Single minimumDistance, System.Single maximumDistance, BuildingRegistration& buildingRegistration) [0x00069] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Streets.Pedestrians.Pedestrian.GetRandomAvailableBuildingTarget (UnityEngine.Vector3 initialPosition, BuildingRegistration& buildingRegistration) [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Streets.Pedestrians.Pedestrian.GetTarget (System.Boolean prioritizeBuilding, BuildingRegistration& buildingRegistration) [0x00017] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Streets.Pedestrians.Pedestrian.ChangeState (System.Boolean isMoving) [0x0006b] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Streets.Pedestrians.PedestrianStationaryBehavior.Update () [0x00028] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+=== after-verified-final ===
+[Mod:CityPerfPR2_after_20261031_043336] Cleanup batching maximum_wait_seconds=300; pending_deadline_seconds=none
+[Mod:CityPerfPR2_after_20261031_043336] Version 0.5.1; BigAmbitions SHA256=055700fd26a7a6430bbb6a9d79379781909fbc518af760453396947887db5063; verified=False; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run
+[Mod:CityPerfPR2_after_20261031_043336] Not active: pedestrian refill (unverified build or conflicting patch).
+[Mod:CityPerfPR2_after_20261031_043336] Not active: midnight cleanup deferral (build, signature, multiplayer or conflict).
+[Mod:CityPerfPR2_after_20261031_043336] AUTOSAVE inactive: option off, quitting, or unverified build.
+[Mod:CityPerfPR2_after_20261031_043336] Not active: tree detail (unverified build, signature or conflicting patch).
+[Mod:CityPerfPR2_after_20261031_043336] Hyperreal discovery: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_after_20261031_043336] Bakery Help: waiting for city-ready; requested=True
+[Mod:CityPerfPR2_after_20261031_043336] Not active: cinematic coverage (unverified build or conflicting hooks).
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing PedestrianSpawner.SetActivePedestrians
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing GameManager.RunMainGameTick
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing SaveGameManager.SerializeSaveGame
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing CullingGroupController.Update
+[Mod:CityPerfPR2_after_20261031_043336] Active: timing TrafficManager.FixedUpdate
+Loaded Big Ambitions (Build 3682)
+[Mod:CityPerfPR2_after_20261031_043336] Hyperreal discovery: Hyperreal absent; original behavior
+[Mod:CityPerfPR2_after_20261031_043336] Bakery Help: Bakery absent; original Help discovery
+[Mod:CityPerfPR2_after_20261031_043336] City ready; diagnostics=False; trace=False; autoexport=False; zones requested=True; refill requested=True; trace directory=<agent-profile>\CityPerformanceTraces
+Observed non-CP exception blocks:
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at (wrapper dynamic-method) MonoMod.Utils.DynamicMethodDefinition.Culling.CullingGroupController.Update_Patch2(Culling.CullingGroupController)
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+=== control-final ===
+Loaded Big Ambitions (Build 3682)
+Observed non-CP exception blocks:
+NullReferenceException: Object reference not set to an instance of an object
+  at Buildings.Outdoors.BuildingOutsideMusicController.HasMusicOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Buildings.Outdoors.BuildingOutsideMusicController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.HasPedestriansOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Buildings.Outdoors.BuildingOutsideMusicController.HasMusicOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Buildings.Outdoors.BuildingOutsideMusicController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+
+NullReferenceException: Object reference not set to an instance of an object
+  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.HasPedestriansOutside () [0x00010] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Buildings.Outdoors.BuildingOutsideHangoutZoneController.OnLod0 () [0x00007] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.DispatchLod (Culling.ICullable cullable) [0x00014] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Helpers.DistributedWork`1[T].ProgressWork () [0x00024] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingGroupController.Update () [0x00015] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
+  at Culling.CullingManager.LateUpdate () [0x00000] in <fdedeac4e1ad42668c1e57f28d2390d6>:0
