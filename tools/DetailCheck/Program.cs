@@ -7,8 +7,14 @@ using System.Runtime.Loader;
 using HarmonyLib;
 
 // Managed contracts only: never starts Unity or invokes native engine calls.
+// A lone mode flag checks the outputs of tools/build.sh, run from the repository root.
+if(args.Length==1 && new[]{"--cinematic","--vanilla","--button-captions","--slider-labels","--refill-ownership"}.Contains(args[0]))
+    args=new[]{Path.Combine("build","refs"),Path.Combine("build","CityPerformance","CityPerformance.dll"),args[0]};
+// A lone check flag uses the references and package written by tools/build.sh.
+if(args.Length==1 && new[]{"--cinematic","--vanilla","--button-captions","--slider-labels","--refill-ownership"}.Contains(args[0]))
+    args=new[]{"build/refs","build/CityPerformance/CityPerformance.dll",args[0]};
 if(args.Length<3 || args.Length>4 || args.Length==4 && args[3]!="--trees-only")
-{Console.Error.WriteLine("Usage: DetailCheck <Managed> <CityPerformance.dll> <CameraTools.dll> [--trees-only] OR DetailCheck <Managed> <CityPerformance.dll> --cinematic|--vanilla|--button-captions|--slider-labels|--refill-ownership");return 2;}
+{Console.Error.WriteLine("Usage: DetailCheck <Managed> <CityPerformance.dll> <CameraTools.dll> [--trees-only] OR DetailCheck <Managed> <CityPerformance.dll> --cinematic|--vanilla|--button-captions|--slider-labels|--refill-ownership OR DetailCheck <check flag> (after tools/build.sh)");return 2;}
 string managed=Path.GetFullPath(args[0]);
 AssemblyLoadContext.Default.Resolving+=(context,name)=>
 {
