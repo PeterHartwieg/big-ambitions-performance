@@ -117,7 +117,7 @@ internal static class RefillOwnershipChecks
             Check((int)target.GetValue(spawner) == 300, "newer request after handoff prevents stale deferred restoration");
             Check(!(bool)AccessTools.Field(perf, "Faulted").GetValue(null), "ownership surrender does not fault the experiment");
             Call("Tick"); Call("Flush");
-            Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "late ownership is logged exactly once across all entry points");
+            Check(lines.Count(l => l.Contains("PersistentCity assembly is loaded")) == 1, "late ownership is logged exactly once across all entry points");
             foreach (var name in new[] { "HyperrealDiscovery", "BakeryHelp" })
                 fixture.Patch(AccessTools.Method(mod.GetType("CityPerformance." + name, true), "Shutdown"),
                     prefix: new HarmonyMethod(typeof(RefillOwnershipChecks), nameof(SkipShutdown)));
@@ -141,7 +141,7 @@ internal static class RefillOwnershipChecks
             object[] afterUnload = { null, 400, null };
             Call("Prefix", afterUnload);
             Check((int)afterUnload[1] == 400, "requests after failed unload still pass through unchanged");
-            Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "failed unload does not repeat ownership log");
+            Check(lines.Count(l => l.Contains("PersistentCity assembly is loaded")) == 1, "failed unload does not repeat ownership log");
             owner.UnpatchAll(owner.Id);
             // Isolate assembly presence: no fixture patch may independently refuse installation.
             fixture.Unpatch(method, AccessTools.Method(typeof(RefillOwnershipChecks), nameof(ManagedRefill)));
@@ -149,7 +149,7 @@ internal static class RefillOwnershipChecks
             Call("Install");
             Check(!Installed(), "Persistent City loaded first prevents refill hook installation");
             Call("Tick"); Call("Flush");
-            Check(lines.Count(l => l.Contains("Persistent City is present")) == 1, "early ownership is logged once per CP load");
+            Check(lines.Count(l => l.Contains("PersistentCity assembly is loaded")) == 1, "early ownership is logged once per CP load");
             Call("StopOwnershipWatch");
             Check((bool)Call("PersistentCityOwnsRefill"), "detached watcher retains presence until next install");
         }

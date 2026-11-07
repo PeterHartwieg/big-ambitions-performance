@@ -290,7 +290,7 @@ namespace CityPerformance
             if (!ownershipLogged)
             {
                 ownershipLogged = true;
-                PerformanceMod.Log("Pedestrian refill inactive: Persistent City is present and owns pedestrian refill; City Performance stands down (pending work cancelled).");
+                PerformanceMod.Log("Pedestrian refill inactive: the PersistentCity assembly is loaded, so Persistent City owns pedestrian refill; City Performance stands down (pending work cancelled). Detection uses assembly presence only; if Persistent City is disabled or its refill is off, vanilla refill applies.");
             }
             return true;
         }
@@ -354,6 +354,7 @@ namespace CityPerformance
                 if (__state.Restore && __state.Revision == revision && lastTarget != null) lastTarget(__instance) = __state.Target;
             }
             catch (Exception e) { Cancel(); PerformanceMod.Faulted = true; PerformanceMod.Log("Refill target restore failed: " + e); }
+            // After handoff CP schedules no refill, so a vanilla exception has nothing of ours to disable; it still propagates.
             if (!persistentCityOwnsRefill && __exception != null) { Cancel(); PerformanceMod.Faulted = true; }
             return __exception;
         }
