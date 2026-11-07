@@ -21,7 +21,9 @@ namespace CityPerformance
 
         private void Observe(Assembly assembly)
         {
-            if (Matches(assembly.GetName().Name)) present = true;
+            // Runs inside other code's assembly load; never let a failure escape into it.
+            try { if (Matches(assembly.GetName().Name)) present = true; }
+            catch (Exception) { }
         }
         private void OnAssemblyLoad(object sender, AssemblyLoadEventArgs args) => Observe(args.LoadedAssembly);
         public void Dispose() => AppDomain.CurrentDomain.AssemblyLoad -= OnAssemblyLoad;
