@@ -67,7 +67,8 @@ static class ButtonCaptionChecks
             var callback = (Action)AccessTools.Method(mod.GetType("CityPerformance.FrameTrace", true), "RequestExport").CreateDelegate(typeof(Action));
             var unrelated = Activator.CreateInstance(buttonType, new object[] { "unrelated", callback });
             Call("AfterInitialize", null, unrelated);
-            Check(!(bool)AccessTools.Field(captions, "warned").GetValue(null), "unrelated own labels return without captioning");
+            Call("AfterInitialize", null, null);
+            Check(!(bool)AccessTools.Field(captions, "warned").GetValue(null), "unrelated own labels and non-button options return without captioning");
             var ownButton = Activator.CreateInstance(buttonType, new object[] { "cityperformance:export", callback });
             Call("AfterInitialize", null, ownButton);
             Check((bool)AccessTools.Field(captions, "warned").GetValue(null), "own callback and real label reach the caption path and warn for a null control");
