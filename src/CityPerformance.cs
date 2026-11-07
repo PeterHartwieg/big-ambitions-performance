@@ -22,8 +22,6 @@ namespace CityPerformance
     {
         internal const string Id = "cityperformance.mod";
         internal const string Version = "0.5.1";
-        // Windows build 3682. Do not add another hash without re-auditing every behavioral hook against it.
-        internal const string AuditedGameHash = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
         internal static readonly Harmony Harmony = new Harmony(Id);
         internal static IModLogger Logger;
         internal static volatile bool Diagnostics = false, Smoothing = true, Verified, Faulted, Loaded;
@@ -108,8 +106,9 @@ namespace CityPerformance
             using (var file = File.OpenRead(typeof(PedestrianSpawner).Assembly.Location))
             {
                 var actual = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
-                Verified = actual == AuditedGameHash;
+                Verified = GameBuild.Audited(actual);
                 Log("Version " + Version + "; BigAmbitions SHA256=" + actual + "; verified=" + Verified +
+                    (actual == GameBuild.AgentRig3682 ? "; agent-rig patched copy of build 3682" : "") +
                     (Verified ? "" : "; game build not audited, so behavioral changes stay off and only timing/trace hooks and the presentation-only button-caption hook run"));
             }
         }

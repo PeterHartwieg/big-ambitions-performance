@@ -2,6 +2,19 @@ using System;
 
 namespace CityPerformance
 {
+    // The BigAmbitions.dll digests the behavioral hooks were audited against. One game version, two files:
+    // the agent rig's patched copy differs from 3682 only by a seven-instruction rig guard prepended to
+    // SaveGameManager.Save and one marker call in HGModLoader.TryInitializeModsForPlaySession
+    // (docs/reviews/2026-11-07-agent-rig-3682.md). Do not add another hash without re-auditing every hook.
+    internal static class GameBuild
+    {
+        internal const string Windows3682 = "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911";
+        internal const string AgentRig3682 = "095db57964c85ebb293067ae4699002b383c6d7cfe81674ce15c58ed9fc628ed";
+        // Exact lowercase hex only. Anything else, including null from a failed read, stays unverified.
+        internal static bool Audited(string sha256) =>
+            string.Equals(sha256, Windows3682, StringComparison.Ordinal) || string.Equals(sha256, AgentRig3682, StringComparison.Ordinal);
+    }
+
     // Generation check for callbacks that cannot be unregistered from the game's late-load queue.
     public sealed class SessionLifetime
     {
