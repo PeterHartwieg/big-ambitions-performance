@@ -18,6 +18,11 @@ if (args.Length == 3 && args[1] == "--hooks")
     SaveHookChecks.Run(game, AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(args[2])));
     return;
 }
+if (args.Length == 3 && args[1] == "--rig-guard")
+{
+    RigGuardChecks.Run(game, AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(args[2])));
+    return;
+}
 if (args.Length >= 3 && args[1] == "--roundtrip")
 {
     var mod = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.GetFullPath(args[2]));

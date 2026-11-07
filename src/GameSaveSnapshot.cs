@@ -16,7 +16,8 @@ namespace CityPerformance
     {
         private static readonly SaveGameSerializationPolicy policy = new SaveGameSerializationPolicy();
         private static readonly Dictionary<string, string> hashes = new Dictionary<string, string> {
-            { "BigAmbitions", "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911" },
+            // Checked against GameBuild.Audited: build 3682 or its agent-rig copy, which has the same types and fields.
+            { "BigAmbitions", null },
             { "BigAmbitions.Items", "db07038215ea8ab2430fb942b86a19e93b5fb84f70639d87606b194786d5bab1" },
             { "DayNightCycle", "28a354809e8c3fdfe24ac601d31afe061816b1bd7c50f4aaa604dd442aa4fd28" },
             { "HGExtensions", "fafddfadf7aca598343b4679d14bc4e1381153be9a54bf94f35daa6b49b27b38" },
@@ -35,8 +36,11 @@ namespace CityPerformance
                 var assembly = Assembly.Load(pair.Key);
                 using (var hash = SHA256.Create())
                 using (var file = File.OpenRead(assembly.Location))
-                    if (BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant() != pair.Value)
+                {
+                    string digest = BitConverter.ToString(hash.ComputeHash(file)).Replace("-", "").ToLowerInvariant();
+                    if (pair.Value == null ? !GameBuild.Audited(digest) : digest != pair.Value)
                         throw new NotSupportedException("Unaudited save dependency: " + pair.Key);
+                }
             }
             Schema = new SaveSnapshotSchema(Fields, typeof(GameInstance));
             warmed.Clear();

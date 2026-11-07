@@ -7,6 +7,11 @@ class Tests
     static void Main()
     {
         SaveChecks.Run((ok, label) => { Check(ok, label); Console.WriteLine("PASS save: " + label); });
+        Check(GameBuild.Audited("9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911"), "audited Windows build 3682 verified");
+        Check(GameBuild.Audited("095db57964c85ebb293067ae4699002b383c6d7cfe81674ce15c58ed9fc628ed"), "agent-rig copy of build 3682 verified");
+        foreach (var other in new[] { null, "", "9427561B81AAAB2ADA09C22A3C98DD9A4017A65225B389513885BF336852E911", "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e91",
+            " 095db57964c85ebb293067ae4699002b383c6d7cfe81674ce15c58ed9fc628ed", "cbcf1acf37b4b75a740876a91d9093362f13f1042599bb0c8e91a7dabfbbd984", "a06699c98b9a22775c763d0818fec23fd2842592ac3bab125a386bcf4c17951e" })
+            Check(!GameBuild.Audited(other), "any other digest, or none, stays unverified: " + (other ?? "null"));
         var lifetime = new SessionLifetime();
         Check(!lifetime.IsCurrent(0), "no callback before initialization");
         int first = lifetime.Begin();

@@ -1,5 +1,9 @@
 # City Performance changelog
 
+## Unreleased
+
+- The agent rig's patched copy of build 3682 (`095db579…28ed`) now counts as an audited build, so CP's behavioral features, BackgroundSaves included, run in rig tests. The live-game digest is unchanged, and any other digest still keeps them off. Audit: `docs/reviews/2026-11-07-agent-rig-3682.md`. Offline check: `tools/SaveCheck --rig-guard`.
+
 ## 0.5.1
 
 - Slider value labels now show the value (for example, 150% and 5 min) instead of a literal {0}. Offline check: `tools/DetailCheck --slider-labels`.

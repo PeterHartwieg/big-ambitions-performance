@@ -74,7 +74,7 @@ namespace CityPerformance
                 if (candidates.Length == 0) { Status("Bakery absent; original Help discovery"); return; }
                 if (candidates.Length != 1) { Block("ambiguous Bakery assemblies"); return; }
                 if (Digest(candidates[0]) != BakeryHash ||
-                    Digest(typeof(HelpSystem).Assembly) != "9427561b81aaab2ada09c22a3c98dd9a4017a65225b389513885bf336852e911" ||
+                    !GameBuild.Audited(Digest(typeof(HelpSystem).Assembly)) ||
                     Digest(typeof(Object).Assembly) != "5afc743d350e95dc30379a6d2bafa2293b63259acf196fe3f7370f03644ef6f4" ||
                     Digest(typeof(InstanceBehavior<>).Assembly) != "fafddfadf7aca598343b4679d14bc4e1381153be9a54bf94f35daa6b49b27b38")
                 { Block("unreviewed Bakery/game/Core/HGExtensions binary"); return; }
