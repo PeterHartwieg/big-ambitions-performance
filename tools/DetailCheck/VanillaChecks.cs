@@ -90,8 +90,9 @@ static class VanillaChecks
                 "fixture process has no other mod assemblies loaded");
 
             string gameHash = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(File.ReadAllBytes(game.Location))).ToLowerInvariant();
-            bool audited = gameHash == (string)AccessTools.Field(perf, "AuditedGameHash").GetValue(null);
-            Console.WriteLine("GAME " + gameHash + " audited=" + audited);
+            var build = mod.GetType("CityPerformance.GameBuild", true);
+            bool audited = (bool)AccessTools.Method(build, "Audited").Invoke(null, new object[] { gameHash });
+            Console.WriteLine("GAME " + gameHash + " audited=" + audited + (gameHash == (string)AccessTools.Field(build, "AgentRig3682").GetValue(null) ? " (agent-rig copy of 3682)" : ""));
             if (audited) {
             Load(true);
             Check(Clean(), "audited build, no other mods: installers for CP's main Harmony owner run without a failure or exception log");
