@@ -1,0 +1,4 @@
+City Performance 0.5.1
+Slider value labels now show values such as 150% and 5 min instead of a literal {0}.
+The trace export button now reads Export instead of Your Text Here.
+The row keeps its title, and other mods' captions are left alone.
