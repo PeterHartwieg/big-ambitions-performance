@@ -15,10 +15,14 @@ namespace CityPerformance
         internal const string WaitingProperty = "Waiting";
         private static PropertyInfo waiting;
 
-        internal static bool HoldsSave() => HoldsSave(AppDomain.CurrentDomain.GetAssemblies());
+        internal static bool HoldsSave(out bool audited) => HoldsSave(AppDomain.CurrentDomain.GetAssemblies(), out audited);
 
-        internal static bool HoldsSave(IEnumerable<Assembly> assemblies)
+        internal static bool HoldsSave(IEnumerable<Assembly> assemblies) => HoldsSave(assemblies, out _);
+
+        // audited is false when RLO is loaded but its director could not be read in the audited shape.
+        internal static bool HoldsSave(IEnumerable<Assembly> assemblies, out bool audited)
         {
+            audited = true;
             Assembly rlo = null;
             foreach (var assembly in assemblies)
             {
@@ -32,12 +36,12 @@ namespace CityPerformance
                 if (property == null || property.DeclaringType?.Assembly != rlo)
                 {
                     property = rlo.GetType(DirectorType, false)?.GetProperty(WaitingProperty, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-                    if (property == null || property.PropertyType != typeof(bool) || property.GetIndexParameters().Length != 0) return true;
+                    if (property == null || property.PropertyType != typeof(bool) || property.GetIndexParameters().Length != 0) { audited = false; return true; }
                     waiting = property;
                 }
                 return (bool)property.GetValue(null);
             }
-            catch (Exception) { return true; }
+            catch (Exception) { audited = false; return true; }
         }
     }
 }

@@ -209,8 +209,14 @@ namespace CityPerformance
         // Runs after the native save event, where RLO takes its records out.
         private static bool YieldToRlo()
         {
-            if (!RloDistrictSave.HoldsSave()) return false;
-            if (!rloYieldLogged) { rloYieldLogged = true; PerformanceMod.Log("AUTOSAVE yields to native saving while Real Life Overhaul's district save holds records; it restores them on the native save line."); }
+            if (!RloDistrictSave.HoldsSave(out bool audited)) return false;
+            if (!rloYieldLogged)
+            {
+                rloYieldLogged = true;
+                PerformanceMod.Log(audited
+                    ? "AUTOSAVE yields to native saving while Real Life Overhaul's district save holds records; it restores them on the native save line."
+                    : "AUTOSAVE yields to native saving: unaudited Real Life Overhaul district save (" + RloDistrictSave.DirectorType + "." + RloDistrictSave.WaitingProperty + " missing or unreadable); staying native.");
+            }
             return true;
         }
         [MethodImpl(MethodImplOptions.NoInlining)]

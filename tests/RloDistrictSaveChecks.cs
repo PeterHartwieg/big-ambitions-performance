@@ -31,14 +31,14 @@ static class RloDistrictSaveChecks
         waiting.SetValue(null, false);
         check(!RloDistrictSave.HoldsSave(new Assembly[] { other, rlo }), "RLO with nothing taken out keeps background saves");
         waiting.SetValue(null, true);
-        check(RloDistrictSave.HoldsSave(new Assembly[] { other, rlo }), "RLO holding district records sends that save to native serialization");
+        check(RloDistrictSave.HoldsSave(new Assembly[] { other, rlo }, out var audited) && audited, "RLO holding district records sends that save to native serialization");
         waiting.SetValue(null, false);
         check(!RloDistrictSave.HoldsSave(new Assembly[] { rlo }), "the cached lookup follows RLO's live state");
 
         var renamed = Fake("RealLifeOverhaul", "RealLifeOverhaul.Elsewhere.Director", RloDistrictSave.WaitingProperty, typeof(bool), out _);
-        check(RloDistrictSave.HoldsSave(new Assembly[] { renamed }), "an RLO without the audited director stays on native saving");
+        check(RloDistrictSave.HoldsSave(new Assembly[] { renamed }, out audited) && !audited, "an RLO without the audited director stays on native saving and reports it as unaudited");
         var retyped = Fake("RealLifeOverhaul", RloDistrictSave.DirectorType, RloDistrictSave.WaitingProperty, typeof(int), out _);
-        check(RloDistrictSave.HoldsSave(new Assembly[] { retyped }), "an RLO whose Waiting is not a bool stays on native saving");
+        check(RloDistrictSave.HoldsSave(new Assembly[] { retyped }, out audited) && !audited, "an RLO whose Waiting is not a bool stays on native saving and reports it as unaudited");
         check(!RloDistrictSave.HoldsSave(new Assembly[] { other }), "the cached lookup is dropped when RLO is absent");
     }
 }
