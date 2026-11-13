@@ -64,6 +64,7 @@ class Tests
         TreeChecks.Run(Check);
         CinematicChecks.Run(Check);
         RefillOwnershipChecks.Run(Check);
+        RloDistrictSaveChecks.Run(Check);
         Console.WriteLine($"PASS: {checks} checks");
     }
 }

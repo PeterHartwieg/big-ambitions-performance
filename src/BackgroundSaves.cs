@@ -20,7 +20,7 @@ namespace CityPerformance
     internal static class BackgroundSaves
     {
         internal static volatile bool Enabled = true, Faulted;
-        private static bool installed, validated, quitting;
+        private static bool installed, validated, quitting, rloYieldLogged;
         private static int mainThread, validatedRevision;
         [ThreadStatic] private static Call current;
         private static volatile Job pending;
@@ -91,7 +91,7 @@ namespace CityPerformance
         internal static void Install()
         {
             if (installed) return;
-            installed = false; Faulted = false; validated = false; mainThread = Thread.CurrentThread.ManagedThreadId;
+            installed = false; Faulted = false; validated = false; rloYieldLogged = false; mainThread = Thread.CurrentThread.ManagedThreadId;
             try
             {
                 if (!Enabled || quitting || !PerformanceMod.Verified)
@@ -171,7 +171,7 @@ namespace CityPerformance
         }
         private static void Capture(object data)
         {
-            if (current?.Eligible == true && Enabled && !Faulted && !quitting && !SaveSerializationGate.Busy && !(bool)jsonField.GetValue(data))
+            if (current?.Eligible == true && Enabled && !Faulted && !quitting && !SaveSerializationGate.Busy && !(bool)jsonField.GetValue(data) && !YieldToRlo())
             {
                 long start = Stopwatch.GetTimestamp();
                 try
@@ -205,6 +205,13 @@ namespace CityPerformance
                 }
             }
             Invoke(serialize, data);
+        }
+        // Runs after the native save event, where RLO takes its records out.
+        private static bool YieldToRlo()
+        {
+            if (!RloDistrictSave.HoldsSave()) return false;
+            if (!rloYieldLogged) { rloYieldLogged = true; PerformanceMod.Log("AUTOSAVE yields to native saving while Real Life Overhaul's district save holds records; it restores them on the native save line."); }
+            return true;
         }
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static long CaptureAllocatedBytes() => GC.GetAllocatedBytesForCurrentThread();
